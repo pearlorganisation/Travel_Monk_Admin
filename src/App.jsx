@@ -1,10 +1,11 @@
 import "./App.css";
 import SideBar from "./components/Sidebar/Sidebar";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
-    <div className="w-64">
-      <SideBar />
+    <div className="">
+       <Login />
     </div>
   );
 }
