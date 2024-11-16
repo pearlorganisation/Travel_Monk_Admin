@@ -7,6 +7,7 @@ const Sidebar = () => {
   const [isBlogsOpen, setIsBlogsOpen] = useState(false);
   const [isPackageOpen, setIsPackageOpen] = useState(false);
   const [isCouponOpen, setIsCouponOpen] = useState(false);
+  const [isPartnerOpen, setIsPartnerOpen] = useState(false);
   return (
     <div>
       <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10">
@@ -14,7 +15,7 @@ const Sidebar = () => {
           <h2 className="text-2xl font-bold">Travel Monk</h2>
         </div>
         <nav>
-          {/* Roles Section */}
+          {/*---------------------------Packages Section------------------------------------*/}
           <div className="mb-4">
             <div
               onClick={() => setIsPackageOpen(!isPackageOpen)}
@@ -48,6 +49,7 @@ const Sidebar = () => {
               </ul>
             )}
           </div>
+          {/*------------------Coupon Section--------------------------*/}
           <div className="mb-4">
             <div
               onClick={() => setIsCouponOpen(!isCouponOpen)}
@@ -66,6 +68,31 @@ const Sidebar = () => {
                 <Link to="#">
                   <li className="hover:text-gray-300  cursor-pointer">
                     List Coupons
+                  </li>
+                </Link>
+              </ul>
+            )}
+          </div>
+
+          {/*------------------------------Patner Section------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsPartnerOpen(!isPartnerOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Partners</span>
+              {isPartnerOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isPartnerOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="add-partner-type">
+                  <li className="hover:text-gray-300  cursor-pointer">
+                    Add Partner Type
+                  </li>
+                </Link>
+                <Link to="add-partner">
+                  <li className="hover:text-gray-300  cursor-pointer">
+                    Add Partner
                   </li>
                 </Link>
               </ul>

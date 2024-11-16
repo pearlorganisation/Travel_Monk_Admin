@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import SideBar from "./components/Sidebar/Sidebar";
 import Login from "./pages/Login/Login";
 import Layout from "./components/Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import AddPartnerType from "./pages/Partner/AddPartnerType";
+import AddPartner from "./pages/Partner/AddPartner";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />
+      },
+      {
+        path:"add-partner-type",
+        element: <AddPartnerType />
+      },
+      {
+        path:"add-partner",
+        element: <AddPartner />
       }
     ]
   }
