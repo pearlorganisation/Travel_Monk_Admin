@@ -6,6 +6,7 @@ import persistStore from "redux-persist/es/persistStore";
 import authReducer from "../features/Slices/authSlice"
 import contactsReducer from "../features/Slices/ContactSlice/ContactsSlice"
 import busCruiseReducer from "../features/Slices/BusCruise/busCruiseSlice"
+import partnerTypeReducer from "../features/Slices/Partner/partnerTypeSlice"
 
 const persistConfig = {
   key: "Travel_Monk_Admin",
@@ -26,7 +27,8 @@ const persistConfig = {
 const reducer = combineReducers({
    auth: authReducer,
    contact: contactsReducer,
-   buscruise: busCruiseReducer
+   buscruise: busCruiseReducer,
+   partnertype: partnerTypeReducer
 })
 
 const rootReducer = (state, action) => {

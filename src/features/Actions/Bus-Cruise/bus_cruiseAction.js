@@ -22,3 +22,4 @@ export const getBusCruise = createAsyncThunk(
         }
     }
 )
+

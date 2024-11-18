@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux';
+import { getPartnerType } from '../../features/Actions/Partner/partnerTypeAction';
 
 const AddPartner = () => {
-
+    const dispatch = useDispatch()
     const [image, setImage] = useState(null); // to store the image
     const [imagePreview, setImagePreview] = useState(null); // to preview the image on page
+    
+    const { partner_type } = useSelector((state)=> state.partnertype)
+    useEffect(()=>{
+        dispatch(getPartnerType())
+    },[])
 
+    
     const { register, handleSubmit, formState:{ errors }} = useForm();
-
+    
 
 /*-----------------------for image file handling-------------------------*/
     const handleImageChange = (e) => {
@@ -22,7 +30,7 @@ const AddPartner = () => {
         }
     };
 
-    /*-------------------------for when submitting the file------------------------ */
+/*-------------------------for when submitting the file------------------------ */
     const onSubmit = async (data) => {
         console.log("Form Data 255", data);
 
@@ -52,15 +60,25 @@ const AddPartner = () => {
               {/*---------------------Partner Type Section-------------------------*/}
 
               <div className="mb-4">
-                  <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">Add Partner Type</label>
-                  <input
-                      type="text"
+                  <label htmlFor="partnerType" className="block text-sm font-medium text-gray-700">
+                      Add Partner Type
+                  </label>
+                  <select
                       id="partnerType"
                       {...register("partnerType")}
                       className="mt-1 p-2 block w-full rounded-md border-purple-300 border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
+                  >
+                      <option value="">Select a Partner Type</option>
+                      {partner_type?.map((type) => (
+                          <option key={type._id} 
+                              value={type?.partnerTypeName}>
+                              {type?.partnerTypeName}
+                          </option>
+                      ))}
+                  </select>
                   {errors.partnerType && <p className="text-red-500 text-sm mt-1">{errors.partnerType.message}</p>}
               </div>
+
 
               {/*---------------------Partner Logo Section-------------------------*/}
               <div className="mb-6">
