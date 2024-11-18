@@ -4,10 +4,10 @@ import { RiUpload2Fill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const [isBlogsOpen, setIsBlogsOpen] = useState(false);
   const [isPackageOpen, setIsPackageOpen] = useState(false);
   const [isCouponOpen, setIsCouponOpen] = useState(false);
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   return (
     <div>
       <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10">
@@ -99,49 +99,44 @@ const Sidebar = () => {
             )}
           </div>
 
-          {/* Blogs Section */}
-          {/* <div className="mb-1">
-            <div
-              onClick={() => setIsBlogsOpen(!isBlogsOpen)}
-              className="flex justify-between items-center cursor-pointer hover:bg-gray-700 px-4 py-2 rounded-md"
-            >
-              <span>Blogs</span>
-              {isBlogsOpen ? <FaChevronUp /> : <FaChevronDown />}
+          {/*------------------------------Bookings------------------------------------*/}
+          <div className="mb-4">
+            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+              <Link to="bookings"><span>Bookings</span></Link> 
             </div>
-            {isBlogsOpen && (
+          </div>
+
+          {/*------------------------------Contact-------------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsContactOpen(!isContactOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Contacts</span>
+              {isContactOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isContactOpen && (
               <ul className="mt-2 ml-4 space-y-2">
-               
-                <Link to="create-blogCat">
-                  <li className="text-gray-300  hover:text-white cursor-pointer hover:bg-gray-700 px-4 py-2 rounded-md">
-                    <div className="flex flex-row gap-3 items-center justify-start">
-                      <RiUpload2Fill /> <span>Create Blog Category</span>
-                    </div>
-                  </li>
-                </Link>
-                <Link to="blogCategories">
-                  <li className="text-gray-300  hover:text-white cursor-pointer hover:bg-gray-700 px-4 py-2 rounded-md">
-                    <div className="flex flex-row gap-3 items-center justify-start">
-                      <RiUpload2Fill /> <span> List Blog Categories</span>
-                    </div>
-                  </li>
-                </Link>
-                <Link to="create-blogs">
-                  <li className="text-gray-300  hover:text-white cursor-pointer hover:bg-gray-700 px-4 py-2 rounded-md">
-                    <div className="flex flex-row gap-3 items-center justify-start">
-                      <RiUpload2Fill /> <span> Create Blogs </span>
-                    </div>
-                  </li>
-                </Link>
-                <Link to="blogs">
-                  <li className="text-gray-300  hover:text-white cursor-pointer hover:bg-gray-700 px-4 py-2 rounded-md">
-                    <div className="flex flex-row gap-3 items-center justify-start">
-                      <RiUpload2Fill /> <span> List Blogs </span>
-                    </div>
+                <Link to="contact">
+                  <li className="hover:text-gray-300  cursor-pointer">
+                    Contact List
                   </li>
                 </Link>
               </ul>
             )}
-          </div> */}
+          </div>
+
+          {/*---------------------------Bus Cruise Contact-----------------------------*/}
+          <div className="mb-4">
+            <div
+            
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <Link to="bus-cruise"><span>Bus & Cruise Contacts</span></Link> 
+               
+            </div>
+           
+          </div>
         </nav>
       </aside>
     </div>

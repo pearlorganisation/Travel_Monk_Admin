@@ -4,6 +4,8 @@ import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import persistStore from "redux-persist/es/persistStore";
 import authReducer from "../features/Slices/authSlice"
+import contactsReducer from "../features/Slices/ContactSlice/ContactsSlice"
+import busCruiseReducer from "../features/Slices/BusCruise/busCruiseSlice"
 
 const persistConfig = {
   key: "Travel_Monk_Admin",
@@ -22,7 +24,9 @@ const persistConfig = {
 };
 
 const reducer = combineReducers({
-   auth: authReducer
+   auth: authReducer,
+   contact: contactsReducer,
+   buscruise: busCruiseReducer
 })
 
 const rootReducer = (state, action) => {

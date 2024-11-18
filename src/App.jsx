@@ -5,6 +5,9 @@ import Layout from "./components/Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AddPartnerType from "./pages/Partner/AddPartnerType";
 import AddPartner from "./pages/Partner/AddPartner";
+import Bookings from "./pages/Bookings/Bookings";
+import Contact from "./pages/Contacts/Contact";
+import Bus_Cruise_Contact from "./pages/Bus_Cruise_Contact/Bus_Cruise_Contact";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,18 @@ const router = createBrowserRouter([
       {
         path:"add-partner",
         element: <AddPartner />
+      },
+      {
+        path:"bookings",
+        element: <Bookings />
+      },
+      {
+        path:"contact",
+        element:<Contact />
+      },
+      {
+        path:"bus-cruise",
+        element:<Bus_Cruise_Contact />
       }
     ]
   }
