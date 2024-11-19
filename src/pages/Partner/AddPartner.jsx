@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPartnerType } from '../../features/Actions/Partner/partnerTypeAction';
+import { createPartner } from '../../features/Actions/Partner/AddPartnerAction/addPartnerAction';
 
 const AddPartner = () => {
     const dispatch = useDispatch()
@@ -34,20 +35,19 @@ const AddPartner = () => {
     const onSubmit = async (data) => {
         console.log("Form Data 255", data);
 
-        const formData = new FormData();
-        formData.append("profileLogo", image);
+        const formData = {...data, partnerLogo:image}
          
     // send dispatch for creating the partner in future
-         
+        dispatch(createPartner(formData)) 
     };
   return (
       <main className="flex-1 p-8 mt-16 ml-64">
           <div className="text-4xl font-bold mb-4">Add Partner</div>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
 
               {/*---------------------Partner Name-------------------------*/}
               <div className="mb-4">
-                  <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">Add Partner</label>
+                  <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">Add Partner Name</label>
                   <input
                       type="text"
                       id="partnerName"
@@ -71,7 +71,7 @@ const AddPartner = () => {
                       <option value="">Select a Partner Type</option>
                       {Array.isArray(partner_type) && partner_type?.map((type) => (
                           <option key={type._id} 
-                              value={type?.partnerTypeName}>
+                              value={type?._id}>
                               {type?.partnerTypeName}
                           </option>
                       ))}
@@ -94,10 +94,10 @@ const AddPartner = () => {
                       accept="image/*"
                       {...register("partnerLogo", {
                           required: "Partner Logo image is required",
-                          onChange: (e) => {
-                              handleImageChange(e);
-                          },
                       })}
+                      onChange= {(e) => {
+                      handleImageChange(e);
+                          }}
                       className={`block w-full text-sm text-gray-500
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-md file:border-0
@@ -135,6 +135,5 @@ const AddPartner = () => {
 
 export default AddPartner
 
-{/*---------------------Partner Logo Section-------------------------*/ }
-{/* Image Upload Section */ }
+ 
  

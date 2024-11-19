@@ -1,12 +1,19 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux';
+import { createPartnerType } from '../../features/Actions/Partner/partnerTypeAction';
 
 const AddPartnerType = () => {
+    const dispatch = useDispatch();
+
     const { register, handleSubmit, formState:{ errors } } = useForm();
+    const submitForm = (data)=>{
+        dispatch(createPartnerType(data))
+    }
   return (
       <main className="flex-1 p-8 mt-16 ml-64">
           <div className="text-4xl font-bold mb-4">Add Partner Type</div>
-          <form>
+          <form onSubmit={handleSubmit(submitForm)}>
               <div className="mb-4">
                   <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">Partner Type</label>
                   <input

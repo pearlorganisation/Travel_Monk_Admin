@@ -9,6 +9,7 @@ import Bookings from "./pages/Bookings/Bookings";
 import Contact from "./pages/Contacts/Contact";
 import Bus_Cruise_Contact from "./pages/Bus_Cruise_Contact/Bus_Cruise_Contact";
 import { useSelector } from "react-redux";
+import GetAllUsers from "./pages/Users/GetAllUsers";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -25,6 +26,7 @@ const AppRoutes = () => {
           { path: "bookings", element: <Bookings /> },
           { path: "contact", element: <Contact /> },
           { path: "bus-cruise", element: <Bus_Cruise_Contact /> },
+          {path:"get-all-users", element:<GetAllUsers/>}
         ]
         : [],
     },

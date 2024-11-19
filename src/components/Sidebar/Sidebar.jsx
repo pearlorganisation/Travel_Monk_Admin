@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { RiUpload2Fill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [isPackageOpen, setIsPackageOpen] = useState(false);
-  const [isCouponOpen, setIsCouponOpen] = useState(false);
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+   
   return (
     <div>
       <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10">
@@ -15,6 +14,29 @@ const Sidebar = () => {
           <h2 className="text-2xl font-bold">Travel Monk</h2>
         </div>
         <nav>
+          {/*-------------------Dashboard section------------------*/}
+
+          <div className="mb-4">
+            <Link to="/">
+              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+                <span>Dashboard</span>
+              </div>
+            </Link>
+           
+           
+          </div>
+
+          {/**-----------------------------Users Section---------------*/}
+          <div className="mb-4">
+            <Link to="get-all-users">  
+            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+              <span>All Users</span>
+            </div>
+            </Link>
+          </div>
+           
+
+
           {/*---------------------------Packages Section------------------------------------*/}
           <div className="mb-4">
             <div
@@ -49,31 +71,6 @@ const Sidebar = () => {
               </ul>
             )}
           </div>
-          {/*------------------Coupon Section--------------------------*/}
-          <div className="mb-4">
-            <div
-              onClick={() => setIsCouponOpen(!isCouponOpen)}
-              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
-            >
-              <span>Coupons</span>
-              {isCouponOpen ? <FaChevronUp /> : <FaChevronDown />}
-            </div>
-            {isCouponOpen && (
-              <ul className="mt-2 ml-4 space-y-2">
-                <Link to="#">
-                  <li className="hover:text-gray-300  cursor-pointer">
-                    Add Coupons
-                  </li>
-                </Link>
-                <Link to="#">
-                  <li className="hover:text-gray-300  cursor-pointer">
-                    List Coupons
-                  </li>
-                </Link>
-              </ul>
-            )}
-          </div>
-
           {/*------------------------------Patner Section------------------------------*/}
           <div className="mb-4">
             <div
