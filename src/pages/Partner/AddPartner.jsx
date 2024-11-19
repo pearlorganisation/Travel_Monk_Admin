@@ -69,7 +69,7 @@ const AddPartner = () => {
                       className="mt-1 p-2 block w-full rounded-md border-purple-300 border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   >
                       <option value="">Select a Partner Type</option>
-                      {partner_type?.map((type) => (
+                      {Array.isArray(partner_type) && partner_type?.map((type) => (
                           <option key={type._id} 
                               value={type?.partnerTypeName}>
                               {type?.partnerTypeName}
