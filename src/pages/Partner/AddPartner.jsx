@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
-import { getPartnerType } from '../../features/Actions/Partner/partnerTypeAction';
 import { createPartner } from '../../features/Actions/Partner/AddPartnerAction/addPartnerAction';
 
-const AddPartner = () => {
-    const dispatch = useDispatch()
-    const [image, setImage] = useState(null); // to store the image
-    const [imagePreview, setImagePreview] = useState(null); // to preview the image on page
-    
-    const { partner_type } = useSelector((state)=> state.partnertype)
-    useEffect(()=>{
-        dispatch(getPartnerType())
-    },[])
+const AddPartner = ({ closeModal }) => {
+    const dispatch = useDispatch();
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
-    
-    const { register, handleSubmit, formState:{ errors }} = useForm();
-    
+    const { partner_type } = useSelector((state) => state.partnertype);
 
-/*-----------------------for image file handling-------------------------*/
+    // useEffect(() => {
+    //     dispatch(getPartnerType());
+    // }, [dispatch]);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -31,107 +32,82 @@ const AddPartner = () => {
         }
     };
 
-/*-------------------------for when submitting the file------------------------ */
-    const onSubmit = async (data) => {
-        console.log("Form Data 255", data);
-
-        const formData = {...data, partnerLogo:image}
-         
-    // send dispatch for creating the partner in future
-        dispatch(createPartner(formData)) 
+    const onSubmit = (data) => {
+        const formData = { ...data, partnerLogo: image };
+        dispatch(createPartner(formData));
+        closeModal();
     };
-  return (
-      <main className="flex-1 p-8 mt-16 ml-64">
-          <div className="text-4xl font-bold mb-4">Add Partner</div>
-          <form onSubmit={handleSubmit(onSubmit)}>
 
-              {/*---------------------Partner Name-------------------------*/}
-              <div className="mb-4">
-                  <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">Add Partner Name</label>
-                  <input
-                      type="text"
-                      id="partnerName"
-                      {...register("partnerName")}
-                      className="mt-1 p-2 block w-full rounded-md border-purple-300 border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                  {errors.partnerName && <p className="text-red-500 text-sm mt-1">{errors.partnerName.message}</p>}
-              </div>
+    return (
+        <div>
+            <h2 className="text-2xl font-bold mb-4">Add Partner</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                {/* Partner Name */}
+                <div className="mb-4">
+                    <label htmlFor="partnerName" className="block text-sm font-medium text-gray-700">
+                        Add Partner Name
+                    </label>
+                    <input
+                        type="text"
+                        id="partnerName"
+                        {...register("partnerName", { required: "Partner Name is required" })}
+                        className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.partnerName ? "border-red-500" : "border-gray-300"
+                            } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                    />
+                    {errors.partnerName && <p className="text-red-500 text-sm mt-1">{errors.partnerName.message}</p>}
+                </div>
 
-              {/*---------------------Partner Type Section-------------------------*/}
+                {/* Partner Type */}
+                <div className="mb-4">
+                    <label htmlFor="partnerType" className="block text-sm font-medium text-gray-700">
+                        Add Partner Type
+                    </label>
+                    <select
+                        id="partnerType"
+                        {...register("partnerType", { required: "Partner Type is required" })}
+                        className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.partnerType ? "border-red-500" : "border-gray-300"
+                            } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                    >
+                        <option value="">Select a Partner Type</option>
+                        {Array.isArray(partner_type) &&
+                            partner_type.map((type) => (
+                                <option key={type._id} value={type._id}>
+                                    {type.partnerTypeName}
+                                </option>
+                            ))}
+                    </select>
+                    {errors.partnerType && <p className="text-red-500 text-sm mt-1">{errors.partnerType.message}</p>}
+                </div>
 
-              <div className="mb-4">
-                  <label htmlFor="partnerType" className="block text-sm font-medium text-gray-700">
-                      Add Partner Type
-                  </label>
-                  <select
-                      id="partnerType"
-                      {...register("partnerType")}
-                      className="mt-1 p-2 block w-full rounded-md border-purple-300 border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  >
-                      <option value="">Select a Partner Type</option>
-                      {Array.isArray(partner_type) && partner_type?.map((type) => (
-                          <option key={type._id} 
-                              value={type?._id}>
-                              {type?.partnerTypeName}
-                          </option>
-                      ))}
-                  </select>
-                  {errors.partnerType && <p className="text-red-500 text-sm mt-1">{errors.partnerType.message}</p>}
-              </div>
+                {/* Partner Logo */}
+                <div className="mb-6">
+                    <label htmlFor="partnerLogo" className="block text-sm font-medium text-gray-700 mb-2">
+                        Upload Partner Logo
+                    </label>
+                    <input
+                        type="file"
+                        id="partnerLogo"
+                        accept="image/*"
+                        {...register("partnerLogo", { required: "Partner Logo is required" })}
+                        onChange={handleImageChange}
+                        className={`block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-md file:bg-blue-50 file:text-blue-700 ${errors.partnerLogo ? "border-red-500" : "border-gray-300"
+                            } rounded-lg focus:ring-blue-500 focus:border-blue-500`}
+                    />
+                    {imagePreview && <img src={imagePreview} alt="Preview" className="h-40 w-auto mt-4 rounded-md shadow-md" />}
+                </div>
+                <div className='flex justify-between'>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Create Partner
+                    </button>
+                    <button onClick={closeModal} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Cancel
+                    </button>
+                </div>
 
-
-              {/*---------------------Partner Logo Section-------------------------*/}
-              <div className="mb-6">
-                  <label
-                      htmlFor="partnerLogo"
-                      className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                      Upload Partner Logo
-                  </label>
-                  <input
-                      type="file"
-                      id="partnerLogo"
-                      accept="image/*"
-                      {...register("partnerLogo", {
-                          required: "Partner Logo image is required",
-                      })}
-                      onChange= {(e) => {
-                      handleImageChange(e);
-                          }}
-                      className={`block w-full text-sm text-gray-500
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-md file:border-0
-                            file:text-sm file:font-semibold
-                            file:bg-blue-50 file:text-blue-700
-                            hover:file:bg-blue-100
-                            ${errors.partnerLogo
-                              ? "border-red-500"
-                              : "border-gray-300"
-                          } 
-                            rounded-lg focus:ring-blue-500 focus:border-blue-500`}
-                  />
-                  {/* Display image preview */}
-                  {imagePreview && (
-                      <div className="mt-4">
-                          <img
-                              src={imagePreview}
-                              alt="Selected"
-                              className="h-40 w-auto rounded-md shadow-md"
-                          />
-                      </div>
-                  )}
-              </div>
-              <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                  Create Partner
-              </button>
-          </form>
-      </main>
-
-  )
-}
+            </form>
+        </div>
+    );
+};
 
 export default AddPartner
 

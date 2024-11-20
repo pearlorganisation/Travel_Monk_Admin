@@ -73,27 +73,13 @@ const Sidebar = () => {
           </div>
           {/*------------------------------Patner Section------------------------------*/}
           <div className="mb-4">
-            <div
-              onClick={() => setIsPartnerOpen(!isPartnerOpen)}
-              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
-            >
-              <span>Partners</span>
-              {isPartnerOpen ? <FaChevronUp /> : <FaChevronDown />}
-            </div>
-            {isPartnerOpen && (
-              <ul className="mt-2 ml-4 space-y-2">
-                <Link to="add-partner-type">
-                  <li className="hover:text-gray-300  cursor-pointer">
-                    Add Partner Type
-                  </li>
-                </Link>
-                <Link to="add-partner">
-                  <li className="hover:text-gray-300  cursor-pointer">
-                    Add Partner
-                  </li>
-                </Link>
-              </ul>
-            )}
+            <Link to="get-allpartners">
+              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+                <span>Partners</span>
+              </div>
+            </Link>
+            
+           
           </div>
 
           {/*------------------------------Bookings------------------------------------*/}

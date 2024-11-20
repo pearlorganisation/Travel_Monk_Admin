@@ -8,6 +8,7 @@ import contactsReducer from "../features/Slices/ContactSlice/ContactsSlice"
 import busCruiseReducer from "../features/Slices/BusCruise/busCruiseSlice"
 import partnerTypeReducer from "../features/Slices/Partner/partnerTypeSlice"
 import userReducer from "../features/Slices/Users/getAllUsersSlice"
+import partnerReducer from "../features/Slices/Partner/getAllPartnerSlice";
 
 const persistConfig = {
   key: "Travel_Monk_Admin",
@@ -30,7 +31,8 @@ const reducer = combineReducers({
    contact: contactsReducer,
    buscruise: busCruiseReducer,
    partnertype: partnerTypeReducer,
-   users: userReducer
+   users: userReducer,
+   partners: partnerReducer
 })
 
 const rootReducer = (state, action) => {
