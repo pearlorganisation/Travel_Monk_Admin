@@ -63,7 +63,7 @@ const Sidebar = () => {
                     Add Internation Package
                   </li>
                 </Link>
-                <Link to="#">
+                <Link to="all-packages">
                   <li className="hover:text-gray-300 cursor-pointer">
                     List Packages
                   </li>
@@ -83,11 +83,11 @@ const Sidebar = () => {
           </div>
 
           {/*------------------------------Bookings------------------------------------*/}
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
               <Link to="bookings"><span>Bookings</span></Link> 
             </div>
-          </div>
+          </div> */}
 
           {/*------------------------------Contact-------------------------------------*/}
           <div className="mb-4">

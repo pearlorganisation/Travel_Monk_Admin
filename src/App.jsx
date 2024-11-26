@@ -9,6 +9,7 @@ import Bus_Cruise_Contact from "./pages/Bus_Cruise_Contact/Bus_Cruise_Contact";
 import { useSelector } from "react-redux";
 import GetAllUsers from "./pages/Users/GetAllUsers";
 import GetAllPartners from "./pages/Partner/getAllPartners";
+import AllPackage from "./pages/PackageList/AllPackage";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -24,7 +25,8 @@ const AppRoutes = () => {
           { path: "contact", element: <Contact /> },
           { path: "bus-cruise", element: <Bus_Cruise_Contact /> },
           {path:"get-all-users", element:<GetAllUsers/>},
-          {path:"get-allpartners", element:<GetAllPartners /> }
+          {path:"get-allpartners", element:<GetAllPartners /> },
+          {path:"all-packages",element:<AllPackage />}
         ]
         : [],
     },
