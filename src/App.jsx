@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import GetAllUsers from "./pages/Users/GetAllUsers";
 import GetAllPartners from "./pages/Partner/getAllPartners";
 import AllPackage from "./pages/PackageList/AllPackage";
+import AddVehicle from "./pages/Vehicle/AddVehicle";
+import AllVehicleList from "./pages/Vehicle/AllVehicleList";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -26,7 +28,9 @@ const AppRoutes = () => {
           { path: "bus-cruise", element: <Bus_Cruise_Contact /> },
           {path:"get-all-users", element:<GetAllUsers/>},
           {path:"get-allpartners", element:<GetAllPartners /> },
-          {path:"all-packages",element:<AllPackage />}
+          {path:"all-packages",element:<AllPackage />},
+          {path:"add-vehicle", element:<AddVehicle />},
+          {path:"get-all-vehicles", element:<AllVehicleList />}
         ]
         : [],
     },

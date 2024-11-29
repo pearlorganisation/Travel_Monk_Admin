@@ -6,7 +6,7 @@ const Sidebar = () => {
   const [isPackageOpen, setIsPackageOpen] = useState(false);
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
-   
+  const [isVehicleOpen, setIsVehicleOpen] = useState(false);
   return (
     <div>
       <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10">
@@ -119,6 +119,31 @@ const Sidebar = () => {
                
             </div>
            
+          </div>
+
+          {/*---------------------------Vehicle Section------------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsVehicleOpen(!isVehicleOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Vehicles</span>
+              {isVehicleOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isVehicleOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="add-vehicle">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Add Vehicle
+                  </li>
+                </Link>
+                <Link to="get-all-vehicles">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    All Vehicles
+                  </li>
+                </Link>
+              </ul>
+            )}
           </div>
         </nav>
       </aside>
