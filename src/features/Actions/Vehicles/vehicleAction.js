@@ -50,6 +50,6 @@ export const addVehicle = createAsyncThunk(
          } else {
              return rejectWithValue(error.message);
          }
-        }
+      }
     }
 )

@@ -12,7 +12,8 @@ import partnerReducer from "../features/Slices/Partner/getAllPartnerSlice";
 import packageReducer from "../features/Slices/TripPackageSlice/packageSlice";
 import vehicleReducer from "../features/Slices/VehicleSlice/vehicleSlice";
 import destinationReducer from "../features/Slices/DestinationSlice/destinationSlice";
-
+import activitiesReducer from "./Slices/ActivitiesSlice/activitiesSlice"
+import hotelsReducer from "../features/Slices/HotelsSlice/hotelsSlice"
 const persistConfig = {
   key: "Travel_Monk_Admin",
   version: 1,
@@ -38,7 +39,9 @@ const reducer = combineReducers({
    partners: partnerReducer,
    packages: packageReducer,
    vehicles:vehicleReducer,
-   destinations: destinationReducer
+   destinations: destinationReducer,
+   hotels:hotelsReducer,
+   activities: activitiesReducer
 })
 
 const rootReducer = (state, action) => {

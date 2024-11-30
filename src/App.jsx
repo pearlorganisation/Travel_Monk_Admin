@@ -12,6 +12,7 @@ import GetAllPartners from "./pages/Partner/getAllPartners";
 import AllPackage from "./pages/PackageList/AllPackage";
 import AddVehicle from "./pages/Vehicle/AddVehicle";
 import AllVehicleList from "./pages/Vehicle/AllVehicleList";
+import AddPackage from "./pages/AddPackage/AddPackage";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -22,15 +23,16 @@ const AppRoutes = () => {
       element: isAdminLoggedIn ? <Layout /> : <Login />,
       children: isAdminLoggedIn
         ? [
-          { index: true, element: <Dashboard /> },
-          { path: "bookings", element: <Bookings /> },
-          { path: "contact", element: <Contact /> },
-          { path: "bus-cruise", element: <Bus_Cruise_Contact /> },
+          {index: true, element: <Dashboard /> },
+          {path: "bookings", element: <Bookings /> },
+          {path: "contact", element: <Contact /> },
+          {path: "bus-cruise", element: <Bus_Cruise_Contact /> },
           {path:"get-all-users", element:<GetAllUsers/>},
           {path:"get-allpartners", element:<GetAllPartners /> },
           {path:"all-packages",element:<AllPackage />},
           {path:"add-vehicle", element:<AddVehicle />},
-          {path:"get-all-vehicles", element:<AllVehicleList />}
+          {path:"get-all-vehicles", element:<AllVehicleList />},
+          {path:"add-package", element:<AddPackage />}
         ]
         : [],
     },
