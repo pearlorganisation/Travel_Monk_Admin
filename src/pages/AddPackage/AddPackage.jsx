@@ -361,7 +361,7 @@ const submitForm = (data)=>{
         </div>
         {mainInclusionArray.length > 0 && <ul>
           {mainInclusionArray.map((item, index) => (
-            <li key={index}>{index+1}.   {item}</li> // Important:  Use a unique key prop for each list item
+            <li key={index}>{index+1}.   {item}</li>  
           ))}
         </ul> }
         {/*  Exclusion */}
@@ -387,6 +387,11 @@ const submitForm = (data)=>{
             className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"> Add Inclusion</button>
           {errors.exclusions && <p className="text-red-500 text-sm mt-1">{errors.exclusions.message}</p>}
         </div>
+        {mainExclusionArray.length > 0 && <ul>
+          {mainExclusionArray.map((item, index) => (
+            <li key={index}>{index + 1}.   {item}</li>  
+          ))}
+        </ul>}
         {/** package destinations */}
         <div className="mb-4">
           <label htmlFor="packageDestination" className="block text-sm font-medium text-gray-700">
