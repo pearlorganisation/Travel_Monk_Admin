@@ -6,6 +6,11 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import slugify from "slugify";
 import { getDestinations } from "../../features/Actions/Destination/destinationAction";
 import { addPackage } from "../../features/Actions/TripPackages/packageAction";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import Select from 'react-select';
+/** hotels validator */
  
 const AddPackage = () => {
   const dispatch = useDispatch()
@@ -14,6 +19,20 @@ const AddPackage = () => {
   const { destinationInfo } = useSelector((state)=> state.destinations)
   const {register, handleSubmit, watch, control , getValues, reset, resetField ,setValue,formState:{errors}} = useForm()
 
+  /** options for hotels */
+  let options = hotelsData?.map((hotel) => ({
+    value: hotel._id,  
+    label: hotel.name,
+  }));
+
+  /** option 2 for selecting multiple activities */
+  let options2 = activitiesData?.map((activity)=>({
+    value:activity._id,
+    label: activity.name
+  }))
+
+
+  console.log('---------options',options2)
   /** to take multiple itinerary data */
   const { fields, append, remove } = useFieldArray({ control, name: "itinerary" })
 
@@ -156,38 +175,63 @@ const submitForm = (data)=>{
                 <Controller
                   name={`itinerary.${index}.hotels`}
                   control={control}
-                  render={({ field }) => (
-                    <select {...field} id={`day-hotels-${index}`} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                      <option value="">Select a hotel</option> {/*Default Option*/}
-                      {hotelsData?.map((hotel) => (
-                        <option key={hotel._id} value={hotel._id}>
-                          {hotel.name}
-                        </option>
-                      ))}
-                    </select>
+                  render={({ field: { onChange, onBlur, value, name, ref, isLoading } }) => (
+                    <Select
+                      options={options}
+                      isLoading={isLoading} // Pass your loading state here
+                      isMulti={true} // Enable multiple selection
+                      onChange={(selectedOptions) => {
+                        // Update the value with an array of selected hotel IDs
+                        const selectedHotelIds = selectedOptions ? selectedOptions.map((option) => option.value) : [];
+                        onChange(selectedHotelIds);
+                      }}
+                      onBlur={onBlur}
+                      value={
+                        value
+                          ? value.map((hotelId) =>
+                            options.find((option) => option.value === hotelId)
+                          )
+                          : []
+                      } // Map IDs back to objects for Select
+                      name={name}
+                      ref={ref}
+                    />
                   )}
                 />
-                {errors.itinerary && errors.itinerary[index] && errors.itinerary[index].description && <span className="text-red-500 text-xs italic">Description is required</span>}
+
+                {errors.itinerary && errors.itinerary[index] && errors.itinerary[index].hotels && <span className="text-red-500 text-xs italic">Atleast 1 hotel is required</span>}
               </div>
               <div className="mb-2">
-                <label htmlFor={`day-activities-${index}`} className="block text-gray-700 font-bold mb-1">Hotel</label>
+                <label htmlFor={`day-activities-${index}`} className="block text-gray-700 font-bold mb-1">Activities</label>
                 <Controller
                   name={`itinerary.${index}.activities`}
                   control={control}
-                  render={({ field }) => (
-                    <select {...field} id={`day-activities-${index}`} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                      <option value="">Select a Activity</option> {/*Default Option*/}
-                      {activitiesData?.map((activity) => (
-                        <option key={activity._id} value={activity._id}>
-                          {activity.name}
-                        </option>
-                      ))}
-                    </select>
+                  render={({ field: { onChange, onBlur, value, name, ref, isLoading } }) => (
+                    <Select
+                      options={options2}
+                      isLoading={isLoading} // Pass your loading state here
+                      isMulti={true} // Enable multiple selection
+                      onChange={(selectedOptions) => {
+                        // Update the value with an array of selected hotel IDs
+                        const selectedActivityIds = selectedOptions ? selectedOptions.map((option) => option.value) : [];
+                        onChange(selectedActivityIds);
+                      }}
+                      onBlur={onBlur}
+                      value={
+                        value
+                          ? value.map((activityId) =>
+                            options2.find((option) => option.value === activityId)
+                          )
+                          : []
+                      } // Map IDs back to objects for Select
+                      name={name}
+                      ref={ref}
+                    />
                   )}
                 />
-                {errors.itinerary && errors.itinerary[index] && errors.itinerary[index].description && <span className="text-red-500 text-xs italic">Description is required</span>}
+                {errors.itinerary && errors.itinerary[index] && errors.itinerary[index].activities && <span className="text-red-500 text-xs italic">Atleast 1 activity is required</span>}
               </div>
-              <button type="button" onClick={() => remove(index)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Remove Faculty</button>
+              <button type="button" onClick={() => remove(index)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Remove Itinary</button>
             </div>
           )
           )}
@@ -315,6 +359,11 @@ const submitForm = (data)=>{
             className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"> Add Inclusion</button>
           {errors.inclusions && <p className="text-red-500 text-sm mt-1">{errors.inclusions.message}</p>}
         </div>
+        {mainInclusionArray.length > 0 && <ul>
+          {mainInclusionArray.map((item, index) => (
+            <li key={index}>{index+1}.   {item}</li> // Important:  Use a unique key prop for each list item
+          ))}
+        </ul> }
         {/*  Exclusion */}
         <div className="mb-4">
           <label htmlFor="exclusions" className="block text-sm font-medium text-gray-700">
