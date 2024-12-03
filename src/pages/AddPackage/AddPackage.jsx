@@ -63,7 +63,7 @@ const AddPackage = () => {
 
   /** handle to reset only inclusion  and exclusion field */
   const handleResetInclusionAndExlcusion = (type) => {
-    resetField(type)
+    resetField(type)  // React hook for resetField to only reset a particular field
   } 
 
  

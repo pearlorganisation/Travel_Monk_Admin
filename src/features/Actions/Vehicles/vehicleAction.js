@@ -53,3 +53,26 @@ export const addVehicle = createAsyncThunk(
       }
     }
 )
+
+
+/** handle to delete the vehicle */
+
+export const deleteVehicle = createAsyncThunk(
+    "vehicle/delete",async(id,{rejectWithValue})=>{
+        try {
+            const config ={
+                headers:{
+                    "Content-Type": "application/json"
+                }
+            }
+            const { data } = await axiosInstance.delete(`/api/v1/vehicles/${id}`,config)
+            return data
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
+    }
+)
