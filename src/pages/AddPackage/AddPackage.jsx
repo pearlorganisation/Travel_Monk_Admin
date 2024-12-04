@@ -20,13 +20,13 @@ const AddPackage = () => {
   const {register, handleSubmit, watch, control , getValues, reset, resetField ,setValue,formState:{errors}} = useForm()
 
   /** options for hotels */
-  let options = hotelsData?.map((hotel) => ({
+  let options = Array.isArray(hotelsData)&& hotelsData?.map((hotel) => ({
     value: hotel._id,  
     label: hotel.name,
   }));
 
   /** option 2 for selecting multiple activities */
-  let options2 = activitiesData?.map((activity)=>({
+  let options2 =Array.isArray(activitiesData) && activitiesData?.map((activity)=>({
     value:activity._id,
     label: activity.name
   }))
