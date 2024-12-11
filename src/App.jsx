@@ -13,6 +13,7 @@ import AllPackage from "./pages/PackageList/AllPackage";
 import AddVehicle from "./pages/Vehicle/AddVehicle";
 import AllVehicleList from "./pages/Vehicle/AllVehicleList";
 import AddPackage from "./pages/AddPackage/AddPackage";
+import AddHotel from "./pages/AddHotel/AddHotel";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -32,7 +33,8 @@ const AppRoutes = () => {
           {path:"all-packages",element:<AllPackage />},
           {path:"add-vehicle", element:<AddVehicle />},
           {path:"get-all-vehicles", element:<AllVehicleList />},
-          {path:"add-package", element:<AddPackage />}
+          {path:"add-package", element:<AddPackage />},
+          {path:"add-hotel",element:<AddHotel />}
         ]
         : [],
     },

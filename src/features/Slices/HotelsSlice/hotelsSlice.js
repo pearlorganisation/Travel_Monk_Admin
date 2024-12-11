@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FaSearch } from "react-icons/fa";
-import { getAllHotels } from "../../Actions/Hotels/hotelsAction";
+import { addHotel, getAllHotels } from "../../Actions/Hotels/hotelsAction";
 import { toast } from "sonner";
 
 const initialState = {
@@ -31,6 +31,21 @@ const hotelSlice = createSlice({
             state.isError= false
             state.hotelsData = action.payload
             toast.success("All hotels recieved",{position:"top-right"})
+        })
+        .addCase(addHotel.pending,(state)=>{
+            state.isLoading = true;
+        })
+        .addCase(addHotel.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isSuccess = false
+            state.isError = true
+            toast.error(action.payload,{position:"top-right"})
+        })
+        .addCase(addHotel.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = true
+            toast.success("Added Hotel",{position:"top-center"})
         })
     }
 })

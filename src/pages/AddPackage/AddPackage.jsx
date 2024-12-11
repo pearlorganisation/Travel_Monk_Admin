@@ -27,8 +27,8 @@ const AddPackage = () => {
 
   /** option 2 for selecting multiple activities */
   let options2 =Array.isArray(activitiesData) && activitiesData?.map((activity)=>({
-    value:activity._id,
-    label: activity.name
+    value:activity?._id,
+    label: activity?.name
   }))
 
 

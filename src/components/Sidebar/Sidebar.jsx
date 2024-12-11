@@ -7,6 +7,8 @@ const Sidebar = () => {
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isVehicleOpen, setIsVehicleOpen] = useState(false);
+  const [isHotelOpen, setIsHotelOpen] = useState(false);
+
   return (
     <div>
       <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10">
@@ -140,6 +142,30 @@ const Sidebar = () => {
                 <Link to="get-all-vehicles">
                   <li className="hover:text-gray-300 cursor-pointer">
                     All Vehicles
+                  </li>
+                </Link>
+              </ul>
+            )}
+          </div>
+          {/**---------------------------Hotels Section------------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsHotelOpen(!isHotelOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Hotel</span>
+              {isHotelOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isHotelOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="add-hotel">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Add Hotel
+                  </li>
+                </Link>
+                <Link to="#">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    All Hotels
                   </li>
                 </Link>
               </ul>
