@@ -14,6 +14,8 @@ import AddVehicle from "./pages/Vehicle/AddVehicle";
 import AllVehicleList from "./pages/Vehicle/AllVehicleList";
 import AddPackage from "./pages/AddPackage/AddPackage";
 import AddHotel from "./pages/AddHotel/AddHotel";
+import PreBuiltCustomisationEnquiries from "./pages/CustomizationEnquiries/PreBuiltCustomisationEnquiries";
+import FullyCustomizedEnquiries from "./pages/CustomizationEnquiries/FullyCustomizedEnquiries";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -34,7 +36,9 @@ const AppRoutes = () => {
           {path:"add-vehicle", element:<AddVehicle />},
           {path:"get-all-vehicles", element:<AllVehicleList />},
           {path:"add-package", element:<AddPackage />},
-          {path:"add-hotel",element:<AddHotel />}
+          {path:"add-hotel",element:<AddHotel />},
+          {path:"customized-enquiries", element:<PreBuiltCustomisationEnquiries />},
+          {path:"full-customized-enquiries", element:<FullyCustomizedEnquiries />}
         ]
         : [],
     },

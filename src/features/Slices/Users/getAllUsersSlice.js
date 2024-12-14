@@ -22,6 +22,7 @@ const userSlice = createSlice({
             state.isError = true;
             state.isLoading= false;
             state.isSuccess= false;
+            state.usersInfo = {}
             toast.error(action.payload,{position:"top-right"})
         })
         .addCase(getAllUsers.fulfilled,(state,action)=>{

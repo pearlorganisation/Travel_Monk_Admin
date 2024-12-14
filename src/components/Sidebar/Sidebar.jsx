@@ -8,7 +8,7 @@ const Sidebar = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isVehicleOpen, setIsVehicleOpen] = useState(false);
   const [isHotelOpen, setIsHotelOpen] = useState(false);
-
+  const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] = useState(false);
   return (
     <div>
       <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10">
@@ -166,6 +166,31 @@ const Sidebar = () => {
                 <Link to="#">
                   <li className="hover:text-gray-300 cursor-pointer">
                     All Hotels
+                  </li>
+                </Link>
+              </ul>
+            )}
+          </div>
+
+          {/**---------------------------Customization Queries------------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsCustomizationEnquiriesOpen(!isCustomizationEnquiriesOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Customization Enquiries</span>
+              {isCustomizationEnquiriesOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isCustomizationEnquiriesOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="customized-enquiries">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Customization enquiries
+                  </li>
+                </Link>
+                <Link to="full-customized-enquiries">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Fully Customized Enquiries
                   </li>
                 </Link>
               </ul>
