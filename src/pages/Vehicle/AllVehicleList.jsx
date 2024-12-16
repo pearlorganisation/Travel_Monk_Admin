@@ -67,7 +67,7 @@ const VehicleCard = ({ vehicle }) => {
           </div>
           <div>
             <p className="text-sm text-gray-600">Price</p>
-            <p className="font-bold text-green-700">${vehicle?.price}</p>
+            <p className="font-bold text-green-700">${vehicle?.pricePerDay}</p>
           </div>
         </div>
 

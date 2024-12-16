@@ -46,6 +46,8 @@ const AppRoutes = () => {
           {path:"add-activity", element:<AddActivity />},
           {path:"get-all-activities", element:<GetAllActivites />},
           { path: "edit-activity/:id", element: <EditActivity /> },
+          { path: "add-destination", element: <AddDestination /> },
+          // { path: "all-destinations", element: <AllDestinations /> },
 
         ]
         : [],

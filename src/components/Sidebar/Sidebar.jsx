@@ -53,7 +53,7 @@ const Sidebar = () => {
                     Add Destination
                   </li>
                 </Link>
-                <Link to="get-all-activities">
+                <Link to="#">
                   <li className="hover:text-gray-300 cursor-pointer">
                     All Destinations
                   </li>
