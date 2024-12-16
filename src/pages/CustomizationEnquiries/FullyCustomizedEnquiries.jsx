@@ -33,7 +33,7 @@ const FullyCustomizedEnquiries = () => {
     const confirmDelete =()=>{
         dispatch(deleteFullyCustomizedEnquiry(enquiryId))
         setIsDeleteModalOpen(!isDeleteModalOpen)
-        dispatch(getFullyCustomizedEnquiries())
+        dispatch(getFullyCustomizedEnquiries({page:currentPage}))
     }
     const handleOpen = (enquiry) => {
         setSelectedEnquiry(enquiry);

@@ -34,7 +34,7 @@ const PreBuiltCustomisationEnquiries = () => {
     const confirmDelete =()=>{
         dispatch(deletePrebuiltEnquiry(enquiryId))
         setIsDeleteModalOpen(!isDeleteModalOpen)
-        dispatch(getPreBuiltPackageCustomisationEnquiries())
+        dispatch(getPreBuiltPackageCustomisationEnquiries({page:currentPage}))
     }
     const handleOpen = (enquiry) => {
         setSelectedEnquiry(enquiry);
