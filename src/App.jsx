@@ -44,7 +44,9 @@ const AppRoutes = () => {
           {path:"customized-enquiries", element:<PreBuiltCustomisationEnquiries />},
           {path:"full-customized-enquiries", element:<FullyCustomizedEnquiries />},
           {path:"add-activity", element:<AddActivity />},
-          {path:"get-all-activities", element:<GetAllActivites />}
+          {path:"get-all-activities", element:<GetAllActivites />},
+          { path: "edit-activity/:id", element: <EditActivity /> },
+
         ]
         : [],
     },
