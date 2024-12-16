@@ -7,6 +7,7 @@ const initialState = {
     isError: false,
     isSuccess:false,
     vehiclesInfo:{},
+    isCreated:false,
 }
 
 
@@ -34,17 +35,20 @@ const vehicleSlice = createSlice({
         })
         .addCase(addVehicle.pending,(state)=>{
             state.isLoading = true
+            state.isCreated = false
         })
         .addCase(addVehicle.rejected,(state,action)=>{
             state.isLoading= false
             state.isSuccess = false
             state.isError = true
+            state.isCreated = false
             toast.error(action.payload,{position:"top-right"})
         })
         .addCase(addVehicle.fulfilled,(state,action)=>{
             state.isLoading = false 
             state.isSuccess = true
             state.isError = false
+            state.isCreated = true
             toast.success("Added vehicle successfully",{position:"top-right"})
         })
         .addCase(deleteVehicle.pending,(state)=>{

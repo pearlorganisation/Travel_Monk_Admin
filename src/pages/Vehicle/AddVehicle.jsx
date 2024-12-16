@@ -6,9 +6,10 @@ import { addVehicle } from '../../features/Actions/Vehicles/vehicleAction';
 
 const AddVehicle = () => {
     const dispatch = useDispatch();
+
     const { destinationInfo } = useSelector((state) => state.destinations);
- 
-    const { register, handleSubmit , formState:{errors}} = useForm()
+    const { isCreated    } = useSelector(state=>state.vehicles)
+    const { register, handleSubmit , reset,formState:{errors}} = useForm()
     /**  images state handler */
     const [selectedImages, setSelectedImages] = useState([])
     
@@ -17,17 +18,31 @@ const AddVehicle = () => {
         setSelectedImages(Array.from(e.target.files));
     }
     
-    const onSubmit =(data)=>{
+    const SubmitForm = async (data) =>{
      const formData = {...data, images: selectedImages};
-     dispatch(addVehicle(formData))
-    }
+     try {
+         const result = await dispatch(addVehicle(formData)).unwrap()
+         console.log('--------------result is', result)
+         if (result?.success === true){
+                reset()
+            }else{
+                alert("Failed to create the vehicle")
+            }
+          
+     } catch (error) {
+        console.log("The error is",error) // change in production version
+     }
+         }
+ 
+
     useEffect(()=>{
         dispatch(getDestinations())
     },[dispatch]);
+    
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
       <div>Add Vehicle</div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(SubmitForm)}>
               {/* Vehicle Name */}
               <div className="mb-4">
                   <label htmlFor="vehicleName" className="block text-sm font-medium text-gray-700">
@@ -73,17 +88,17 @@ const AddVehicle = () => {
               </div>
               {/**  Price */}
               <div className="mb-4">
-                  <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="pricePerDay" className="block text-sm font-medium text-gray-700">
                       Add Price
                   </label>
                   <input
                       type="number"
-                      id="price"
-                      {...register("price", { required: "price is required" })}
-                      className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.price ? "border-red-500" : "border-gray-300"
+                      id="pricePerDay"
+                      {...register("pricePerDay", { required: "pricePerDay is required" })}
+                      className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.pricePerDay ? "border-red-500" : "border-gray-300"
                           } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
                   />
-                  {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
+                  {errors.pricePerDay && <p className="text-red-500 text-sm mt-1">{errors.pricePerDay.message}</p>}
               </div>
 
               {/* Destination */}

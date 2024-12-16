@@ -43,7 +43,7 @@ export const addVehicle = createAsyncThunk(
                     "Content-Type":"multipart/form-data"
                 },
             })
-            return data.data
+            return data
         } catch (error) {
          if (error.response && error.response.data.message) {
              return rejectWithValue(error.response.data.message);
