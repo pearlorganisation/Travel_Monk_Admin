@@ -42,7 +42,9 @@ const AppRoutes = () => {
           {path:"add-package", element:<AddPackage />},
           {path:"add-hotel",element:<AddHotel />},
           {path:"customized-enquiries", element:<PreBuiltCustomisationEnquiries />},
-          {path:"full-customized-enquiries", element:<FullyCustomizedEnquiries />}
+          {path:"full-customized-enquiries", element:<FullyCustomizedEnquiries />},
+          {path:"add-activity", element:<AddActivity />},
+          {path:"get-all-activities", element:<GetAllActivites />}
         ]
         : [],
     },
