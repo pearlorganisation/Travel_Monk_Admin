@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [isPackageOpen, setIsPackageOpen] = useState(false);
+  const [isDestinationOpen, setIsDestinationOpen] = useState(false);
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isVehicleOpen, setIsVehicleOpen] = useState(false);
   const [isHotelOpen, setIsHotelOpen] = useState(false);
   const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] = useState(false);
+  const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   return (
     <div>
       <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10">
@@ -24,20 +26,41 @@ const Sidebar = () => {
                 <span>Dashboard</span>
               </div>
             </Link>
-           
-           
           </div>
 
           {/**-----------------------------Users Section---------------*/}
           <div className="mb-4">
-            <Link to="get-all-users">  
-            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-              <span>All Users</span>
-            </div>
+            <Link to="get-all-users">
+              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+                <span>All Users</span>
+              </div>
             </Link>
           </div>
-           
 
+          {/*---------------------------Activites Section------------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsDestinationOpen(!isDestinationOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Destinations</span>
+              {isDestinationOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isDestinationOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="add-destination">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Add Destination
+                  </li>
+                </Link>
+                <Link to="get-all-activities">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    All Destinations
+                  </li>
+                </Link>
+              </ul>
+            )}
+          </div>
 
           {/*---------------------------Packages Section------------------------------------*/}
           <div className="mb-4">
@@ -80,8 +103,6 @@ const Sidebar = () => {
                 <span>Partners</span>
               </div>
             </Link>
-            
-           
           </div>
 
           {/*------------------------------Bookings------------------------------------*/}
@@ -113,14 +134,11 @@ const Sidebar = () => {
 
           {/*---------------------------Bus Cruise Contact-----------------------------*/}
           <div className="mb-4">
-            <div
-            
-              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
-            >
-              <Link to="bus-cruise"><span>Bus & Cruise Contacts</span></Link> 
-               
+            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+              <Link to="bus-cruise">
+                <span>Bus & Cruise Contacts</span>
+              </Link>
             </div>
-           
           </div>
 
           {/*---------------------------Vehicle Section------------------------------------*/}
@@ -191,6 +209,31 @@ const Sidebar = () => {
                 <Link to="full-customized-enquiries">
                   <li className="hover:text-gray-300 cursor-pointer">
                     Fully Customized Enquiries
+                  </li>
+                </Link>
+              </ul>
+            )}
+          </div>
+
+          {/*---------------------------Activites Section------------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsActivitiesOpen(!isActivitiesOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Activities</span>
+              {isActivitiesOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isActivitiesOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="add-activity">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Add Activity
+                  </li>
+                </Link>
+                <Link to="get-all-activities">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    All Activities
                   </li>
                 </Link>
               </ul>
