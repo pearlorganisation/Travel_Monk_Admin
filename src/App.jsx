@@ -22,6 +22,7 @@ import PreBuiltCustomisationEnquiries from "./pages/CustomizationEnquiries/PreBu
 import FullyCustomizedEnquiries from "./pages/CustomizationEnquiries/FullyCustomizedEnquiries";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ForgotPassword/ResetPassword";
+import AddLocation from "./pages/AddLocation/AddLocation";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -55,6 +56,7 @@ const AppRoutes = () => {
           { path: "get-all-activities", element: <GetAllActivites /> },
           { path: "edit-activity/:id", element: <EditActivity /> },
           { path: "add-destination", element: <AddDestination /> },
+          {path: "add-location", element:<AddLocation />}
         ]
         : [],
     },

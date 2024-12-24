@@ -11,6 +11,7 @@ const Sidebar = () => {
   const [isHotelOpen, setIsHotelOpen] = useState(false);
   const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] = useState(false);
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
+  const [isLocationOpen,setIsLocationOpen] = useState(false);
   return (
     <div>
       <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10 overflow-y-auto"
@@ -240,6 +241,27 @@ const Sidebar = () => {
               </ul>
             )}
           </div>
+
+          {/**-----------------------Location Section--------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsLocationOpen(!isLocationOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Location</span>
+              {isLocationOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isLocationOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="add-location">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Add Location
+                  </li>
+                </Link>
+              </ul>
+            )}  
+          </div>
+
         </nav>
       </aside>
     </div>
