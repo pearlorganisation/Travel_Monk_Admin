@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addActivity,
   deleteActivity,
+  getActivitiesByDestinationId,
   getActivityByID,
   getAllActivities,
   updateActivity,
@@ -15,6 +16,7 @@ const initialState = {
   paginate: {},
   activitiesData: {},
   singleActivity: {},
+  destinationActivities:{}
 };
 
 const activitiesSlice = createSlice({
@@ -111,7 +113,25 @@ const activitiesSlice = createSlice({
         toast.success("Activity Updated Successfully", {
           position: "top-right",
         });
-      });
+      })
+      .addCase(getActivitiesByDestinationId.pending,state=>{
+        state.isLoading = true
+        state.isSuccess= false
+        state.isError= false
+      })
+      .addCase(getActivitiesByDestinationId.rejected,(state,action)=>{
+        state.isError = true
+        state.isSuccess= false
+        state.isLoading= false
+        toast.error(action.payload,{position:"top-center"})
+      })
+      .addCase(getActivitiesByDestinationId.fulfilled,(state,action)=>{
+        state.isError= false
+        state.isSuccess= true
+        state.isLoading= false
+        state.destinationActivities= action.payload.data
+        toast.success("Destination Activities Recieved", {position:"top-center"})
+      })
   },
 });
 

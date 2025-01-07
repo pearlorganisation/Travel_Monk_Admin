@@ -123,3 +123,27 @@ export const updateActivity = createAsyncThunk(
     }
   }
 );
+
+
+/** get activities by destination id */
+export const getActivitiesByDestinationId = createAsyncThunk(
+  "get/activitiedByDestination", async (id, {
+    rejectWithValue
+  }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+      const data = await axiosInstance.get(`/api/v1/destinations/${id}/activities`, config)
+      return data
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+)

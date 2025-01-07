@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllActivities } from "../../features/Actions/Activities/activitiesAction";
+import { getActivitiesByDestinationId, getAllActivities } from "../../features/Actions/Activities/activitiesAction";
 import { getAllHotels } from "../../features/Actions/Hotels/hotelsAction";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import slugify from "slugify";
@@ -13,7 +13,7 @@ import Select from "react-select";
 const AddPackage = () => {
   const dispatch = useDispatch();
   const { hotelsData } = useSelector((state) => state.hotels);
-  const { activitiesData } = useSelector((state) => state.activities);
+  const { activitiesData, destinationActivities } = useSelector((state) => state.activities);
   const { destinationInfo } = useSelector((state) => state.destinations);
   const {
     register,
@@ -27,25 +27,31 @@ const AddPackage = () => {
     formState: { errors },
   } = useForm();
 
-  /** options for hotels */
-  let options = Array.isArray(hotelsData)&& hotelsData?.map((hotel) => ({
-    value: hotel._id,  
-    label: hotel.name,
-  }));
-
-  /** option 2 for selecting multiple activities */
-  let options2 =Array.isArray(activitiesData) && activitiesData?.map((activity)=>({
-    value:activity?._id,
-    label: activity?.name
-  }))
-
-
-  console.log("---------options", options2);
   /** to take multiple itinerary data */
   const { fields, append, remove } = useFieldArray({
     control,
     name: "itinerary",
   });
+
+
+  /** options for hotels */
+  let options = Array.isArray(hotelsData)&& hotelsData?.map((hotel) => ({
+    value: hotel._id,  
+    label: hotel.name,
+  }));
+  /** getting the selected destination id */
+  const destinationId = watch("packageDestination")
+  /** option 2 for selecting multiple activities */
+  let options2 = [];
+  if (destinationActivities) {
+    options2 = Array.isArray(destinationActivities) && destinationActivities?.map((activity) => ({
+      value: activity?._id,
+      label: activity?.name
+    }));
+  }
+
+ 
+  console.log("---------options", options2);
 
   /** to handle multiple inclusion data */
   const [mainInclusionArray, setMainInclusionArray] = useState([]); // To store inclusion array
@@ -122,15 +128,56 @@ const AddPackage = () => {
     });
   };
 
+
+ 
+
+  console.log("the destination id", destinationId)
+   useEffect(()=>{
+    if(destinationId){
+    dispatch(getActivitiesByDestinationId(destinationId))}
+    return
+   },[destinationId])
+
+  /** useEffects */
   useEffect(() => {
-    dispatch(getAllActivities());
-    dispatch(getAllHotels());
+    // dispatch(getAllActivities());
+    // dispatch(getAllHotels());
     dispatch(getDestinations());
   }, [dispatch]);
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
       <div>AddPackage</div>
       <form onSubmit={handleSubmit(submitForm)}>
+        {/** package destinations */}
+        <div className="mb-4">
+          <label
+            htmlFor="packageDestination"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Add Package Destination
+          </label>
+          <select
+            id="packageDestination"
+            {...register("packageDestination", {
+              required: "Package Destination is required",
+            })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.packageDestination ? "border-red-500" : "border-gray-300"
+              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          >
+            <option value="">Select a Package Destination</option>
+            {Array.isArray(destinationInfo) &&
+              destinationInfo.map((destination) => (
+                <option key={destination._id} value={destination._id}>
+                  {destination.name}
+                </option>
+              ))}
+          </select>
+          {errors.packageDestination && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.packageDestination.message}
+            </p>
+          )}
+        </div>
         {/** itinerary */}
         <div className="mb-6">
           <h2 className="text-xl font-bold mb-4">Add Itinarary Data</h2>
@@ -252,7 +299,8 @@ const AddPackage = () => {
                     </span>
                   )}
               </div>
-              <div className="mb-2">
+              {/** in future might need */}
+              {/* <div className="mb-2">
                 <label
                   htmlFor={`day-hotels-${index}`}
                   className="block text-gray-700 font-bold mb-1"
@@ -297,7 +345,7 @@ const AddPackage = () => {
                       Atleast 1 hotel is required
                     </span>
                   )}
-              </div>
+              </div> */}
               <div className="mb-2">
                 <label
                   htmlFor={`day-activities-${index}`}
@@ -622,37 +670,7 @@ const AddPackage = () => {
             ))}
           </ul>
         )}
-        {/** package destinations */}
-        <div className="mb-4">
-          <label
-            htmlFor="packageDestination"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add Package Destination
-          </label>
-          <select
-            id="packageDestination"
-            {...register("packageDestination", {
-              required: "Package Destination is required",
-            })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${
-              errors.packageDestination ? "border-red-500" : "border-gray-300"
-            } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-          >
-            <option value="">Select a Package Destination</option>
-            {Array.isArray(destinationInfo) &&
-              destinationInfo.map((destination) => (
-                <option key={destination._id} value={destination._id}>
-                  {destination.name}
-                </option>
-              ))}
-          </select>
-          {errors.packageDestination && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.packageDestination.message}
-            </p>
-          )}
-        </div>
+       
         {/** banner image */}
         <div className="mb-6">
           <label
