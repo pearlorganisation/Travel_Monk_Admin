@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../../features/Actions/Users/getAllUsersAction";
 
 const GetAllUsers = () => {
-    const dispatch = useDispatch();
-    const { usersInfo } = useSelector((state)=>state.users);
-    useEffect(()=>{
-        dispatch(getAllUsers())
-    },[])
- 
+  const dispatch = useDispatch();
+  const { usersInfo } = useSelector((state) => state.users);
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, []);
+
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
       <div className="text-4xl font-bold mb-4">All users</div>
