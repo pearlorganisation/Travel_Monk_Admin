@@ -411,7 +411,7 @@ const AddPackage = () => {
                 location: "",
                 title: "",
                 description: "",
-                hotels: "",
+                // hotels: "",
                 activities: "",
               })
             }
