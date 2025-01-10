@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllPackages } from '../../features/Actions/TripPackages/packageAction';
+import { deletePackage, getAllPackages } from '../../features/Actions/TripPackages/packageAction';
 import {
     Card,
     CardMedia,
@@ -10,125 +10,204 @@ import {
     Chip,
     Accordion,
     AccordionSummary,
-    AccordionDetails
+    AccordionDetails,
+    Button
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
+import { Link } from 'react-router-dom';
 
 
 const AllPackage = () => {
     const dispatch = useDispatch();
     const { packageInfo } = useSelector((state) => state.packages);
+    const [open, setOpen] = useState(false);
+    const [packageId , setPackageId] = useState(null)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    
+    const deleteHandle = (id) => {
+        setPackageId(id)
+        setIsDeleteModalOpen(!isDeleteModalOpen)
+    }
+
+    const confirmDelete =()=>{
+            dispatch(deletePackage(packageId))
+            setIsDeleteModalOpen(!isDeleteModalOpen)
+            dispatch(getAllPackages())
+        }
+
+    const handleOpen = (enquiry) => {
+        setSelectedEnquiry(enquiry);
+        setOpen(true);
+    };
 
     useEffect(() => {
         dispatch(getAllPackages());
     }, [dispatch]);
 
-    const renderItinerary = (itinerary) => (
-        <div className="space-y-4">
-            {Array.isArray(itinerary)&&itinerary?.map((day) => (
-                <Accordion key={day._id} className="border border-gray-200 rounded-lg">
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        className="bg-gray-100"
-                    >
-                        <Typography className="font-bold">
-                            Day {day.day}: {day.title}
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>{day.description}</Typography>
-                    </AccordionDetails>
-                </Accordion>
-            ))}
-        </div>
-    );
+    // will use for the view details page
+    const handleClose = () => setOpen(false);
+
+    /**will use in future to show the details of the package */
+    // const renderItinerary = (itinerary) => (
+    //     <div className="space-y-4">
+    //         {Array.isArray(itinerary)&&itinerary?.map((day) => (
+    //             <Accordion key={day._id} className="border border-gray-200 rounded-lg">
+    //                 <AccordionSummary
+    //                     expandIcon={<ExpandMoreIcon />}
+    //                     className="bg-gray-100"
+    //                 >
+    //                     <Typography className="font-bold">
+    //                         Day {day.day}: {day.title}
+    //                     </Typography>
+    //                 </AccordionSummary>
+    //                 <AccordionDetails>
+    //                     <Typography>{day.description}</Typography>
+    //                 </AccordionDetails>
+    //             </Accordion>
+    //         ))}
+    //     </div>
+    // );
 
     return (
+        // <main className="flex-1 p-8 mt-16 ml-64">
+        //     <Typography variant="h4" className="mb-6 font-bold">
+        //         Our Packages
+        //     </Typography>
+
+        //     <Grid2
+        //         container
+        //         spacing={4}
+        //         sx={{
+        //             width: "100%", // Ensure the grid takes up full width
+        //         }}
+        //         className="w-full"
+        //     >
+        //         {Array.isArray(packageInfo) && packageInfo?.map((pkg) => (
+        //             <Grid2
+        //                 item
+        //                 xs={12}
+        //                 key={pkg._id}
+        //                 className="w-full"
+        //             >
+        //                 <Card className="h-full flex flex-col">
+        //                     <CardMedia
+        //                         component="img"
+        //                         height="240"
+        //                         image={pkg.banner.secure_url}
+        //                         alt={pkg.name}
+        //                         className="h-64 object-cover"
+        //                     />
+
+        //                     <CardContent className="flex-grow">
+        //                         <Typography variant="h5" className="font-bold mb-2">
+        //                             {pkg.name}
+        //                         </Typography>
+
+        //                         <div className="flex items-center justify-between mb-4">
+        //                             <Chip
+        //                                 label={`${pkg.duration.days} Days / ${pkg.duration.nights} Nights`}
+        //                                 color="primary"
+        //                                 variant="outlined"
+        //                             />
+        //                             <Typography variant="h6" color="primary" className="font-bold">
+        //                                 ₹{pkg.startingPrice}
+        //                             </Typography>
+        //                         </div>
+
+        //                         <div className="mb-4">
+        //                             <Typography variant="subtitle1" className="font-semibold mb-2">
+        //                                 Pickup & Drop
+        //                             </Typography>
+        //                             <Typography>
+        //                                 {pkg.pickDropPoint.pickup} to {pkg.pickDropPoint.drop}
+        //                             </Typography>
+        //                         </div>
+
+        //                         <div className="mb-4">
+        //                             <Typography variant="subtitle1" className="font-semibold mb-2">
+        //                                 Inclusions
+        //                             </Typography>
+        //                             <ul className="list-disc list-inside text-sm">
+        //                                 {pkg.inclusions.map((inclusion, index) => (
+        //                                     <li key={index} className="mb-1">{inclusion}</li>
+        //                                 ))}
+        //                             </ul>
+        //                         </div>
+
+        //                         <Accordion>
+        //                             <AccordionSummary
+        //                                 expandIcon={<ExpandMoreIcon />}
+        //                                 className="bg-gray-100 rounded"
+        //                             >
+        //                                 <Typography className="font-semibold">
+        //                                     Detailed Itinerary
+        //                                 </Typography>
+        //                             </AccordionSummary>
+        //                             <AccordionDetails>
+        //                                 {renderItinerary(pkg.itinerary)}
+        //                             </AccordionDetails>
+        //                         </Accordion>
+        //                     </CardContent>
+        //                 </Card>
+        //             </Grid2>
+        //         ))}
+        //     </Grid2>
+        // </main>
         <main className="flex-1 p-8 mt-16 ml-64">
-            <Typography variant="h4" className="mb-6 font-bold">
-                Our Packages
-            </Typography>
-
-            <Grid2
-                container
-                spacing={4}
-                sx={{
-                    width: "100%", // Ensure the grid takes up full width
-                }}
-                className="w-full"
-            >
-                {Array.isArray(packageInfo) && packageInfo?.map((pkg) => (
-                    <Grid2
-                        item
-                        xs={12}
-                        key={pkg._id}
-                        className="w-full"
-                    >
-                        <Card className="h-full flex flex-col">
-                            <CardMedia
-                                component="img"
-                                height="240"
-                                image={pkg.banner.secure_url}
-                                alt={pkg.name}
-                                className="h-64 object-cover"
-                            />
-
-                            <CardContent className="flex-grow">
-                                <Typography variant="h5" className="font-bold mb-2">
-                                    {pkg.name}
-                                </Typography>
-
-                                <div className="flex items-center justify-between mb-4">
-                                    <Chip
-                                        label={`${pkg.duration.days} Days / ${pkg.duration.nights} Nights`}
-                                        color="primary"
-                                        variant="outlined"
-                                    />
-                                    <Typography variant="h6" color="primary" className="font-bold">
-                                        ₹{pkg.startingPrice}
-                                    </Typography>
-                                </div>
-
-                                <div className="mb-4">
-                                    <Typography variant="subtitle1" className="font-semibold mb-2">
-                                        Pickup & Drop
-                                    </Typography>
-                                    <Typography>
-                                        {pkg.pickDropPoint.pickup} to {pkg.pickDropPoint.drop}
-                                    </Typography>
-                                </div>
-
-                                <div className="mb-4">
-                                    <Typography variant="subtitle1" className="font-semibold mb-2">
-                                        Inclusions
-                                    </Typography>
-                                    <ul className="list-disc list-inside text-sm">
-                                        {pkg.inclusions.map((inclusion, index) => (
-                                            <li key={index} className="mb-1">{inclusion}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                <Accordion>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
-                                        className="bg-gray-100 rounded"
-                                    >
-                                        <Typography className="font-semibold">
-                                            Detailed Itinerary
-                                        </Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        {renderItinerary(pkg.itinerary)}
-                                    </AccordionDetails>
-                                </Accordion>
-                            </CardContent>
-                        </Card>
-                    </Grid2>
-                ))}
-            </Grid2>
+            <div>All Packages</div>
+            <div>
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 rounded-s-lg">
+                                Package Name
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Array.isArray(packageInfo) && packageInfo?.map((info) => (
+                            <tr key={info._id} className="bg-white dark:bg-gray-800 hover:bg-gray-50">
+                                <th
+                                    scope="row"
+                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                    {info?.name}
+                                </th>
+                                 
+                            
+                                <td className="px-6 py-4">
+                                    <div className='flex gap-1'>
+                                        <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>
+                                            View Details
+                                        </Button>
+                                        <Button variant="outlined" color="error" onClick={() => deleteHandle(info?._id)}>
+                                            Delete
+                                        </Button>
+                                        <Link to={`/update-package/${info?._id}`} state={{ packageData: info }}>
+                                            <Button variant="outlined" color="error">
+                                                Edit
+                                            </Button>
+                                        </Link>
+                                     
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                        <tr class="font-semibold text-gray-900 dark:text-white">
+                            <th scope="row" class="px-6 py-3 text-base">Total Users</th>
+                            {/* <td class="px-6 py-3">{fullyCustomizedEnquiries.length}</td> */}
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={deleteHandle} /> }                
         </main>
-
     );
 }
 

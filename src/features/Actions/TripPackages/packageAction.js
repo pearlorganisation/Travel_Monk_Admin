@@ -27,6 +27,7 @@ export const getAllPackages = createAsyncThunk(
 export const deletePackage = createAsyncThunk(
     "package/deletePackage", async(id,{rejectWithValue})=>{
         try {
+            console.log('the id is', id)
             const config ={
                 headers:{
                     "Content-Type":"application/json"
