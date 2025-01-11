@@ -23,6 +23,8 @@ import FullyCustomizedEnquiries from "./pages/CustomizationEnquiries/FullyCustom
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ForgotPassword/ResetPassword";
 import AddLocation from "./pages/AddLocation/AddLocation";
+import AllDestinations from "./pages/AllDestinations/AllDestinations";
+import EditDestination from "./pages/EditDestination/EditDestination";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -33,31 +35,33 @@ const AppRoutes = () => {
       element: isAdminLoggedIn ? <Layout /> : <Login />,
       children: isAdminLoggedIn
         ? [
-          { index: true, element: <Dashboard /> },
-          { path: "bookings", element: <Bookings /> },
-          { path: "contact", element: <Contact /> },
-          { path: "bus-cruise", element: <Bus_Cruise_Contact /> },
-          { path: "get-all-users", element: <GetAllUsers /> },
-          { path: "get-allpartners", element: <GetAllPartners /> },
-          { path: "all-packages", element: <AllPackage /> },
-          { path: "add-vehicle", element: <AddVehicle /> },
-          { path: "get-all-vehicles", element: <AllVehicleList /> },
-          { path: "add-package", element: <AddPackage /> },
-          { path: "add-hotel", element: <AddHotel /> },
-          {
-            path: "customized-enquiries",
-            element: <PreBuiltCustomisationEnquiries />,
-          },
-          {
-            path: "full-customized-enquiries",
-            element: <FullyCustomizedEnquiries />,
-          },
-          { path: "add-activity", element: <AddActivity /> },
-          { path: "get-all-activities", element: <GetAllActivites /> },
-          { path: "edit-activity/:id", element: <EditActivity /> },
-          { path: "add-destination", element: <AddDestination /> },
-          {path: "add-location", element:<AddLocation />}
-        ]
+            { index: true, element: <Dashboard /> },
+            { path: "bookings", element: <Bookings /> },
+            { path: "contact", element: <Contact /> },
+            { path: "bus-cruise", element: <Bus_Cruise_Contact /> },
+            { path: "get-all-users", element: <GetAllUsers /> },
+            { path: "get-allpartners", element: <GetAllPartners /> },
+            { path: "all-packages", element: <AllPackage /> },
+            { path: "add-vehicle", element: <AddVehicle /> },
+            { path: "get-all-vehicles", element: <AllVehicleList /> },
+            { path: "add-package", element: <AddPackage /> },
+            { path: "add-hotel", element: <AddHotel /> },
+            {
+              path: "customized-enquiries",
+              element: <PreBuiltCustomisationEnquiries />,
+            },
+            {
+              path: "full-customized-enquiries",
+              element: <FullyCustomizedEnquiries />,
+            },
+            { path: "add-activity", element: <AddActivity /> },
+            { path: "get-all-activities", element: <GetAllActivites /> },
+            { path: "get-all-destinations", element: <AllDestinations /> },
+            { path: "edit-destination/:id", element: <EditDestination /> },
+            { path: "edit-activity/:id", element: <EditActivity /> },
+            { path: "add-destination", element: <AddDestination /> },
+            { path: "add-location", element: <AddLocation /> },
+          ]
         : [],
     },
     {
@@ -65,9 +69,9 @@ const AppRoutes = () => {
       element: <ForgotPassword />,
     },
     {
-      path:'reset-password/:token',
-      element:<ResetPassword />
-    }
+      path: "reset-password/:token",
+      element: <ResetPassword />,
+    },
   ]);
 
   return <RouterProvider router={router} />;

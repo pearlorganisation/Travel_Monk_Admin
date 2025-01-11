@@ -53,7 +53,7 @@ const AllActivitiesList = () => {
     (state) => state.activities
   );
   const [deleteModal, setDeleteModal] = useState(false);
-  const [selectedActivity, setSelectedActivity] = useState(null); // Track the selected activity to delete
+  const [selectedActivity, setSelectedActivity] = useState(null);
 
   console.log(activitiesData, "my activities");
   console.log(paginate, "my paginate");

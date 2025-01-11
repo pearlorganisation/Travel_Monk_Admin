@@ -9,13 +9,16 @@ const Sidebar = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isVehicleOpen, setIsVehicleOpen] = useState(false);
   const [isHotelOpen, setIsHotelOpen] = useState(false);
-  const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] = useState(false);
+  const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] =
+    useState(false);
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
-  const [isLocationOpen,setIsLocationOpen] = useState(false);
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
   return (
     <div>
-      <aside className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10 overflow-y-auto"
-        style={{ maxHeight: '100vh' }}>
+      <aside
+        className="bg-gray-800 text-white w-64 py-8 px-4 fixed top-0 bottom-0 z-10 overflow-y-auto"
+        style={{ maxHeight: "100vh" }}
+      >
         <div className="mb-8">
           <h2 className="text-2xl font-bold">Travel Monk</h2>
         </div>
@@ -55,7 +58,7 @@ const Sidebar = () => {
                     Add Destination
                   </li>
                 </Link>
-                <Link to="#">
+                <Link to="get-all-destinations">
                   <li className="hover:text-gray-300 cursor-pointer">
                     All Destinations
                   </li>
@@ -195,11 +198,17 @@ const Sidebar = () => {
           {/**---------------------------Customization Queries------------------------------------*/}
           <div className="mb-4">
             <div
-              onClick={() => setIsCustomizationEnquiriesOpen(!isCustomizationEnquiriesOpen)}
+              onClick={() =>
+                setIsCustomizationEnquiriesOpen(!isCustomizationEnquiriesOpen)
+              }
               className="flex justify-between items-center cursor-pointer hover:text-gray-300"
             >
               <span>Customization Enquiries</span>
-              {isCustomizationEnquiriesOpen ? <FaChevronUp /> : <FaChevronDown />}
+              {isCustomizationEnquiriesOpen ? (
+                <FaChevronUp />
+              ) : (
+                <FaChevronDown />
+              )}
             </div>
             {isCustomizationEnquiriesOpen && (
               <ul className="mt-2 ml-4 space-y-2">
@@ -259,9 +268,8 @@ const Sidebar = () => {
                   </li>
                 </Link>
               </ul>
-            )}  
+            )}
           </div>
-
         </nav>
       </aside>
     </div>

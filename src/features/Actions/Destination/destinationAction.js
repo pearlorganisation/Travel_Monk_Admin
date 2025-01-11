@@ -4,16 +4,69 @@ import { axiosInstance } from "../../../services/axiosInterceptor";
 /**----------------this is used on adding vehicles page-----------------------------------*/
 export const getDestinations = createAsyncThunk(
   "get/destinations",
-  async (_, { rejectWithValue }) => {
+  async ({ page = 1 }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axiosInstance.get(`/api/v1/destinations`, config);
+      const { data } = await axiosInstance.get(
+        `/api/v1/destinations?page=${page}`,
+        config
+      );
       console.log("-------------destination data", data);
-      return data.data;
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const getSingleDestination = createAsyncThunk(
+  "get-single/destinations",
+  async (id, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axiosInstance.get(
+        `/api/v1/destinations/${id}`,
+        config
+      );
+      console.log("-------------destination data", data);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const deleteDestination = createAsyncThunk(
+  "delete/destinations",
+  async (id, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axiosInstance.delete(
+        `/api/v1/destinations/${id}`,
+        config
+      );
+      console.log("delete destination data", data);
+      return id;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -69,4 +122,50 @@ export const addDestination = createAsyncThunk(
   }
 );
 
- 
+export const updateDestination = createAsyncThunk(
+  "update/destination",
+  async ({ id, updatedData }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const { data } = await axiosInstance.patch(
+        `/api/v1/destinations/${id}`,
+        updatedData,
+        config
+      );
+      return data; // Return the updated destination
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const togglePopularity = createAsyncThunk(
+  "toggle-popularity/destination",
+  async (id, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axiosInstance.patch(
+        `/api/v1/destinations/${id}/toggle-popularity`,
+        config
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
