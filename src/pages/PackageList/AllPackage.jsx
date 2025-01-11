@@ -11,11 +11,15 @@ import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
-    Button
+    Button,
+    Box,
+    Modal
 } from '@mui/material';
+// import { Button, Stack, Modal, Typography, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
 import { Link } from 'react-router-dom';
+import { baseURL } from '../../services/axiosInterceptor';
 
 
 const AllPackage = () => {
@@ -24,7 +28,8 @@ const AllPackage = () => {
     const [open, setOpen] = useState(false);
     const [packageId , setPackageId] = useState(null)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-    
+    const [selectedPacakge,setSelectedPackage] = useState(null);
+
     const deleteHandle = (id) => {
         setPackageId(id)
         setIsDeleteModalOpen(!isDeleteModalOpen)
@@ -37,10 +42,10 @@ const AllPackage = () => {
         }
 
     const handleOpen = (enquiry) => {
-        setSelectedEnquiry(enquiry);
+        setSelectedPackage(enquiry);
         setOpen(true);
     };
-
+    console.log("-------the selected package is", selectedPacakge)
     useEffect(() => {
         dispatch(getAllPackages());
     }, [dispatch]);
@@ -49,25 +54,25 @@ const AllPackage = () => {
     const handleClose = () => setOpen(false);
 
     /**will use in future to show the details of the package */
-    // const renderItinerary = (itinerary) => (
-    //     <div className="space-y-4">
-    //         {Array.isArray(itinerary)&&itinerary?.map((day) => (
-    //             <Accordion key={day._id} className="border border-gray-200 rounded-lg">
-    //                 <AccordionSummary
-    //                     expandIcon={<ExpandMoreIcon />}
-    //                     className="bg-gray-100"
-    //                 >
-    //                     <Typography className="font-bold">
-    //                         Day {day.day}: {day.title}
-    //                     </Typography>
-    //                 </AccordionSummary>
-    //                 <AccordionDetails>
-    //                     <Typography>{day.description}</Typography>
-    //                 </AccordionDetails>
-    //             </Accordion>
-    //         ))}
-    //     </div>
-    // );
+    const renderItinerary = (itinerary) => (
+        <div className="space-y-4">
+            {Array.isArray(itinerary)&&itinerary?.map((day) => (
+                <Accordion key={day._id} className="border border-gray-200 rounded-lg">
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        className="bg-gray-100"
+                    >
+                        <Typography className="font-bold">
+                            Day {day.day}: {day.title}
+                        </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>{day.description}</Typography>
+                    </AccordionDetails>
+                </Accordion>
+            ))}
+        </div>
+    );
 
     return (
         // <main className="flex-1 p-8 mt-16 ml-64">
@@ -206,6 +211,103 @@ const AllPackage = () => {
                     </tfoot>
                 </table>
             </div>
+            <Modal open={open} onClose={handleClose}>
+                <Box
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg outline-none overflow-y-auto"
+                    sx={{
+                        width: 800,
+                        maxHeight: '80vh',
+                        padding: 4
+                    }}
+                >
+                    {selectedPacakge &&(
+                        <main className="flex-1 p-8 mt-16 ml-64">
+                            <Typography variant="h4" className="mb-6 font-bold">
+                                Our Packages
+                            </Typography>
+
+                            <Grid2
+                                container
+                                spacing={4}
+                                sx={{
+                                    width: "100%", // Ensure the grid takes up full width
+                                }}
+                                className="w-full"
+                            >
+                               
+                                    <Grid2
+                                        item
+                                        xs={12}
+                                        key={selectedPacakge._id}
+                                        className="w-full"
+                                    >
+                                        <Card className="h-full flex flex-col">
+                                            <CardMedia
+                                                component="img"
+                                                height="240"
+                                            image={`${baseURL}/${selectedPacakge?.image?.path}`}
+                                            alt={selectedPacakge.name}
+                                                className="h-64 object-cover"
+                                            />
+
+                                            <CardContent className="flex-grow">
+                                                <Typography variant="h5" className="font-bold mb-2">
+                                                {selectedPacakge?.name}
+                                                </Typography>
+
+                                                <div className="flex items-center justify-between mb-4">
+                                                    <Chip
+                                                    label={`${selectedPacakge?.duration?.days} Days / ${selectedPacakge?.duration?.nights} Nights`}
+                                                        color="primary"
+                                                        variant="outlined"
+                                                    />
+                                                    <Typography variant="h6" color="primary" className="font-bold">
+                                                    ₹{selectedPacakge?.startingPrice}
+                                                    </Typography>
+                                                </div>
+
+                                                <div className="mb-4">
+                                                    <Typography variant="subtitle1" className="font-semibold mb-2">
+                                                        Pickup & Drop
+                                                    </Typography>
+                                                    <Typography>
+                                                    {selectedPacakge?.pickDropPoint?.pickup} to {selectedPacakge?.pickDropPoint?.drop}
+                                                    </Typography>
+                                                </div>
+
+                                                <div className="mb-4">
+                                                    <Typography variant="subtitle1" className="font-semibold mb-2">
+                                                        Inclusions
+                                                    </Typography>
+                                                    <ul className="list-disc list-inside text-sm">
+                                                    {selectedPacakge?.inclusions?.map((inclusion, index) => (
+                                                            <li key={index} className="mb-1">{inclusion}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        className="bg-gray-100 rounded"
+                                                    >
+                                                        <Typography className="font-semibold">
+                                                            Detailed Itinerary
+                                                        </Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                    {renderItinerary(selectedPacakge.itinerary)}
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid2>
+                             
+                            </Grid2>
+                        </main>
+                    )}
+                </Box>
+                </Modal>
             {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={deleteHandle} /> }                
         </main>
     );
