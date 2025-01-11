@@ -361,11 +361,10 @@ const AddPackage = () => {
                   }) => (
                     <Select
                       options={options2}
-                      isLoading={isLoading} // Pass your loading state here
-                      isMulti={true} // Enable multiple selection
+                      isLoading={isLoading}  
+                      isMulti={true}  
                       onChange={(selectedOptions) => {
-                        // Update the value with an array of selected hotel IDs
-                        const selectedActivityIds = selectedOptions
+                         const selectedActivityIds = selectedOptions
                           ? selectedOptions.map((option) => option.value)
                           : [];
                         onChange(selectedActivityIds);

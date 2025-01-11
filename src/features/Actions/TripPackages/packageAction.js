@@ -82,3 +82,45 @@ export const addPackage = createAsyncThunk(
         }
     }
 )
+
+
+/** to update a package */
+export const updatePackage = createAsyncThunk(
+    "update/package",async(userData,{rejectWithValue})=>{
+        try {
+            const { id } = userData
+            console.log('the package id is', id)
+            const formData = new FormData()
+            formData.append("banner", userData.banner[0])
+            formData.append("image", userData.image[0])
+            console.log("inlcusion data", userData.inclusions)
+            for (const key in userData) {
+                if (key !== "banner" && key !== "image") {
+                    if (typeof userData[key] === "object" && userData[key] !== null) {
+                        formData.append(key, JSON.stringify(userData[key]))
+                    } else {
+                        formData.append(key, userData[key])
+                    }
+                }
+            }
+
+            const config = {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }
+            const {
+                data
+            } = await axiosInstance.patch(`/api/v1/packages/${id}`, formData, {
+                config
+            })
+            return data;
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
+    }
+)

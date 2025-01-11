@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { addPackage, getAllPackages } from "../../Actions/TripPackages/packageAction"
+import { addPackage, getAllPackages, updatePackage } from "../../Actions/TripPackages/packageAction"
 import { toast } from "sonner"
 
 const initialState ={
@@ -45,6 +45,23 @@ const packageSlice = createSlice({
              state.isError = false
              state.isSuccess = true
              toast.success("Package Added Successfully",{position:"top-right"})
+        })
+        .addCase(updatePackage.pending,(state)=>{
+            state.isLoading = true
+            state.isSuccess = false
+            state.isError = false
+        })
+        .addCase(updatePackage.rejected, (state,action)=>{
+            state.isError= true
+            state.isSuccess = false
+            state.isLoading= false;
+            toast.error(action.payload,{position:"top-right"})
+        })
+        .addCase(updatePackage.fulfilled,(state,action)=>{
+            state.isError = false
+            state.isLoading= false
+            state.isSuccess = true
+            toast.success("Package Updated successfully",{position:"top-center"})
         })
     }
 })

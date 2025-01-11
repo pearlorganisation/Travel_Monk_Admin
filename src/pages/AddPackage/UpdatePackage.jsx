@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { useLocation, useParams } from 'react-router-dom';
 import { getActivitiesByDestinationId } from '../../features/Actions/Activities/activitiesAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from "react-select";
+import { getDestinations } from '../../features/Actions/Destination/destinationAction';
+import slugify from "slugify";
+import { updatePackage } from '../../features/Actions/TripPackages/packageAction';
 
 const UpdatePackage = () => {
     const { id } = useParams();
@@ -11,6 +14,7 @@ const UpdatePackage = () => {
     const location = useLocation();
     const { packageData } = location.state;
     const { destinationActivities } = useSelector(state=> state.activities)
+    const { destinationInfo } = useSelector((state) => state.destinations);
     console.log("The package data", packageData);
     
     let options2 = [];
@@ -21,10 +25,17 @@ const UpdatePackage = () => {
         }));
     }
 
-    const { control, handleSubmit, register } = useForm({
+    const { control, handleSubmit, register, watch,setValue,formState:{errors} } = useForm({
         defaultValues: {
             ...packageData,
-            itinerary: packageData.itinerary || [],
+            packageDestination: packageData?.packageDestination
+,
+            itinerary: packageData.itinerary?.map(item => {
+                const temp = item?.activities?.map(act => {
+                    return {label:act?.name,value:act?._id}
+                })
+                return {...item ,activities:temp}
+            }) || [],
             inclusions: packageData.inclusions || [],
             exclusions: packageData.exclusions || [],
         },
@@ -56,14 +67,54 @@ const UpdatePackage = () => {
         control,
         name: "exclusions",
     });
-   
+     const slugName = watch("name");
+     useEffect(() => {
+       if (slugName) {
+         const slug = slugify(slugName, {
+           lower: true,
+           strict: true,
+         });
+         setValue("slug", slug);
+       }
+     }, [slugName, setValue]);
+
+      /** state for banner image */
+      const [bannerImage, setBannerImage] = useState([]);
+      /** to handle banner image */
+      const handleBannerImage = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          setBannerImage(file);
+        }
+      };
+
+    /** for Package Image */
+    const [packageImage, setPackageImage] = useState([]);
+    // package image handle
+    const handlePackageImage = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setPackageImage(file);
+        }
+    };
     useEffect(()=>{
         dispatch(getActivitiesByDestinationId(packageData?.packageDestination))
     },[packageData])
+      useEffect(() => {
+        dispatch(getDestinations());
+      }, [dispatch]);
+
+
     const onSubmit = (data) => {
         console.log("Updated Package Data:", data);
-        // API call to update the package using data
-    };
+        const formData = new FormData();
+        formData.append("banner",bannerImage);
+        formData.append("image", packageImage);
+
+        dispatch(updatePackage({...data, id:packageData._id})).then((res)=>{
+            console.log("the package daata",res)
+        })
+     };
 
     return (
         <main className="flex-1 p-8 mt-16 ml-64">
@@ -71,6 +122,36 @@ const UpdatePackage = () => {
                 <h1 className="text-2xl font-bold mb-4">Update Package</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* Basic Details */}
+                    <div className="mb-4">
+                        <label
+                            htmlFor="packageDestination"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Add Package Destination
+                        </label>
+                        <select
+                            id="packageDestination"
+                            {...register("packageDestination", {
+                                required: "Package Destination is required",
+                            })}
+                            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.packageDestination ? "border-red-500" : "border-gray-300"
+                                } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                        >
+                            <option value="">Select a Package Destination</option>
+                            {Array.isArray(destinationInfo) &&
+                                destinationInfo.map((destination) => (
+                                    <option key={destination._id} value={destination._id}>
+                                        {destination.name}
+                                    </option>
+                                ))}
+                        </select>
+                        {errors.packageDestination && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {errors.packageDestination.message}
+                            </p>
+                        )}
+                    </div>
+
                     <div className="mb-4">
                         <label className="block mb-2 font-semibold">Package Name</label>
                         <input
@@ -98,77 +179,197 @@ const UpdatePackage = () => {
                             placeholder="Starting Price"
                         />
                     </div>
+                    
+                    {/* duration days*/}
+                    <div className="mb-4">
+                        <label
+                            htmlFor="duration.days"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Add Duration Days
+                        </label>
+                        <input
+                            type="number"
+                            id="duration.days"
+                            {...register("duration.days", {
+                                required: "Package Duration Days is required",
+                            })}
+                            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.duration ? "border-red-500" : "border-gray-300"
+                                } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                        />
+                        {errors.duration && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {errors.duration.message}
+                            </p>
+                        )}
+                    </div>
+                    {/* duration nights*/}
+                    <div className="mb-4">
+                        <label
+                            htmlFor="duration.nights"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Add Duration Nights
+                        </label>
+                        <input
+                            type="number"
+                            id="duration.nights"
+                            {...register("duration.nights", {
+                                required: "Package Duration Nights is required",
+                            })}
+                            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.duration ? "border-red-500" : "border-gray-300"
+                                } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                        />
+                        {errors.duration && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {errors.duration.message}
+                            </p>
+                        )}
+                    </div>
+                    {/* pickupdrop point pickup*/}
+                    <div className="mb-4">
+                        <label
+                            htmlFor="pickDropPoint.pickup"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Add Pickup Point
+                        </label>
+                        <input
+                            type="string"
+                            id="pickDropPoint.pickup"
+                            {...register("pickDropPoint.pickup", {
+                                required: "Package Duration Nights is required",
+                            })}
+                            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.pickDropPoint ? "border-red-500" : "border-gray-300"
+                                } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                        />
+                        {errors.pickDropPoint && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {errors.pickDropPoint.message}
+                            </p>
+                        )}
+                    </div>
+                    {/* pickupdrop point drop*/}
+                    <div className="mb-4">
+                        <label
+                            htmlFor="pickDropPoint.drop"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Add Drop Point
+                        </label>
+                        <input
+                            type="string"
+                            id="pickDropPoint.drop"
+                            {...register("pickDropPoint.drop", {
+                                required: "Package Duration Nights is required",
+                            })}
+                            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.pickDropPoint ? "border-red-500" : "border-gray-300"
+                                } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                        />
+                        {errors.pickDropPoint && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {errors.pickDropPoint.message}
+                            </p>
+                        )}
+                    </div>
+                    {/** banner image */}
+                    <div className="mb-6">
+                        <label
+                            htmlFor="banner"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                        >
+                            Upload Banner of Package
+                        </label>
+                        <input
+                            type="file"
+                            id="banner"
+                            accept="image/*"
+                            {...register("banner", { required: "Banner is required" })}
+                            onChange={handleBannerImage}
+                            className={`block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-md file:bg-blue-50 file:text-blue-700 ${errors.banner ? "border-red-500" : "border-gray-300"
+                                } rounded-lg focus:ring-blue-500 focus:border-blue-500`}
+                        />
+                    </div>
 
+
+                    {/** package image */}
+                    <div className="mb-6">
+                        <label
+                            htmlFor="image"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                        >
+                            Upload Image of Package
+                        </label>
+                        <input
+                            type="file"
+                            id="image"
+                            accept="image/*"
+                            {...register("image", { required: "Banner is required" })}
+                            onChange={handlePackageImage}
+                            className={`block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-md file:bg-blue-50 file:text-blue-700 ${errors.image ? "border-red-500" : "border-gray-300"
+                                } rounded-lg focus:ring-blue-500 focus:border-blue-500`}
+                        />
+                    </div>
                     {/* Itinerary */}
                     <div className="mb-4">
                         <h2 className="text-xl font-semibold mb-2">Itinerary</h2>
-                        {itineraryFields.map((field, index) => (
-                            <div key={field.id} className="mb-4 border p-4 rounded">
-                                <label className="block mb-2 font-semibold">Day {index + 1}</label>
-                                <input
-                                    {...register(`itinerary.${index}.location`)}
-                                    className="w-full p-2 border rounded mb-2"
-                                    placeholder="Location"
-                                />
-                                <input
-                                    {...register(`itinerary.${index}.title`)}
-                                    className="w-full p-2 border rounded mb-2"
-                                    placeholder="Title"
-                                />
-                                <textarea
-                                    {...register(`itinerary.${index}.description`)}
-                                    className="w-full p-2 border rounded mb-2"
-                                    placeholder="Description"
-                                />
-                                <Controller
-                                    name={`itinerary.${index}.activities`}
-                                    control={control}
-                                    render={({
-                                        field: { onChange, onBlur, value, name, ref, isLoading },
-                                    }) => (
-                                        <Select
-                                            options={options2}
-                                            defaultValue={[options2[0], options2[1]]}
-                                            isLoading={isLoading} // Pass your loading state here
-                                            isMulti={true} // Enable multiple selection
-                                            onChange={(selectedOptions) => {
-                                                // Update the value with an array of selected hotel IDs
-                                                const selectedActivityIds = selectedOptions
-                                                    ? selectedOptions.map((option) => option.value)
-                                                    : [];
-                                                onChange(selectedActivityIds);
-                                            }}
-                                            
-                                            onBlur={onBlur}
-                                            value={
-                                                value
-                                                    ? value.map((activityId) =>
-                                                        options2.find(
-                                                            (option) => option.value === activityId
-                                                        )
-                                                    )
-                                                    : []
-                                            } // Map IDs back to objects for Select
-                                            name={name}
-                                            ref={ref}
-                                        />
-                                    )}
-                                />
-                              
+                        {itineraryFields.map((field, index) => {
+                            console.log(field?.activities,"field")
+                            return (
+                                <div key={field.id} className="mb-4 border p-4 rounded">
+                                    <label className="block mb-2 font-semibold">Day {index + 1}</label>
+                                    <input
+                                        {...register(`itinerary.${index}.location`)}
+                                        className="w-full p-2 border rounded mb-2"
+                                        placeholder="Location"
+                                    />
+                                    <input
+                                        {...register(`itinerary.${index}.title`)}
+                                        className="w-full p-2 border rounded mb-2"
+                                        placeholder="Title"
+                                    />
+                                    <textarea
+                                        {...register(`itinerary.${index}.description`)}
+                                        className="w-full p-2 border rounded mb-2"
+                                        placeholder="Description"
+                                    />
+                                    <Controller
+                                        name={`itinerary.${index}.activities`}
+                                        control={control}
+                                        render={({
+                                            field: { onChange, onBlur, value, name, ref, isLoading },
+                                        }) => (
+                                            <Select
+                                                options={options2}
+                                                isMulti
+                                                name={name}
+                                                ref={ref}
+                                                // Map the current value to the format React Select expects
+                                                value={value || []}
+                                                // Handle changes and map back to the required format for the form state
+                                                onChange={(selectedOptions) => {
+                                                    const selectedActivityIds = selectedOptions || [];
+                                                    onChange(selectedActivityIds);
+                                                }}
+                                            />
+                                        )}
+                                    />
 
-                                <button
-                                    type="button"
-                                    onClick={() => removeItinerary(index)}
-                                    className="text-red-500"
-                                >
-                                    Remove Day
-                                </button>
-                            </div>
-                        ))}
+
+                                    <button
+                                        type="button"
+                                        onClick={() => removeItinerary(index)}
+                                        className="text-red-500"
+                                    >
+                                        Remove Day
+                                    </button>
+                                </div>
+                            )
+                        })}
                         <button
                             type="button"
                             onClick={() =>
-                                appendItinerary({ location: "", title: "", description: "" })
+                                appendItinerary({day:"", location: "", title: "", description: "", activities:"" })
                             }
                             className="text-blue-500"
                         >
