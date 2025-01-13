@@ -65,12 +65,12 @@ const AppRoutes = () => {
             { path: "edit-destination/:id", element: <EditDestination /> },
             { path: "edit-activity/:id", element: <EditActivity /> },
             { path: "add-destination", element: <AddDestination /> },
-            { path: "add-location", element: <AddLocation /> },,
-          {path:"update-package/:id", element:<UpdatePackage />},
-          { path:"update-partner/:id", element:<UpdatePartner />},
-          {path:"update-vehicle/:id", element:<UpdateVehicles/>},
-          {path:"hotels", element:<AllHotels />},
-          { path:"update-hotel/:id", element:<UpdateHotel />}
+            { path: "add-location", element: <AddLocation /> },
+            { path: "update-package/:id", element: <UpdatePackage /> },
+            { path: "update-partner/:id", element: <UpdatePartner /> },
+            { path: "update-vehicle/:id", element: <UpdateVehicles /> },
+            { path: "hotels", element: <AllHotels /> },
+            { path: "update-hotel/:id", element: <UpdateHotel /> },
           ]
         : [],
     },

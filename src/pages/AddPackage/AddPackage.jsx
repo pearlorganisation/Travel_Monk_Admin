@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getActivitiesByDestinationId, getAllActivities } from "../../features/Actions/Activities/activitiesAction";
+import {
+  getActivitiesByDestinationId,
+  getAllActivities,
+} from "../../features/Actions/Activities/activitiesAction";
 import { getAllHotels } from "../../features/Actions/Hotels/hotelsAction";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import slugify from "slugify";
@@ -13,7 +16,9 @@ import Select from "react-select";
 const AddPackage = () => {
   const dispatch = useDispatch();
   const { hotelsData } = useSelector((state) => state.hotels);
-  const { activitiesData, destinationActivities } = useSelector((state) => state.activities);
+  const { activitiesData, destinationActivities } = useSelector(
+    (state) => state.activities
+  );
   const { destinationInfo } = useSelector((state) => state.destinations);
   const {
     register,
@@ -33,24 +38,26 @@ const AddPackage = () => {
     name: "itinerary",
   });
 
-
   /** options for hotels */
-  let options = Array.isArray(hotelsData)&& hotelsData?.map((hotel) => ({
-    value: hotel._id,  
-    label: hotel.name,
-  }));
+  let options =
+    Array.isArray(hotelsData) &&
+    hotelsData?.map((hotel) => ({
+      value: hotel._id,
+      label: hotel.name,
+    }));
   /** getting the selected destination id */
-  const destinationId = watch("packageDestination")
+  const destinationId = watch("packageDestination");
   /** option 2 for selecting multiple activities */
   let options2 = [];
   if (destinationActivities) {
-    options2 = Array.isArray(destinationActivities) && destinationActivities?.map((activity) => ({
-      value: activity?._id,
-      label: activity?.name
-    }));
+    options2 =
+      Array.isArray(destinationActivities) &&
+      destinationActivities?.map((activity) => ({
+        value: activity?._id,
+        label: activity?.name,
+      }));
   }
 
- 
   console.log("---------options", options2);
 
   /** to handle multiple inclusion data */
@@ -128,15 +135,13 @@ const AddPackage = () => {
     });
   };
 
-
- 
-
-  console.log("the destination id", destinationId)
-   useEffect(()=>{
-    if(destinationId){
-    dispatch(getActivitiesByDestinationId(destinationId))}
-    return
-   },[destinationId])
+  console.log("the destination id", destinationId);
+  useEffect(() => {
+    if (destinationId) {
+      dispatch(getActivitiesByDestinationId(destinationId));
+    }
+    return;
+  }, [destinationId]);
 
   /** useEffects */
   useEffect(() => {
@@ -161,8 +166,9 @@ const AddPackage = () => {
             {...register("packageDestination", {
               required: "Package Destination is required",
             })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.packageDestination ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${
+              errors.packageDestination ? "border-red-500" : "border-gray-300"
+            } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
           >
             <option value="">Select a Package Destination</option>
             {Array.isArray(destinationInfo) &&
@@ -361,10 +367,10 @@ const AddPackage = () => {
                   }) => (
                     <Select
                       options={options2}
-                      isLoading={isLoading}  
-                      isMulti={true}  
+                      isLoading={isLoading}
+                      isMulti={true}
                       onChange={(selectedOptions) => {
-                         const selectedActivityIds = selectedOptions
+                        const selectedActivityIds = selectedOptions
                           ? selectedOptions.map((option) => option.value)
                           : [];
                         onChange(selectedActivityIds);
@@ -669,7 +675,7 @@ const AddPackage = () => {
             ))}
           </ul>
         )}
-       
+
         {/** banner image */}
         <div className="mb-6">
           <label
