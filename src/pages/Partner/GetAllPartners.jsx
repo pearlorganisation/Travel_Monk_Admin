@@ -34,10 +34,10 @@ const GetAllPartners = () => {
         setIsModalOpen(true);
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setModalType("");
-    };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalType("");
+  };
 
     const deleteHandle = (id) => {
         setPartnerId(id)
@@ -147,5 +147,3 @@ const GetAllPartners = () => {
         </main>
     );
 }
-
-export default GetAllPartners

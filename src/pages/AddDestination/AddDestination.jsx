@@ -140,6 +140,31 @@ const AddDestination = () => {
 
         <div className="mb-4">
           <label
+            htmlFor="startingPrice"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Add Popularity
+          </label>
+          <input
+            type="checkbox"
+            id="isPopular"
+            defaultChecked={false}
+            {...register("isPopular", {
+              required: "Popularity is required",
+            })}
+            className={`mt-1 p-2 block w-20 rounded-md border-2 ${
+              errors.isPopular ? "border-red-500" : "border-gray-300"
+            } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          />
+          {errors.isPopular && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.isPopular.message}
+            </p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label
             htmlFor="type"
             className="block text-sm font-medium text-gray-700"
           >
@@ -203,7 +228,13 @@ const AddDestination = () => {
           />
         </div>
 
-        <button type="submit"> Add Destination </button>
+        <button
+          type="submit"
+          className="bg-green-500 px-4 py-2 rounded-md text-white"
+        >
+          {" "}
+          Add Destination{" "}
+        </button>
       </form>
     </main>
   );
