@@ -24,6 +24,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ForgotPassword/ResetPassword";
 import AddLocation from "./pages/AddLocation/AddLocation";
 import UpdatePackage from "./pages/AddPackage/UpdatePackage";
+import UpdatePartner from "./pages/Partner/UpdatePartner";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -58,7 +59,8 @@ const AppRoutes = () => {
           { path: "edit-activity/:id", element: <EditActivity /> },
           { path: "add-destination", element: <AddDestination /> },
           {path: "add-location", element:<AddLocation />},
-          {path:"update-package/:id", element:<UpdatePackage />}
+          {path:"update-package/:id", element:<UpdatePackage />},
+          { path:"update-partner/:id", element:<UpdatePartner />}
         ]
         : [],
     },

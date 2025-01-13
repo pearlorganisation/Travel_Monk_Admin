@@ -284,7 +284,7 @@ const UpdatePackage = () => {
                             type="file"
                             id="banner"
                             accept="image/*"
-                            {...register("banner", { required: "Banner is required" })}
+                            {...register("banner")}
                             onChange={handleBannerImage}
                             className={`block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-md file:bg-blue-50 file:text-blue-700 ${errors.banner ? "border-red-500" : "border-gray-300"
                                 } rounded-lg focus:ring-blue-500 focus:border-blue-500`}
@@ -304,7 +304,7 @@ const UpdatePackage = () => {
                             type="file"
                             id="image"
                             accept="image/*"
-                            {...register("image", { required: "Banner is required" })}
+                            {...register("image")}
                             onChange={handlePackageImage}
                             className={`block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-md file:bg-blue-50 file:text-blue-700 ${errors.image ? "border-red-500" : "border-gray-300"
                                 } rounded-lg focus:ring-blue-500 focus:border-blue-500`}

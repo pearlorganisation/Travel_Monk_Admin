@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllPartner } from '../../features/Actions/Partner/getAllPartnerAction';
+import { deletePartnerById, getAllPartner } from '../../features/Actions/Partner/getAllPartnerAction';
 import { getPartnerType } from '../../features/Actions/Partner/partnerTypeAction';
  
 import Modal from '../../components/Modal/PartnerModal';
 import AddPartner from './AddPartner';
 import AddPartnerType from './AddPartnerType';
+import { Button } from '@mui/material';
+import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
+import { baseURL } from '../../services/axiosInterceptor';
+import { Link } from 'react-router-dom';
 
 
 const GetAllPartners = () => {
@@ -19,7 +23,12 @@ const GetAllPartners = () => {
     }, [dispatch]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState(""); // To differentiate between "Add Partner" and "Add Partner Type"
-
+    const [open,setOpen] = useState(false)
+    const [selectdPartner, setSelectedPartner] = useState(null)
+    const [partnerId,setPartnerId] = useState(null)
+    console.log("the partner id is", partnerId)
+    /**delete modal */
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const openModal = (type) => {
         setModalType(type);
         setIsModalOpen(true);
@@ -30,6 +39,20 @@ const GetAllPartners = () => {
         setModalType("");
     };
 
+    const deleteHandle = (id) => {
+        setPartnerId(id)
+        setIsDeleteModalOpen(!isDeleteModalOpen)
+    }
+     const confirmDelete =()=>{
+            dispatch(deletePartnerById(partnerId));
+             setIsDeleteModalOpen(!isDeleteModalOpen);
+            // dispatch(getFullyCustomizedEnquiries({page:currentPage}))
+           
+        }
+    const handleOpen = (partner) => {
+        setSelectedPartner(partner);
+        setOpen(true);
+    }; 
     return (
         <main className="flex-1 p-8 mt-16 ml-64">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -75,7 +98,7 @@ const GetAllPartners = () => {
                                     >
                                         <img
                                             className="w-10 h-10 rounded-full"
-                                            src={part?.partnerLogo?.secure_url}
+                                            src={`${baseURL}/${part.partnerLogo.path}`}
                                             alt="partner"
                                         />
                                         <div className="ps-3">
@@ -84,9 +107,22 @@ const GetAllPartners = () => {
                                     </th>
                                     <td className="px-6 py-4">{part?.partnerType?.partnerTypeName}</td>
                                     <td className="px-6 py-4">
-                                        <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        {/* <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                             Edit Partner
-                                        </a>
+                                        </a> */}
+                                        <Link to={`/update-partner/${part?._id}`}
+                                        state={{partnerData: part}} >
+                                            <Button variant="outlined" color="primary">
+                                                Edit Partner
+                                            </Button>
+                                        </Link>
+                                       
+                                        <Button variant='outlined'
+                                        color='primary' onClick={()=>
+                                            deleteHandle(part._id)
+                                        }>
+                                            Delete
+                                        </Button>
                                     </td>
                                 </tr>
                             ))}
@@ -104,7 +140,10 @@ const GetAllPartners = () => {
                     ) : null}
                 </Modal>
             )}
-
+            {/**Delete Modal */}
+            {isDeleteModalOpen &&
+                <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={deleteHandle} />
+            }
         </main>
     );
 }
