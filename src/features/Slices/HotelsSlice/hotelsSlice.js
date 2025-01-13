@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FaSearch } from "react-icons/fa";
-import { addHotel, getAllHotels } from "../../Actions/Hotels/hotelsAction";
+import { addHotel, deleteHotel, getAllHotels, updateHotel } from "../../Actions/Hotels/hotelsAction";
 import { toast } from "sonner";
 
 const initialState = {
@@ -46,6 +46,40 @@ const hotelSlice = createSlice({
             state.isError = false
             state.isSuccess = true
             toast.success("Added Hotel",{position:"top-center"})
+        })
+        .addCase(deleteHotel.pending,(state)=>{
+            state.isLoading = true
+            state.isSuccess = false
+            state.isError= false
+        })
+        .addCase(deleteHotel.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isSuccess= false
+            state.isError = true
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(deleteHotel.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isSuccess = true
+            state.isError= false
+            toast.success("Hotel Deleted Successfully",{position:"top-right"})
+        })
+        .addCase(updateHotel.pending,(state)=>{
+            state.isLoading = true
+            state.isSuccess= false
+            state.isError = false
+        })
+        .addCase(updateHotel.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(updateHotel.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isSuccess = true
+            state.isError= false
+            toast.success("Updated the Hotel",{position:"top-right"})
         })
     }
 })

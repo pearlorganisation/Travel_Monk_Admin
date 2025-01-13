@@ -183,7 +183,7 @@ const Sidebar = () => {
                     Add Hotel
                   </li>
                 </Link>
-                <Link to="#">
+                <Link to="hotels">
                   <li className="hover:text-gray-300 cursor-pointer">
                     All Hotels
                   </li>

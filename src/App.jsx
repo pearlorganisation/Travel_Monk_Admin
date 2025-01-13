@@ -26,6 +26,8 @@ import AddLocation from "./pages/AddLocation/AddLocation";
 import UpdatePackage from "./pages/AddPackage/UpdatePackage";
 import UpdatePartner from "./pages/Partner/UpdatePartner";
 import UpdateVehicles from "./pages/Vehicle/UpdateVehicle";
+import AllHotels from "./pages/AddHotel/AllHotels";
+import UpdateHotel from "./pages/AddHotel/UpdateHotel";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -62,7 +64,9 @@ const AppRoutes = () => {
           {path: "add-location", element:<AddLocation />},
           {path:"update-package/:id", element:<UpdatePackage />},
           { path:"update-partner/:id", element:<UpdatePartner />},
-          {path:"update-vehicle/:id", element:<UpdateVehicles/>}
+          {path:"update-vehicle/:id", element:<UpdateVehicles/>},
+          {path:"hotels", element:<AllHotels />},
+          { path:"update-hotel/:id", element:<UpdateHotel />}
         ]
         : [],
     },

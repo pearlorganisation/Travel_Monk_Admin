@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDestinations } from "../../features/Actions/Destination/destinationAction";
 import { useFieldArray, useForm } from "react-hook-form";
 import { addHotel } from "../../features/Actions/Hotels/hotelsAction";
+import slugify from "slugify";
 const AddHotel=()=> {
   const dispatch = useDispatch()
   const { destinationInfo } = useSelector((state)=> state.destinations);
@@ -11,12 +12,6 @@ const AddHotel=()=> {
     control,
     name: "amenities",
   });
-
-   
-const submitForm =(data)=>{
-  dispatch(addHotel(data))
-}
-
  /** state for baner image */
  const [bannerImage, setBannerImage] = useState([])
  const handleBannerImage =(e)=>{
@@ -25,7 +20,23 @@ const submitForm =(data)=>{
    setBannerImage(file)
   }
  }
-  
+const slugName = watch("name");
+  useEffect(() => {
+    if (slugName) {
+      const slug = slugify(slugName, {
+        lower: true,
+        strict: true,
+      });
+      setValue("slug", slug);
+    }
+  }, [slugName, setValue]);
+ 
+ const submitForm = (data) => {
+
+    dispatch(addHotel(data))
+  }
+
+
 
 
   useEffect(()=>{
@@ -48,6 +59,21 @@ const submitForm =(data)=>{
               } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
           />
           {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+        </div>
+        {/** slug */}
+        <div className="mb-4">
+          <label htmlFor="slug" className="block text-sm font-medium text-gray-700">
+            Slug
+          </label>
+          <input
+            type="text"
+            id="name"
+            disabled
+            {...register("slug", { required: "Hotel name is required" })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.slug ? "border-red-500" : "border-gray-300"
+              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          />
+          {errors.slug && <p className="text-red-500 text-sm mt-1">{errors.slug.message}</p>}
         </div>
         {/**------------------Select Destination------------------*/}
         <div className="mb-4">
@@ -112,19 +138,19 @@ const submitForm =(data)=>{
           />
           {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>}
         </div>
-        {/**-------------Starting Price----------*/}
+        {/**-------------Estimated Price----------*/}
         <div className="mb-4">
-          <label htmlFor="startingPrice" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="estimatedPrice" className="block text-sm font-medium text-gray-700">
             Add Hotel Starting Price
           </label>
           <input
             type="number"
-            id="startingPrice"
-            {...register("startingPrice", { required: "startingPrice name is required" })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.startingPrice ? "border-red-500" : "border-gray-300"
+            id="estimatedPrice"
+            {...register("estimatedPrice", { required: "estimatedPrice name is required" })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.estimatedPrice ? "border-red-500" : "border-gray-300"
               } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
           />
-          {errors.startingPrice && <p className="text-red-500 text-sm mt-1">{errors.startingPrice.message}</p>}
+          {errors.estimatedPrice && <p className="text-red-500 text-sm mt-1">{errors.estimatedPrice.message}</p>}
         </div>
         {/**-------------Discount----------*/}
         <div className="mb-4">
@@ -140,18 +166,32 @@ const submitForm =(data)=>{
           />
           {errors.discount && <p className="text-red-500 text-sm mt-1">{errors.discount.message}</p>}
         </div>
+        {/** google maps url */}
+        <div className="mb-4">
+          <label htmlFor="googleMapsUrl" className="block text-sm font-medium text-gray-700">
+            Add Map Location
+          </label>
+          <input
+            type="text"
+            id="googleMapsUrl"
+            {...register("googleMapsUrl", { required: "googleMapsUrl name is required" })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.googleMapsUrl ? "border-red-500" : "border-gray-300"
+              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          />
+          {errors.googleMapsUrl && <p className="text-red-500 text-sm mt-1">{errors.googleMapsUrl.message}</p>}
+        </div>
         {/** banner image */}
         <div className="mb-6">
-          <label htmlFor="banner" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
             Upload Banner Image
           </label>
           <input
             type="file"
-            id="banner"
+            id="image"
             accept="image/*"
-            {...register("banner", { required: "Banner is required" })}
+            {...register("image", { required: "Banner is required" })}
             onChange={handleBannerImage}
-            className={`block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-md file:bg-blue-50 file:text-blue-700 ${errors.banner ? "border-red-500" : "border-gray-300"
+            className={`block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-md file:bg-blue-50 file:text-blue-700 ${errors.image ? "border-red-500" : "border-gray-300"
               } rounded-lg focus:ring-blue-500 focus:border-blue-500`}
           />
         </div>
@@ -171,7 +211,7 @@ const submitForm =(data)=>{
             </div>
 
             {/* Amenity Icon */}
-            <div className="flex-1">
+            {/* <div className="flex-1">
               <label className="block text-sm font-medium mb-2">Amenity Icon</label>
               <input
                 type="file"
@@ -179,7 +219,7 @@ const submitForm =(data)=>{
                 {...register(`amenities.${index}.icon`)}
                 className="border rounded p-2 w-full"
               />
-            </div>
+            </div> */}
 
             <button
               type="button"
