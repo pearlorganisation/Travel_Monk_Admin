@@ -158,3 +158,5 @@ const GetAllPartners = () => {
     </main>
   );
 };
+
+export default GetAllPartners;
