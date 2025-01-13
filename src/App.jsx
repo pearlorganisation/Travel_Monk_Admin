@@ -25,6 +25,7 @@ import ResetPassword from "./pages/ForgotPassword/ResetPassword";
 import AddLocation from "./pages/AddLocation/AddLocation";
 import UpdatePackage from "./pages/AddPackage/UpdatePackage";
 import UpdatePartner from "./pages/Partner/UpdatePartner";
+import UpdateVehicles from "./pages/Vehicle/UpdateVehicle";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -60,7 +61,8 @@ const AppRoutes = () => {
           { path: "add-destination", element: <AddDestination /> },
           {path: "add-location", element:<AddLocation />},
           {path:"update-package/:id", element:<UpdatePackage />},
-          { path:"update-partner/:id", element:<UpdatePartner />}
+          { path:"update-partner/:id", element:<UpdatePartner />},
+          {path:"update-vehicle/:id", element:<UpdateVehicles/>}
         ]
         : [],
     },

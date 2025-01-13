@@ -29,11 +29,12 @@ export const addVehicle = createAsyncThunk(
         try {
             const formData = new FormData();
             console.log('-----------', userData)
-             userData.images.forEach((image) => {
-                 formData.append("images", image);
-             });
+            //  userData.images.forEach((image) => {
+            //      formData.append("images", image);
+            //  });
+            formData.append("image",userData.image)
             for(const key in userData){
-                if(key !== "images"){
+                if(key !== "image"){
                     formData.append(key, userData[key])
                 }
             }
@@ -76,3 +77,32 @@ export const deleteVehicle = createAsyncThunk(
         }
     }
 )
+
+/** UPDATE VEHICLE */
+export const UpdateVehicle = createAsyncThunk(
+    "update/vehicle", async(userData,{rejectWithValue})=>{
+        try {
+            const formData = new FormData()
+            const { id } = userData
+            formData.append("image", userData.image)
+            for(const key in userData){
+                if(key !== "image"){
+                    formData.append(key, userData[key])
+                }
+            }
+            const {
+                data
+            } = await axiosInstance.patch(`/api/v1/vehicles/${id}`, formData,{
+                headers:{
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            return data;
+        } catch (error) {
+          if (error.response && error.response.data.message) {
+              return rejectWithValue(error.response.data.message);
+          } else {
+              return rejectWithValue(error.message);
+          }
+        }
+    })

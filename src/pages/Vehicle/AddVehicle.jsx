@@ -14,12 +14,23 @@ const AddVehicle = () => {
     const [selectedImages, setSelectedImages] = useState([])
     
     /** handle for selecting the images */
+       const [image, setImage] = useState(null);
+        const [imagePreview, setImagePreview] = useState(null);
+
     const handleSelectImage = (e)=>{
-        setSelectedImages(Array.from(e.target.files));
+      const file = e.target.files[0];
+      if (file) {
+        setImage(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
     }
     
     const SubmitForm = async (data) =>{
-     const formData = {...data, images: selectedImages};
+     const formData = {...data, image:image};
      try {
          const result = await dispatch(addVehicle(formData)).unwrap()
          console.log('--------------result is', result)
@@ -136,20 +147,20 @@ const AddVehicle = () => {
         {/* Car images */}
         <div className="mb-6">
           <label
-            htmlFor="images"
+            htmlFor="image"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
             Upload vehicle images
           </label>
           <input
             type="file"
-            id="images"
+            id="image"
             accept="image/*"
-            multiple
-            {...register("images", { required: "Vehicle Images are required" })}
+            // multiple
+            {...register("image", { required: "Vehicle Images are required" })}
             onChange={handleSelectImage}
             className={`block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-md file:bg-blue-50 file:text-blue-700 ${
-              errors.images ? "border-red-500" : "border-gray-300"
+              errors.image ? "border-red-500" : "border-gray-300"
             } rounded-lg focus:ring-blue-500 focus:border-blue-500`}
           />
         </div>

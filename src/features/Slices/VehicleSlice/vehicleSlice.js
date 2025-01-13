@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { addVehicle, deleteVehicle, getAllVehicles } from "../../Actions/Vehicles/vehicleAction"
+import { addVehicle, deleteVehicle, getAllVehicles, UpdateVehicle } from "../../Actions/Vehicles/vehicleAction"
 import { toast } from "sonner"
 
 const initialState = {
@@ -65,6 +65,23 @@ const vehicleSlice = createSlice({
             state.isSuccess = true
             state.isError = false
             toast.success("Vehicle Deleted Successfully",{position:"top-right"})
+        })
+        .addCase(UpdateVehicle.pending,state=>{
+            state.isLoading = true
+            state.isSuccess= false
+            state.isError= false
+        })
+        .addCase(UpdateVehicle.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isSuccess = false
+            state.isError = true
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(UpdateVehicle.fulfilled, (state,action)=>{
+            state.isLoading= false
+            state.isSuccess = true
+            state.isError= false
+            toast.success("Vehicle Updated successfully", {position:"top-right"})
         })
     }
 })

@@ -7,6 +7,8 @@ import {
 } from "../../features/Actions/Vehicles/vehicleAction";
 
 import { Car, Trash2, X } from "lucide-react"; // Added X icon for closing modal
+import { Link } from "react-router-dom";
+import { baseURL } from "../../services/axiosInterceptor";
 
 const VehicleCard = ({ vehicle }) => {
   const [deleteModal, setDeleteModal] = useState(false);
@@ -39,17 +41,21 @@ const VehicleCard = ({ vehicle }) => {
           <button onClick={handleDelete}>
             <Trash2 />
           </button>
+          <Link to={`/update-vehicle/${vehicle?._id}`} state={{vehicleInfo:vehicle}}>
+            <button>
+              Edit
+            </button>
+          </Link>
+        
         </div>
         <div className="grid grid-cols-2 gap-2 mb-4">
-          {Array.isArray(vehicle.images) &&
-            vehicle?.images?.map((image, index) => (
-              <img
-                key={image?.public_id}
-                src={image?.secure_url}
-                alt={`${vehicle?.vehicleName} - Image ${index + 1}`}
-                className="rounded-md object-cover w-full h-40"
+          {vehicle.image &&
+               <img
+                  src={`${baseURL}/${vehicle.image.path}`} // Adjust path if needed
+                  alt="Current Logo"
+                  className="h-40 w-auto mb-4 rounded-md shadow-md"
               />
-            ))}
+            }
         </div>
 
         <div className="grid grid-cols-3 gap-2 text-center">
