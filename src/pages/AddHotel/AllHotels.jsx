@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteHotel, getAllHotels } from '../../features/Actions/Hotels/hotelsAction'
-import { Button } from '@mui/material'
+// import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal'
-
+import {
+    Card,
+    CardMedia,
+    CardContent,
+    Typography,
+    Grid2,
+    Chip,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+    Button,
+    Box,
+    Modal
+} from '@mui/material';
+import { baseURL } from '../../services/axiosInterceptor'
 const AllHotels = () => {
  const dispatch = useDispatch()
  const { hotelsData } = useSelector(state=> state.hotels);
@@ -12,7 +26,7 @@ const AllHotels = () => {
   const [open, setOpen] = useState(false);
   const [hotelId , setHotelId] = useState(null)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [selectedVehicle,setSelectedVehicle] = useState(null);
+  const [selectedHotel,setSelectedHotel] = useState(null);
 
   const deleteHandle = (id) => {
         setHotelId(id)
@@ -26,7 +40,7 @@ const AllHotels = () => {
           
     // handle for opening modal to show the details of 
     const handleOpen = (data) => {
-        setSelectedVehicle(data);
+        setSelectedHotel(data);
         setOpen(true);
     };
     const handleClose = () => setOpen(false);
@@ -87,7 +101,176 @@ useEffect(()=>{
                     </tfoot>
                 </table>
             </div>
+            <Modal open={open} onClose={handleClose}>
+                {/* <Box
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg outline-none overflow-y-auto"
+                    sx={{
+                        width: 800,
+                        maxHeight: '80vh',
+                        padding: 4
+                    }}
+                >
+                    {selectedHotel && (
+                        <main className="flex-1 p-8 mt-16 ml-64">
+                            <Typography variant="h4" className="mb-6 font-bold">
+                                Hotel Information
+                            </Typography>
 
+                            <Grid2
+                                container
+                                spacing={4}
+                                sx={{
+                                    width: "100%", // Ensure the grid takes up full width
+                                }}
+                                className="w-full"
+                            >
+
+                                <Grid2
+                                    item
+                                    xs={12}
+                                    key={selectedHotel._id}
+                                    className="w-full"
+                                >
+                                    <Card className="h-full flex flex-col">
+                                        <CardMedia
+                                            component="img"
+                                            height="240"
+                                            image={`${baseURL}/${selectedHotel?.image?.path}`}
+                                            alt={selectedHotel?.name}
+                                            className="h-64 object-cover"
+                                        />
+
+                                        <CardContent className="flex-grow">
+                                            <Typography variant="h5" className="font-bold mb-2">
+                                                {selectedHotel?.name}
+                                            </Typography>
+
+                                            <div className="flex items-center justify-between mb-4">
+                                                
+                                                <Typography variant="h6" color="primary" className="font-bold">
+                                                    ₹{selectedHotel?.estimatedPrice}
+                                                </Typography>
+                                            </div>
+
+            
+
+                                            <div className="mb-4">
+                                                <Typography variant="subtitle1" className="font-semibold mb-2">
+                                                    Amenities
+                                                </Typography>
+                                                <ul className="list-disc list-inside text-sm">
+                                                    {selectedHotel?.amenities?.map((inclusion, index) => (
+                                                        <li key={index} className="mb-1">{inclusion}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+
+                                             
+                                        </CardContent>
+                                    </Card>
+                                </Grid2>
+
+                            </Grid2>
+                        </main>
+                    )}
+                </Box> */}
+
+                <Box
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg outline-none overflow-y-auto"
+                    sx={{
+                        width: 800,
+                        maxHeight: '80vh',
+                        padding: 4,
+                    }}
+                >
+                    {selectedHotel && (
+                        <main className="flex-1 p-8 mt-16 ml-64">
+                            <Typography variant="h4" className="mb-6 font-bold">
+                                Hotel Information
+                            </Typography>
+
+                            <Grid2
+                                container
+                                spacing={4}
+                                sx={{
+                                    width: '100%',
+                                }}
+                                className="w-full"
+                            >
+                                {/* Image and Basic Information */}
+                                <Grid2 item xs={12} className="w-full">
+                                    <Card className="h-full flex flex-col">
+                                        <CardMedia
+                                            component="img"
+                                            height="240"
+                                            image={`${baseURL}/${selectedHotel?.image?.path}`}
+                                            alt={selectedHotel?.name}
+                                            className="h-64 object-cover"
+                                        />
+
+                                        <CardContent className="flex-grow">
+                                            <Typography variant="h5" className="font-bold mb-2">
+                                                {selectedHotel?.name}
+                                            </Typography>
+                                            <Typography variant="h6" color="primary" className="font-bold mb-4">
+                                                ₹{selectedHotel?.estimatedPrice}
+                                            </Typography>
+
+                                            {/* Location Details */}
+                                            <div className="mb-4">
+                                                <Typography variant="subtitle1" className="font-semibold mb-2">
+                                                    Location
+                                                </Typography>
+                                                <Typography variant="body2" className="text-sm mb-1">
+                                                    <strong>City:</strong> {selectedHotel?.city}
+                                                </Typography>
+                                                <Typography variant="body2" className="text-sm mb-1">
+                                                    <strong>State:</strong> {selectedHotel?.state}
+                                                </Typography>
+                                                <Typography variant="body2" className="text-sm">
+                                                    <strong>Country:</strong> {selectedHotel?.country}
+                                                </Typography>
+                                            </div>
+
+                                            {/* Amenities */}
+                                            <div className="mb-4">
+                                                <Typography variant="subtitle1" className="font-semibold mb-2">
+                                                    Amenities
+                                                </Typography>
+                                                <ul className="list-disc list-inside text-sm">
+                                                    {selectedHotel?.amenities?.[0]?.split(',').map((amenity, index) => (
+                                                        <li key={index} className="mb-1">
+                                                            {amenity}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Grid2>
+
+                                {/* Google Maps and Dates */}
+                                <Grid2 item xs={12} className="w-full">
+                                    <Typography variant="subtitle1" className="font-semibold mb-2">
+                                        Location Map
+                                    </Typography>
+                                    <div
+                                        className="overflow-hidden rounded-md mb-4"
+                                        dangerouslySetInnerHTML={{ __html: selectedHotel?.googleMapsUrl }}
+                                    />
+
+                                    <Typography variant="body2" className="text-sm text-gray-500">
+                                        <strong>Created At:</strong> {new Date(selectedHotel?.createdAt).toLocaleString()}
+                                    </Typography>
+                                    <Typography variant="body2" className="text-sm text-gray-500">
+                                        <strong>Updated At:</strong> {new Date(selectedHotel?.updatedAt).toLocaleString()}
+                                    </Typography>
+                                </Grid2>
+                            </Grid2>
+                        </main>
+                    )}
+                </Box>
+            </Modal>
             {/** delete modal */}
             {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={deleteHandle} />}                
     </main>
