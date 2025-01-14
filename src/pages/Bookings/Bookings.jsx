@@ -4,7 +4,8 @@ import { getAllBookings } from '../../features/Actions/Bookings/bookingsAction'
 import { Link } from 'react-router-dom'
 import { Box, Button, Card, CardContent, Grid2, Modal, Typography } from '@mui/material'
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal'
-
+import Pagination from '../../components/Modal/PaginationComponent'
+ 
 const Bookings = () => {
   const dispatch = useDispatch()
   const { bookingsData, paginate } = useSelector(state=>state.bookings)
@@ -15,6 +16,15 @@ const Bookings = () => {
   const [selectedBooking, setSelectedBooking] = useState(null)
 
   
+  const totalPages = Math.ceil(paginate?.total/paginate?.limit)
+  console.log("the total pages", totalPages)
+
+  const handlePageClick = (page) => {
+    console.log(page, "current page");
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   const handleOpen=(data)=>{
     setSelectedBooking(data)
@@ -209,6 +219,8 @@ const Bookings = () => {
           )}
         </Box>
       </Modal>
+      {/** pagination component */}
+       <Pagination paginate={paginate} currentPage={currentPage} totalPages={totalPages} handlePageClick={handlePageClick} />
    </main>
   )
 }

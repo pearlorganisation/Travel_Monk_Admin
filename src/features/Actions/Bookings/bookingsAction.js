@@ -11,7 +11,7 @@ export const getAllBookings = createAsyncThunk(
             }
             const {
                 data
-            } = await axiosInstance.get(`/api/v1/bookings?page=${page}&limit=50`,config); // changes the limit in the future
+            } = await axiosInstance.get(`/api/v1/bookings?page=${page}`,config); // changes the limit in the future
             return data
         } catch (error) {
             if (error.response && error.response.data.message) {
