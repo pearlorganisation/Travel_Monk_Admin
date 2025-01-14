@@ -111,12 +111,14 @@ const Sidebar = () => {
           </div>
 
           {/*------------------------------Bookings------------------------------------*/}
-          {/* <div className="mb-4">
-            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-              <Link to="bookings"><span>Bookings</span></Link> 
-            </div>
-          </div> */}
-
+           
+          <div className="mb-4">
+            <Link to="bookings">
+              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+                <span>Bookings</span>
+              </div>
+            </Link>
+          </div> 
           {/*------------------------------Contact-------------------------------------*/}
           <div className="mb-4">
             <div
