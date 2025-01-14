@@ -58,7 +58,7 @@ const UpdateHotel = () => {
 
 
     useEffect(()=>{
-        dispatch(getDestinations())
+        dispatch(getDestinations({page:1}))
     },[])
     console.log("the htoel data is", hotelData)
   return (

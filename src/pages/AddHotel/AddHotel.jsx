@@ -40,7 +40,7 @@ const slugName = watch("name");
 
 
   useEffect(()=>{
-    dispatch(getDestinations())
+    dispatch(getDestinations({page:1}))
   },[])
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
