@@ -157,18 +157,18 @@ const Bookings = () => {
                       <div className="space-y-4">
                         <div>
                           <p className="font-semibold">Package Name:</p>
-                          <p className="text-gray-600">{selectedBooking.packageId.name}</p>
+                          <p className="text-gray-600">{selectedBooking?.packageId?.name}</p>
                         </div>
                         <div>
                           <p className="font-semibold">Duration:</p>
                           <p className="text-gray-600">
-                            {selectedBooking.packageId.duration.days} Days - {selectedBooking.packageId.duration.nights} Nights
+                            {selectedBooking.packageId.duration.days} Days - {selectedBooking?.packageId?.duration?.nights} Nights
                           </p>
                         </div>
                         <div>
                           <p className="font-semibold">Pick-up/Drop:</p>
                           <p className="text-gray-600">
-                            {selectedBooking.packageId.pickDropPoint.pickup} to {selectedBooking.packageId.pickDropPoint.drop}
+                            {selectedBooking?.packageId?.pickDropPoint?.pickup} to {selectedBooking?.packageId?.pickDropPoint?.drop}
                           </p>
                         </div>
                       </div>
@@ -186,19 +186,19 @@ const Bookings = () => {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <p className="font-semibold">Total Price:</p>
-                          <p className="text-gray-600">₹{selectedBooking.totalPrice}</p>
+                          <p className="text-gray-600">₹{selectedBooking?.totalPrice}</p>
                         </div>
                         <div>
                           <p className="font-semibold">Payment Status:</p>
-                          <p className="text-gray-600">{selectedBooking.paymentStatus}</p>
+                          <p className="text-gray-600">{selectedBooking?.paymentStatus}</p>
                         </div>
                         <div>
                           <p className="font-semibold">Order ID:</p>
-                          <p className="text-gray-600">{selectedBooking.razorpay_order_id}</p>
+                          <p className="text-gray-600">{selectedBooking?.razorpay_order_id}</p>
                         </div>
                         <div>
                           <p className="font-semibold">Number of Travelers:</p>
-                          <p className="text-gray-600">{selectedBooking.numberOfTravellers}</p>
+                          <p className="text-gray-600">{selectedBooking?.numberOfTravellers}</p>
                         </div>
                       </div>
                     </CardContent>
