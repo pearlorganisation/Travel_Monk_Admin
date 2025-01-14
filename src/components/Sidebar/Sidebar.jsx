@@ -267,6 +267,11 @@ const Sidebar = () => {
                     Add Location
                   </li>
                 </Link>
+                <Link to="all-locations">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    All Locations
+                  </li>
+                </Link>
               </ul>
             )}
           </div>

@@ -12,7 +12,7 @@ export const getDestinations = createAsyncThunk(
         },
       };
       const { data } = await axiosInstance.get(
-        `/api/v1/destinations?page=${page}`,
+        `/api/v1/destinations?page=${page}&limit=50`,
         config
       );
       console.log("-------------destination data", data);

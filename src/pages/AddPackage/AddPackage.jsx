@@ -147,7 +147,7 @@ const AddPackage = () => {
   useEffect(() => {
     // dispatch(getAllActivities());
     // dispatch(getAllHotels());
-    dispatch(getDestinations());
+    dispatch(getDestinations({page:1}));
   }, [dispatch]);
   return (
     <main className="flex-1 p-8 mt-16 ml-64">

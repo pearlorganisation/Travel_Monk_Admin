@@ -18,7 +18,7 @@ const AddActivity = () => {
     dispatch(addActivity(data));
   };
   useEffect(() => {
-    dispatch(getDestinations());
+    dispatch(getDestinations({page:1}));
   }, [dispatch]);
   return (
     <main className="flex-1 p-8 mt-16 ml-64">

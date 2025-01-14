@@ -47,7 +47,7 @@ const AddVehicle = () => {
  
 
     useEffect(()=>{
-        dispatch(getDestinations())
+        dispatch(getDestinations({page:1}))
     },[dispatch]);
     
   return (

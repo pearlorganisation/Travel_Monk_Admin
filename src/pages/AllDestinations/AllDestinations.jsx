@@ -9,6 +9,7 @@ import {
 import { X } from "lucide-react";
 import Pagination from "../../components/Pagination/Pagination";
 import { useNavigate } from "react-router-dom";
+import { baseURL } from "../../services/axiosInterceptor";
 
 const GetAllDestinations = ({
   destination,
@@ -41,7 +42,7 @@ const GetAllDestinations = ({
       </th>
       <td className="px-6 py-4">
         <img
-          src={`${import.meta.env.VITE_APP_BACKEND_DEV_BASE_URL}/${
+          src={`${baseURL}/${
             destination?.banner?.path
           }`}
           className="w-16 h-16"
@@ -51,7 +52,7 @@ const GetAllDestinations = ({
 
       <td className="px-6 py-4">
         <img
-          src={`${import.meta.env.VITE_APP_BACKEND_DEV_BASE_URL}/${
+          src={`${baseURL}/${
             destination?.image?.path
           }`}
           className="w-16 h-16"
