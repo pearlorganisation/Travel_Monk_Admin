@@ -25,6 +25,7 @@ import ResetPassword from "./pages/ForgotPassword/ResetPassword";
 import AddLocation from "./pages/AddLocation/AddLocation";
 import AllDestinations from "./pages/AllDestinations/AllDestinations";
 import EditDestination from "./pages/EditDestination/EditDestination";
+import ViewDestination from "./pages/ViewDestination/ViewDestination";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -58,6 +59,7 @@ const AppRoutes = () => {
             { path: "get-all-activities", element: <GetAllActivites /> },
             { path: "get-all-destinations", element: <AllDestinations /> },
             { path: "edit-destination/:id", element: <EditDestination /> },
+            { path: "view-destination/:id", element: <ViewDestination /> },
             { path: "edit-activity/:id", element: <EditActivity /> },
             { path: "add-destination", element: <AddDestination /> },
             { path: "add-location", element: <AddLocation /> },
