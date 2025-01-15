@@ -277,6 +277,15 @@ const Sidebar = () => {
               </ul>
             )}
           </div>
+
+          {/*---------------------------Hotel Contacts-----------------------------*/}
+          <div className="mb-4">
+            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+              <Link to="hotel-contact">
+                <span>Hotel Contacts</span>
+              </Link>
+            </div>
+          </div>
         </nav>
       </aside>
     </div>

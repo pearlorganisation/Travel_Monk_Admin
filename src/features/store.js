@@ -18,6 +18,7 @@ import customizedTripReducer from "./Slices/CustomisationEnquiriesSlice/customis
 import forgotPasswordReducer  from "./Slices/ForgotPasswordSlice/ForgotPasswordSlice"
 import locationReducer from "./Slices/Location/locationSlice";
 import bookingsReducer from "./Slices/BookingsSlice/bookingsSlice"
+import hotelContactsReducer from "./Slices/HotelsSlice/hotelContactSlice"
 const persistConfig = {
   key: "Travel_Monk_Admin",
   version: 1,
@@ -49,7 +50,8 @@ const reducer = combineReducers({
    enquiries: customizedTripReducer,
    password: forgotPasswordReducer, // for un logged admin
    location: locationReducer,
-   bookings:bookingsReducer
+   bookings:bookingsReducer,
+   hotelcontactsData: hotelContactsReducer // for the hotels contacts
 })
 
 const rootReducer = (state, action) => {
