@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllLocations } from '../../features/Actions/Location/locationAction'
+import { Button } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 const AllLocation = () => {
   const dispatch = useDispatch()
@@ -62,7 +64,7 @@ const AllLocation = () => {
                                   scope="row"
                                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                  {info?.name}
+                                  {info?.destination?.name}
                               </th>
 
 

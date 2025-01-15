@@ -32,6 +32,7 @@ import AllDestinations from "./pages/AllDestinations/AllDestinations";
 import EditDestination from "./pages/EditDestination/EditDestination";
 import AllLocation from "./pages/AddLocation/AllLocation";
 import HotelContact from "./pages/HotelContacts/HotelContact";
+import UpdateLocation from "./pages/AddLocation/UpdateLocation";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -74,7 +75,8 @@ const AppRoutes = () => {
             { path: "hotels", element: <AllHotels /> },
             { path: "update-hotel/:id", element: <UpdateHotel /> },
             { path:"all-locations", element:<AllLocation />},
-            {path:"hotel-contact", element:<HotelContact />}
+            {path:"hotel-contact", element:<HotelContact />},
+          { path:"update-location/:id", element:<UpdateLocation />}
             ]
         : [],
     },
