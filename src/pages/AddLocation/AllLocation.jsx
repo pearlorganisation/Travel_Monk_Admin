@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllLocations } from '../../features/Actions/Location/locationAction'
+import { deleteLocationById, getAllLocations } from '../../features/Actions/Location/locationAction'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal'
 
 const AllLocation = () => {
   const dispatch = useDispatch()
@@ -22,7 +23,8 @@ const AllLocation = () => {
  
   /**to confirm the delete  */
   const confirmDelete =()=>{
-
+      dispatch(deleteLocationById(locationId))
+      setIsDeleteModalOpen(false)
   }
 
   /**handle open */
@@ -95,6 +97,7 @@ const AllLocation = () => {
                   </tfoot>
               </table>
           </div>
+          {isDeleteModalOpen && <ConfirmDeleteModal setShowDeleteModal={deleteHandle} confirmDelete={confirmDelete} />}
     </main>
   )
 }

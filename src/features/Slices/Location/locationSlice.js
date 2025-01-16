@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { addLocation, getAllLocations, updateLocation } from "../../Actions/Location/locationAction"
+import { addLocation, deleteLocationById, getAllLocations, updateLocation } from "../../Actions/Location/locationAction"
 import { toast } from "sonner"
 
 const initialState = {
@@ -68,6 +68,23 @@ const locationSlice = createSlice({
             state.isSuccess= true
             state.isLoading= false
             toast.success("Updated the location Successfuly",{position:"top-right"})
+        })
+        .addCase(deleteLocationById.pending,(state)=>{
+            state.isLoading = true
+            state.isError=false
+            state.isSuccess=false
+        })
+        .addCase(deleteLocationById.rejected,(state,action)=>{
+            state.isLoading=false
+            state.isError=true
+            state.isSuccess=false
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(deleteLocationById.fulfilled,(state,action)=>{
+            state.isLoading=false
+            state.isSuccess=true
+            state.isError=false
+            toast.success("Location Deleted Successfully",{position:"top-right"})
         })
     }
 })

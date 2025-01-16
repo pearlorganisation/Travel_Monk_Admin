@@ -74,3 +74,26 @@ export const updateLocation = createAsyncThunk(
         }
     }
 )
+
+/** to delete a location */
+
+export const deleteLocationById = createAsyncThunk(
+    "delete/location",async(id, {rejectWithValue})=>{
+        try {
+            console.log('the id is', id)
+            const config ={
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            }
+            const data = await axiosInstance.delete(`/api/v1/destinations/locations/${id}`,config)
+            return data
+        } catch (error) {
+             if (error.response && error.response.data.message) {
+                 return rejectWithValue(error.response.data.message);
+             } else {
+                 return rejectWithValue(error.message);
+             }
+        }
+    }
+)
