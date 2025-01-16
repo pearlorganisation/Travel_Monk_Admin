@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { addLocation, deleteLocationById, getAllLocations, updateLocation } from "../../Actions/Location/locationAction"
+import { addLocation, deleteLocationById, DestinationLocation, getAllLocations, updateLocation } from "../../Actions/Location/locationAction"
 import { toast } from "sonner"
 
 const initialState = {
@@ -7,7 +7,8 @@ const initialState = {
     isSuccess:false,
     isError:false,
     allLocations:{},
-    paginate:{}
+    paginate:{},
+    destinationLocation:{}
 }
 
 const locationSlice = createSlice({
@@ -85,6 +86,26 @@ const locationSlice = createSlice({
             state.isSuccess=true
             state.isError=false
             toast.success("Location Deleted Successfully",{position:"top-right"})
+        })
+        .addCase(DestinationLocation.pending,state=>{
+             state.isLoading = true
+             state.isError = false
+             state.isSuccess = false
+        })
+        .addCase(DestinationLocation.rejected,(state,action)=>{
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            toast.error(action.payload, {
+                position: "top-center"
+            })
+        })
+        .addCase(DestinationLocation.fulfilled,(state,action)=>{
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess= true
+            state.destinationLocation = action.payload
+            toast.success("All Location from the destination are recieved", {position:"top-right"})
         })
     }
 })

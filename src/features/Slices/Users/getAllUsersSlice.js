@@ -1,12 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getAllUsers } from "../../Actions/Users/getAllUsersAction"
+import { addUserByAdmin, getAllUsers } from "../../Actions/Users/getAllUsersAction"
 import { toast } from "sonner"
 
 const initialState = {
   isLoading : false,
   isError: false,
   isSuccess: false,
-  usersInfo:{}
+  usersInfo:{},
+  addUsers:{
+    isLoading: false,
+    isSuccess:false,
+    isError:false
+  }
 }
 
 const userSlice = createSlice({
@@ -31,6 +36,26 @@ const userSlice = createSlice({
             state.isSuccess= true;
             state.usersInfo = action.payload;
             toast.success("Retrieved All the users",{position:"top-right"})
+        })
+        .addCase(addUserByAdmin.pending,(state)=>{
+            state.addUsers = state.addUsers ?? {}
+            state.addUsers.isLoading= true
+            state.addUsers.isError=false
+            state.addUsers.isSuccess = false
+        })
+        .addCase(addUserByAdmin.rejected,(state,action)=>{
+            state.addUsers = state.addUsers ?? {}
+            state.addUsers.isError = true
+            state.addUsers.isSuccess = false
+            state.addUsers.isLoading= false
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(addUserByAdmin.fulfilled,(state,action)=>{
+            state.addUsers = state.addUsers ?? {}
+            state.addUsers.isLoading= false
+            state.addUsers.isError= false
+            state.addUsers.isSuccess = true
+            toast.success("Added user successfully",{position:"top-right"})
         })
     }
 });

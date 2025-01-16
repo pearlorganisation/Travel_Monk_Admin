@@ -136,3 +136,37 @@ export const updateHotel = createAsyncThunk(
         }
     }
 )
+
+/** to get hotels for the selected destination  */
+export const getHotelsByDestination = createAsyncThunk(
+    "hotels/by-destination",
+    async ({
+        id,
+        priceRange,
+        search,
+        page
+    }, thunkAPI) => {
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            const {
+                data
+            } = await axiosInstance.get(
+                `/api/v1/destinations/${id}/hotels`, {
+                    params: {
+                        priceRange,
+                        search,
+                        page
+                    },
+                    config
+                }
+            );
+            return data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);

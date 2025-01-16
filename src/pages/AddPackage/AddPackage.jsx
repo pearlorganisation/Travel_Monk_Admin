@@ -120,9 +120,9 @@ const AddPackage = () => {
   };
 
   const submitForm = (data) => {
-    const formData = new FormData();
-    formData.append("banner", bannerImage);
-    formData.append("image", packageImage);
+    // const formData = new FormData();
+    // formData.append("banner", bannerImage);
+    // formData.append("image", packageImage);
     dispatch(
       addPackage({
         ...data,
@@ -384,7 +384,7 @@ const AddPackage = () => {
                               )
                             )
                           : []
-                      } // Map IDs back to objects for Select
+                      }  
                       name={name}
                       ref={ref}
                     />

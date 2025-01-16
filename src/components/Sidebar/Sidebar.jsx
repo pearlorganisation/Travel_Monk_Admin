@@ -23,16 +23,24 @@ const Sidebar = () => {
           <h2 className="text-2xl font-bold">Travel Monk</h2>
         </div>
         <nav>
-          {/*-------------------Dashboard section------------------*/}
+          {/*-------------------Custom Package------------------*/}
 
           <div className="mb-4">
-            <Link to="/">
-              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-                <span>Dashboard</span>
-              </div>
-            </Link>
+            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+              <Link to="custom-package">
+                <span>Created Custom Package</span>
+              </Link>
+            </div>
           </div>
+          {/**--------------Add User By Admin------------------ */}
 
+          <div className="mb-4">
+            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+              <Link to="add-user">
+                <span>Add User</span>
+              </Link>
+            </div>
+          </div>
           {/**-----------------------------Users Section---------------*/}
           <div className="mb-4">
             <Link to="get-all-users">
