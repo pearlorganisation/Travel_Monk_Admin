@@ -12,6 +12,19 @@ import { addPackage } from "../../features/Actions/TripPackages/packageAction";
 
 import Select from "react-select";
 /** hotels validator */
+const bestSeller = [
+  {
+    id:1,
+    value:true,
+    name:"True"
+  },
+  {
+    id:2,
+    value:false,
+    name:"False"
+  }
+]
+
 
 const AddPackage = () => {
   const dispatch = useDispatch();
@@ -181,6 +194,37 @@ const AddPackage = () => {
           {errors.packageDestination && (
             <p className="text-red-500 text-sm mt-1">
               {errors.packageDestination.message}
+            </p>
+          )}
+        </div>
+
+        {/** is best seller */}
+        <div className="mb-4">
+          <label
+            htmlFor="isBestSeller"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Choose BestSeller
+          </label>
+          <select
+            id="isBestSeller"
+            {...register("isBestSeller", {
+              required: "required",
+            })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.isBestSeller ? "border-red-500" : "border-gray-300"
+              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          >
+            <option value="">Select if Best Seller</option>
+            {Array.isArray(bestSeller) &&
+              bestSeller.map((seller) => (
+                <option key={seller.id} value={seller.value}>
+                  {seller.name}
+                </option>
+              ))}
+          </select>
+          {errors.isBestSeller && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.isBestSeller.message}
             </p>
           )}
         </div>

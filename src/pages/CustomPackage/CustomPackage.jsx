@@ -113,7 +113,7 @@ useEffect(()=>{
         <input
           type='text'
           onChange={e => handleSearchQuery(e)}
-          placeholder='Search by Locality or hotel name'
+          placeholder='Search by User Name'
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -177,6 +177,26 @@ useEffect(()=>{
             <p className="text-red-500 text-sm mt-1">
               {errors.destination.message}
             </p>
+          )}
+        </div>
+
+        {/** package name */}
+        <div className="mb-4">
+          <label
+            htmlFor="packageName"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Enter Package Name
+          </label>
+          <input
+            type="text"
+            id="packageName"
+            {...register("packageName", { required: "numberOfTravellers is required" })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.packageName ? "border-red-500" : "border-gray-300"
+              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          />
+          {errors.packageName && (
+            <p className="text-red-500 text-sm mt-1">{errors.packageName.message}</p>
           )}
         </div>
         {/** numberOfTravellers */}

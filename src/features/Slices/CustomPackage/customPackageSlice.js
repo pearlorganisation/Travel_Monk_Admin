@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createCustomPackage } from "../../Actions/CustomPackage/customPackage"
+import { createCustomPackage, getAllCustomPacakges } from "../../Actions/CustomPackage/customPackage"
 import { toast } from "sonner"
 
 const initialState ={
@@ -31,6 +31,25 @@ const customPackageSlice = createSlice({
             state.isSuccess= true
             state.isError=false
             toast.success("Created the custom package successfully",{position:"top-right"})
+        })
+        .addCase(getAllCustomPacakges.pending,state=>{
+            state.isLoading= true
+            state.isSuccess=false
+            state.isError= false
+        })
+        .addCase(getAllCustomPacakges.rejected,(state,action)=>{
+            state.isError= true
+            state.isSuccess= false
+            state.isLoading= false
+            state.customPackagesData= {}
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(getAllCustomPacakges.fulfilled,(state,action)=>{
+            state.isError=false
+            state.isSuccess= true
+            state.isLoading= false
+            state.customPackagesData= action.payload.data
+            toast.success("Custom packages recieved",{position:"top-right"})
         })
     }
 })

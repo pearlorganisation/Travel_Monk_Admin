@@ -9,10 +9,11 @@ const Sidebar = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isVehicleOpen, setIsVehicleOpen] = useState(false);
   const [isHotelOpen, setIsHotelOpen] = useState(false);
-  const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] =
-    useState(false);
+  const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] = useState(false);
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [isCustomPackageOpen, setIsCustomPackageOpen]= useState(false);
+
   return (
     <div>
       <aside
@@ -26,11 +27,27 @@ const Sidebar = () => {
           {/*-------------------Custom Package------------------*/}
 
           <div className="mb-4">
-            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-              <Link to="custom-package">
-                <span>Created Custom Package</span>
-              </Link>
+            <div
+              onClick={() => setIsCustomPackageOpen(!isCustomPackageOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Custom Package</span>
+              {isCustomPackageOpen ? <FaChevronUp /> : <FaChevronDown />}
             </div>
+            {isCustomPackageOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="custom-package">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Add Custom Package
+                  </li>
+                </Link>
+                <Link to="get-all-custom-package">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    All Custom Pacakges
+                  </li>
+                </Link>
+              </ul>
+            )}
           </div>
           {/**--------------Add User By Admin------------------ */}
 
@@ -89,16 +106,6 @@ const Sidebar = () => {
                 <Link to="add-package">
                   <li className="hover:text-gray-300 cursor-pointer">
                     Add Package
-                  </li>
-                </Link>
-                <Link to="#">
-                  <li className="hover:text-gray-300 cursor-pointer">
-                    Add Indian Packages
-                  </li>
-                </Link>
-                <Link to="#">
-                  <li className="hover:text-gray-300 cursor-pointer">
-                    Add Internation Package
                   </li>
                 </Link>
                 <Link to="all-packages">

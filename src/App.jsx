@@ -35,6 +35,7 @@ import HotelContact from "./pages/HotelContacts/HotelContact";
 import UpdateLocation from "./pages/AddLocation/UpdateLocation";
 import CustomPackage from "./pages/CustomPackage/CustomPackage";
 import AddUser from "./pages/AddUser/AddUser";
+import GetAllCustomPackage from "./pages/CustomPackage/GetAllCustomPackage";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -80,7 +81,8 @@ const AppRoutes = () => {
             {path:"hotel-contact", element:<HotelContact />},
             { path:"update-location/:id", element:<UpdateLocation />},
             { path:"custom-package", element:<CustomPackage />},
-            { path:"add-user", element:<AddUser />}
+            { path:"add-user", element:<AddUser />},
+            {path:"get-all-custom-package", element:<GetAllCustomPackage/>}
             ]
         : [],
     },
