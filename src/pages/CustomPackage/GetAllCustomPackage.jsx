@@ -3,7 +3,7 @@ import { getAllCustomPacakges } from '../../features/Actions/CustomPackage/custo
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
-
+import DownloadPdfButton from '../../components/Pdf/DownloadPdf'
 const GetAllCustomPackage = () => {
    const dispatch = useDispatch()
     const { customPackagesData } = useSelector(state=> state.customPackages)
@@ -57,12 +57,16 @@ const GetAllCustomPackage = () => {
                                 </th>
                                 <td className="px-6 py-4">
                                     <div className='flex gap-1'>
+                                        <Button variant="outlined" color="error">
+                                            <DownloadPdfButton data={info} />
+                                        </Button>
                                         <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>
                                             View Details
                                         </Button>
                                         <Button variant="outlined" color="error" onClick={() => deleteHandle(info?._id)}>
                                             Delete
                                         </Button>
+
                                         {/* <Link to={`/update-hotel/${info?._id}`} state={{ hotelData: info }}>
                                             <Button variant="outlined" color="error">
                                                 Edit
