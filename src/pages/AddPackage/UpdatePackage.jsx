@@ -113,7 +113,7 @@ const UpdatePackage = () => {
         dispatch(getActivitiesByDestinationId(packageData?.packageDestination))
     },[packageData])
       useEffect(() => {
-        dispatch(getDestinations());
+        dispatch(getDestinations({page:1}));
       }, [dispatch]);
 
 

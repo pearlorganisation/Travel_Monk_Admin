@@ -131,6 +131,7 @@ export const getActivitiesByDestinationId = createAsyncThunk(
     rejectWithValue
   }) => {
     try {
+      console.log('the id is', id)
       const config = {
         headers: {
           "Content-Type": "application/json"

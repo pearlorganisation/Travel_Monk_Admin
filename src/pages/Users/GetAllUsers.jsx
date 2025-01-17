@@ -1,13 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../../features/Actions/Users/getAllUsersAction";
+import Pagination from "../../components/Pagination/Pagination";
 
 const GetAllUsers = () => {
   const dispatch = useDispatch();
-  const { usersInfo } = useSelector((state) => state.users);
+  const { usersInfo, paginate } = useSelector((state) => state.users);
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  let TotalPage = Math.ceil(paginate?.total/paginate?.limit)
+  console.log("the pages are", TotalPage)
+
+  const handlePageChange = (page)=>{
+    if(page>0 && page <= TotalPage ){
+      setCurrentPage(page)
+    }
+  }
+
+
   useEffect(() => {
-    dispatch(getAllUsers());
-  }, []);
+    dispatch(getAllUsers({search:"", page:currentPage}));
+  }, [dispatch,currentPage]);
 
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
@@ -51,6 +64,7 @@ const GetAllUsers = () => {
           </tfoot>
         </table>
       </div>
+      <Pagination paginate={paginate} currentPage={currentPage} totalPages={TotalPage} handlePageClick={handlePageChange} />
     </main>
   );
 };

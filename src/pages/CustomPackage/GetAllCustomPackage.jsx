@@ -1,13 +1,26 @@
-import React, { useEffect } from 'react'
-import { getAllCustomPacakges } from '../../features/Actions/CustomPackage/customPackage'
+import React, { useEffect, useState } from 'react'
+import { deletePackageById, getAllCustomPacakges } from '../../features/Actions/CustomPackage/customPackage'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import DownloadPdfButton from '../../components/Pdf/DownloadPdf'
+import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal'
 const GetAllCustomPackage = () => {
    const dispatch = useDispatch()
-    const { customPackagesData } = useSelector(state=> state.customPackages)
+   const { customPackagesData } = useSelector(state=> state.customPackages)
+   const [packageId, setPackageId] = useState(null)
+   const [isDeleteModalOpen,setIsDeleteModalOpen] = useState(false)
+   const handleDelete=(id)=>{
+    setPackageId(id)
+    setIsDeleteModalOpen((!isDeleteModalOpen))
+   }
 
+   const confirmDelete = ()=>{
+    dispatch(deletePackageById(packageId))
+    dispatch(getAllCustomPacakges())
+    setIsDeleteModalOpen(false)
+
+   } 
    useEffect(()=>{
     dispatch(getAllCustomPacakges())
    },[dispatch])
@@ -63,7 +76,7 @@ const GetAllCustomPackage = () => {
                                         <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>
                                             View Details
                                         </Button>
-                                        <Button variant="outlined" color="error" onClick={() => deleteHandle(info?._id)}>
+                                        <Button variant="outlined" color="error" onClick={() => handleDelete(info?._id)}>
                                             Delete
                                         </Button>
 
@@ -86,6 +99,7 @@ const GetAllCustomPackage = () => {
                     </tfoot>
                 </table>
             </div>
+            {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete}  setShowDeleteModal={handleDelete} />}
     </main>
   )
 }

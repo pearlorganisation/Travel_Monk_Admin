@@ -11,7 +11,8 @@ const initialState = {
     isLoading: false,
     isSuccess:false,
     isError:false
-  }
+  },
+  paginate:{}
 }
 
 const userSlice = createSlice({
@@ -28,13 +29,15 @@ const userSlice = createSlice({
             state.isLoading= false;
             state.isSuccess= false;
             state.usersInfo = {}
+            state.paginate={}
             toast.error(action.payload,{position:"top-right"})
         })
         .addCase(getAllUsers.fulfilled,(state,action)=>{
             state.isError = false;
             state.isLoading = false;
             state.isSuccess= true;
-            state.usersInfo = action.payload;
+            state.paginate= action.payload.pagination
+            state.usersInfo = action.payload.data;
             toast.success("Retrieved All the users",{position:"top-right"})
         })
         .addCase(addUserByAdmin.pending,(state)=>{

@@ -45,3 +45,26 @@ export const getAllCustomPacakges = createAsyncThunk(
         }
     }
 )
+
+/** to delete a custom package */
+export const deletePackageById =createAsyncThunk(
+    "delete/custom-package",async(id, {rejectWithValue})=>{
+        try {
+            const config ={
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            }
+            const {
+                data
+            } = await axiosInstance.delete(`/api/v1/custom-packages/${id}`, config)
+            return data
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
+    }
+)
