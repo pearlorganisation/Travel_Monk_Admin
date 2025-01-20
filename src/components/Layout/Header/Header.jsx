@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
+    const [isOpen, setIsOpen] = useState(false)
+    const handleOpen =()=>{
+        setIsOpen(!isOpen)
+    }
     return (
         <header className="bg-blue-500 text-white p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-10">
             <div className="text-xl font-bold">Travel Monk</div>
@@ -10,7 +15,7 @@ const Header = () => {
         className="bg-gray-100 text-black px-3 py-1 rounded-lg"
       /> */}
             <div className="flex items-center space-x-4">
-                <a href="#" className="text-white">
+                {/* <a href="#" className="text-white">
                     Forum
                 </a>
                 <a href="#" className="text-white">
@@ -25,8 +30,25 @@ const Header = () => {
                         alt="User"
                         className="rounded-full w-8 h-8"
                     />
-                </div>
+                </div> */}
+                <button onClick={()=> handleOpen()}>
+                    Profile
+                </button>
+                {isOpen &&
+                    <div className="flex flex-col">
+                        <Link to={`profile`}>
+                            <div>
+                                Profile
+                            </div>
+                            </Link>
+                       
+                        <div>
+                            Logout
+                        </div>
+                    </div>
+                }
             </div>
+          
         </header>
     );
 };

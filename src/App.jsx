@@ -36,6 +36,8 @@ import UpdateLocation from "./pages/AddLocation/UpdateLocation";
 import CustomPackage from "./pages/CustomPackage/CustomPackage";
 import AddUser from "./pages/AddUser/AddUser";
 import GetAllCustomPackage from "./pages/CustomPackage/GetAllCustomPackage";
+import Profile from "./pages/Profile/Profile";
+import ChangePassword from "./pages/Password/ChangePassword";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -47,6 +49,7 @@ const AppRoutes = () => {
       children: isAdminLoggedIn
         ? [
             { index: true, element: <Dashboard /> },
+            { path: "/profile", element:<Profile />},
             { path: "bookings", element: <Bookings /> },
             { path: "contact", element: <Contact /> },
             { path: "bus-cruise", element: <Bus_Cruise_Contact /> },
@@ -82,7 +85,8 @@ const AppRoutes = () => {
             { path:"update-location/:id", element:<UpdateLocation />},
             { path:"custom-package", element:<CustomPackage />},
             { path:"add-user", element:<AddUser />},
-            {path:"get-all-custom-package", element:<GetAllCustomPackage/>}
+            {path:"get-all-custom-package", element:<GetAllCustomPackage/>},
+            {path:"change-password", element:<ChangePassword />}
             ]
         : [],
     },
