@@ -1,12 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllContacts } from '../../features/Actions/Contacts/contactAction';
+import { deleteNormalContact, getAllContacts } from '../../features/Actions/Contacts/contactAction';
+import { Button } from '@mui/material';
+import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
 
 export default function Contact() {
     const dispatch = useDispatch();
     const { contacts } = useSelector((state) => state.contact);
     const [selectedContact, setSelectedContact] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedContactId, setSelectedContactId] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    
+    const handleDeleteOpen =(id)=>{
+        setSelectedContactId(id)
+        setIsDeleteModalOpen(!isDeleteModalOpen)
+    }
+    const confirmDelete =()=>{
+        dispatch(deleteNormalContact(selectedContactId))
+        dispatch(getAllContacts())
+        setIsDeleteModalOpen(false)
+    }
+
+
+
 
     useEffect(() => {
         dispatch(getAllContacts());
@@ -36,6 +53,13 @@ export default function Contact() {
                         key={contact._id}
                         className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 p-6 border border-gray-200 "
                     >
+                        <div className='flex justify-end'>
+                            <Button variant="outlined" color="error" onClick={() => handleDeleteOpen(contact?._id)}>
+                                Delete
+                            </Button>
+                        </div>
+                         
+
                         <div className="space-y-4">
                             {/* Name */}
                             <div className="flex items-center space-x-3">
@@ -127,6 +151,9 @@ export default function Contact() {
                     </div>
                 </div>
             )}
+
+            {/** delete Modal */}
+            {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={handleDeleteOpen} />}
         </main>
     );
 }
