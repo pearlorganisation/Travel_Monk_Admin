@@ -43,10 +43,12 @@ const UpdatePackage = () => {
             packageDestination: packageData?.packageDestination
 ,
             itinerary: packageData.itinerary?.map(item => {
-                const temp = item?.activities?.map(act => {
-                    return {label:act?.name,value:act?._id}
-                })
-                return {...item ,activities:temp}
+                // const temp = item?.activities?.map(act => {
+                //     return {label:act?.name,value:act?._id}
+                // })
+                // return {...item ,activities:temp}
+                const temp = item?.activities?.map(act => act?._id) || [];  
+                return { ...item, activities: temp };
             }) || [],
             inclusions: packageData.inclusions || [],
             exclusions: packageData.exclusions || [],
@@ -374,7 +376,7 @@ const UpdatePackage = () => {
                                         className="w-full p-2 border rounded mb-2"
                                         placeholder="Description"
                                     />
-                                    <Controller
+                                    {/* <Controller
                                         name={`itinerary.${index}.activities`}
                                         control={control}
                                         render={({
@@ -385,13 +387,51 @@ const UpdatePackage = () => {
                                                 isMulti
                                                 name={name}
                                                 ref={ref}
-                                                // Map the current value to the format React Select expects
-                                                value={value || []}
-                                                // Handle changes and map back to the required format for the form state
+                                                 
+                                                value={
+                                                    value // Map the current value to React Select format
+                                                        ? value.map((activityId) =>{
+                                                            console.log("the activity id is", activityId)
+                                                           return options2.find((option) => option.value === activityId)
+                                                        }
+                                                        )
+                                                        : []
+                                                }
                                                 onChange={(selectedOptions) => {
-                                                    const selectedActivityIds = selectedOptions || [];
+                                                    // Only save the value (IDs) in the form state
+                                                    const selectedActivityIds = selectedOptions
+                                                        ? selectedOptions.map((option) => option.value)
+                                                        : [];
                                                     onChange(selectedActivityIds);
                                                 }}
+                                                onBlur={onBlur} 
+                                            />
+                                        )}
+                                    /> */}
+                                    <Controller
+                                        name={`itinerary.${index}.activities`}
+                                        control={control}
+                                        render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                                            <Select
+                                                options={options2}  
+                                                isMulti
+                                                name={name}
+                                                ref={ref}
+                                                value={
+                                                    value
+                                                        ? value.map(activityId =>
+                                                            options2.find(option => option.value === activityId)
+                                                        )
+                                                        : []  
+                                                }
+                                                onChange={(selectedOptions) => {
+                                                     
+                                                    const selectedActivityIds = selectedOptions
+                                                        ? selectedOptions.map(option => option.value)
+                                                        : [];
+                                                    onChange(selectedActivityIds);
+                                                }}
+                                                onBlur={onBlur}
                                             />
                                         )}
                                     />
