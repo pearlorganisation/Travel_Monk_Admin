@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Clock, Mail, MapPin, MessageSquare, User, Users } from "lucide-react";
-import { getBusCruise } from "../../features/Actions/Bus-Cruise/bus_cruiseAction";
+import { deleteBusCruiseContact, getBusCruise } from "../../features/Actions/Bus-Cruise/bus_cruiseAction";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import ConfirmDeleteModal from "../../components/Modal/ConfirmDeleteModal";
+import { Button } from "@mui/material";
+const cruiseTypes = [
+  {
+    id: 1,
+    type: "bus",
+    icon: "🚌",
+  },
+  {
+    id: 2,
+    type: "cruise",
+    icon: "🚢",
+  },
+];
 const Bus_Cruise_Contact = () => {
-  const cruiseTypes = [
-    {
-      id: 1,
-      type: "bus",
-      icon: "🚌",
-    },
-    {
-      id: 2,
-      type: "cruise",
-      icon: "🚢",
-    },
-  ];
-
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const [cruiseType, setCruiseType] = useState([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [selectedId,setSelectedId] = useState(null)
 
+  /** for searching based on the type of the contacts */
   const handleSearch = (type) => {
     let updatedType = [...cruiseType];
 
@@ -33,7 +36,19 @@ const Bus_Cruise_Contact = () => {
     }
     setCruiseType(updatedType);
   };
+  
+  /** for deleting */
+  const handleDeleteModaOpen =(id)=>{
+    setSelectedId(id)
+    setIsDeleteModalOpen(!isDeleteModalOpen)
+  }
 
+  const confirmDelete =()=>{
+    dispatch(deleteBusCruiseContact(selectedId))
+    dispatch(getBusCruise())
+    setIsDeleteModalOpen(false)
+  }
+   
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const existingCategory = searchParams.getAll("type");
@@ -121,7 +136,14 @@ const Bus_Cruise_Contact = () => {
               key={contact._id}
               className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 p-6 border border-gray-100"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* <button onClick={()=>handleDeleteModaOpen(contact._id)}>Delete</button> */}
+              <div className="flex justify-end">
+                <Button variant="outlined" color="error" onClick={() => handleDeleteModaOpen(contact?._id)}>
+                  Delete
+                </Button>
+
+              </div>
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
                     <div className="p-2 bg-blue-50 rounded-lg">
@@ -238,6 +260,8 @@ const Bus_Cruise_Contact = () => {
             </div>
           ))}
       </div>
+      {/** delete modal */}
+      {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={handleDeleteModaOpen} />}
     </main>
   );
 };

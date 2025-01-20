@@ -172,7 +172,7 @@ const Bookings = () => {
                         <div>
                           <p className="font-semibold">Duration:</p>
                           <p className="text-gray-600">
-                            {selectedBooking.packageId.duration.days} Days - {selectedBooking?.packageId?.duration?.nights} Nights
+                            {selectedBooking?.packageId?.duration?.days ?? "NO DATA AVAILABLE"} Days - {selectedBooking?.packageId?.duration?.nights ?? "NO DATA AVAILABLE"} Nights
                           </p>
                         </div>
                         <div>

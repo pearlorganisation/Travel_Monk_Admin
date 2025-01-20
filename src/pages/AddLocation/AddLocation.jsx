@@ -80,8 +80,8 @@ const AddLocation = () => {
     });
 
     useEffect(() => {
-        dispatch(getDestinations());
-    }, []);
+        dispatch(getDestinations({ page: 1 }));
+    }, [dispatch]);
     const destinationId = watch("destination")
     console.log('--------------destination', destinationId)
     const onSubmit = (data) => {
@@ -107,7 +107,7 @@ const AddLocation = () => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     >
                         <option value="">Select a Destination</option>
-                        {destinationInfo?.map((dest) => (
+                        {Array.isArray(destinationInfo) && destinationInfo?.map((dest) => (
                             <option key={dest._id} value={dest._id}>
                                 {dest.name}
                             </option>
