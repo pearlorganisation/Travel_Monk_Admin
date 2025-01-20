@@ -81,13 +81,13 @@ const FullyCustomizedEnquiriesPdf = ({ data }) => (
             {/* Itinerary */}
             <View style={styles.section}>
                 <Text style={styles.subHeader}>Itinerary</Text>
-                {data.itinerary.map((day, index) => (
+                {data?.itinerary?.map((day, index) => (
                     <View key={index} style={{ marginBottom: 10 }}>
                         <Text style={styles.text}>
-                            Day {day.day} ({new Date(day.date).toLocaleDateString()}):{' '}
+                            Day {day.day}-
                             {day.selectedLocation}
                         </Text>
-                        <Text style={styles.text}>Hotel: {day.selectedHotel}</Text>
+                        <Text style={styles.text}>Hotel: {day?.selectedHotel?.name}</Text>
                         <Text style={styles.text}>Activities:</Text>
                         {day.selectedActivities.map((activity, idx) => (
                             <Text key={idx} style={styles.activityList}>
@@ -101,7 +101,10 @@ const FullyCustomizedEnquiriesPdf = ({ data }) => (
             {/* Vehicle Details */}
             <View style={styles.section}>
                 <Text style={styles.subHeader}>Vehicle Information</Text>
-                <Text style={styles.text}>Selected Vehicle ID: {data.selectedVehicle}</Text>
+                <Text style={styles.text}>Selected Vehicle ID: {data?.selectedVehicle?.vehicleName}</Text>
+                <Text style={styles.text}>Selected Vehicle Passenger Capacity: {data?.selectedVehicle?.passengerCapacity}</Text>
+                <Text style={styles.text}>Selected Vehicle Luggage Capacity: {data?.selectedVehicle?.luggageCapacity}</Text>
+
             </View>
 
             {/* Metadata */}
