@@ -81,8 +81,6 @@ useEffect(()=>{
   
 },[searchQuery, dispatch])
 
-
-
   /** run this useeffect only when there is a destinationid selected */
   useEffect(()=>{
     if(destinationId){
@@ -93,7 +91,8 @@ useEffect(()=>{
     }
   },[destinationId])
 
-
+ 
+ 
 
   useEffect(()=>{
    dispatch(getDestinations({page:1}))
@@ -328,7 +327,7 @@ useEffect(()=>{
         {/** itinary field */}
         <div className='mb-6'>
           <h2 className='text-xl font-bold mb-4'> Add Itinerary</h2>
-          {fields.map((itinary,index)=>
+          {fields?.map((itinary,index)=>
           {
             console.log("selected hotel is", itinary)
             // console.log("selected activities is", itinary.s)
@@ -530,7 +529,7 @@ useEffect(()=>{
 
             {/* Vehicle List */}
             <div className=" flex flex-row gap-6">
-              {destinationVehicles?.map((vehicle) => (
+              {Array.isArray(destinationVehicles) && destinationVehicles?.map((vehicle) => (
                 <div
                   key={vehicle?._id}
                   onClick={() => {

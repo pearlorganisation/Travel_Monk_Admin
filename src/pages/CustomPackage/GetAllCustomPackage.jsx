@@ -73,9 +73,9 @@ const GetAllCustomPackage = () => {
                                         <Button variant="outlined" color="error">
                                             <DownloadPdfButton data={info} />
                                         </Button>
-                                        <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>
+                                        {/* <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>
                                             View Details
-                                        </Button>
+                                        </Button> */}
                                         <Button variant="outlined" color="error" onClick={() => handleDelete(info?._id)}>
                                             Delete
                                         </Button>
