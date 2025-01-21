@@ -49,10 +49,8 @@ const AllPackage = () => {
 
     const confirmDelete =async()=>{
         try {
-             
             await dispatch(deletePackage(packageId)).unwrap();  
             await dispatch(getAllPackages({ page: currentPage })).unwrap();
- 
             setIsDeleteModalOpen(false);
         } catch (error) {
             console.error("Error during deletion or fetching packages:", error);
