@@ -60,6 +60,8 @@ const AllPackage = () => {
     };
     console.log("-------the selected package is", selectedPacakge)
     useEffect(() => {
+         
+
         dispatch(getAllPackages({page:currentPage}));
     }, [dispatch, currentPage]);
 

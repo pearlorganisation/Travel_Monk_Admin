@@ -18,6 +18,8 @@ const packageSlice = createSlice({
         builder
         .addCase(getAllPackages.pending,(state)=>{
             state.isLoading = true
+            state.isSuccess= false
+            state.isError= false
         })
         .addCase(getAllPackages.rejected,(state,action)=>{
             state.isError= true;
