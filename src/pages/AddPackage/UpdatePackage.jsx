@@ -24,30 +24,31 @@ const UpdatePackage = () => {
     const { id } = useParams();
     const dispatch = useDispatch()
     const location = useLocation();
-    const { packageData } = location.state;
+    const { packageData } = location.state || {} ;
     const { destinationActivities } = useSelector(state=> state.activities)
     const { destinationInfo } = useSelector((state) => state.destinations);
     console.log("The package data", packageData);
     
     let options2 = [];
-    if (destinationActivities) {
+    if(destinationActivities) {
         options2 = Array.isArray(destinationActivities) && destinationActivities?.map((activity) => ({
             value: activity?._id,
             label: activity?.name
         }));
     }
 
+    // console.log("options values are", options2)
     const { control, handleSubmit, register, watch,setValue,formState:{errors} } = useForm({
         defaultValues: {
             ...packageData,
-            packageDestination: packageData?.packageDestination
+            packageDestination: packageData?.packageDestination?._id
 ,
             itinerary: packageData.itinerary?.map(item => {
                 // const temp = item?.activities?.map(act => {
                 //     return {label:act?.name,value:act?._id}
                 // })
                 // return {...item ,activities:temp}
-                const temp = item?.activities?.map(act => act?._id) || [];  
+                const temp = item?.activities?.map(act => act) || [];  
                 return { ...item, activities: temp };
             }) || [],
             inclusions: packageData.inclusions || [],
@@ -111,12 +112,16 @@ const UpdatePackage = () => {
             setPackageImage(file);
         }
     };
+    // console.log("the package destination", packageData?.packageDestination?._id)
     useEffect(()=>{
-        dispatch(getActivitiesByDestinationId(packageData?.packageDestination))
-    },[packageData])
-      useEffect(() => {
+        dispatch(getActivitiesByDestinationId(packageData?.packageDestination?._id));
+        
+    },[dispatch, packageData])
+      
+    console.log("the values of options 2 are these",options2)
+    useEffect(() => {
         dispatch(getDestinations({page:1}));
-      }, [dispatch]);
+    }, [dispatch]);
 
 
     const onSubmit = (data) => {
@@ -420,8 +425,7 @@ const UpdatePackage = () => {
                                                 value={
                                                     value
                                                         ? value.map(activityId =>
-                                                            options2.find(option => option.value === activityId)
-                                                        )
+                                                        options2.find(option => option.value === activityId))
                                                         : []  
                                                 }
                                                 onChange={(selectedOptions) => {

@@ -93,8 +93,8 @@ const GetAllCustomPackage = () => {
                     </tbody>
                     <tfoot>
                         <tr class="font-semibold text-gray-900 dark:text-white">
-                            <th scope="row" class="px-6 py-3 text-base">Total Hotels</th>
-                            {/* <td class="px-6 py-3">{fullyCustomizedEnquiries.length}</td> */}
+                            <th scope="row" class="px-6 py-3 text-base">Total Packages</th>
+                            <td class="px-6 py-3">{customPackagesData.length}</td>
                         </tr>
                     </tfoot>
                 </table>

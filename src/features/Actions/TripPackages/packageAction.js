@@ -3,16 +3,16 @@ import { axiosInstance } from "../../../services/axiosInterceptor";
 
 /** ACTION TO GET ALL Packages */
 export const getAllPackages = createAsyncThunk(
-    "package/getAll", async(_,{rejectWithValue})=>{
+    "package/getAll", async({page=1},{rejectWithValue})=>{
         try {
             const config ={
                 headers:{
                     "Content-Type":"application/json"
                 }
             }
-            const { data } = await axiosInstance.get(`/api/v1/packages`,config)
+            const { data } = await axiosInstance.get(`/api/v1/packages?page=${page}`,config)
             console.log('------------packages data', data)
-            return data.data
+            return data
         } catch (error) {
              if (error.response && error.response.data.message) {
                  return rejectWithValue(error.response.data.message);

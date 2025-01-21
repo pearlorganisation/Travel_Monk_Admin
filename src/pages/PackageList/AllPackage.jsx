@@ -20,15 +20,27 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
 import { Link } from 'react-router-dom';
 import { baseURL } from '../../services/axiosInterceptor';
+import Pagination from '../../components/Pagination/Pagination';
 
 
 const AllPackage = () => {
     const dispatch = useDispatch();
-    const { packageInfo } = useSelector((state) => state.packages);
+    const { packageInfo ,paginate} = useSelector((state) => state.packages);
     const [open, setOpen] = useState(false);
     const [packageId , setPackageId] = useState(null)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [selectedPacakge,setSelectedPackage] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1)
+    /** handles for changing the page */
+    const TotalPage = Math.ceil(paginate.total/paginate.limit)
+    console.log("Total pages are", TotalPage)
+    
+    const handlePageChange =(page)=>{
+        if(page>0 && page <= TotalPage){
+            setCurrentPage(page)
+        }
+    }
+
 
     const deleteHandle = (id) => {
         setPackageId(id)
@@ -37,8 +49,9 @@ const AllPackage = () => {
 
     const confirmDelete =()=>{
             dispatch(deletePackage(packageId))
+            dispatch(getAllPackages({ page: currentPage }))
             setIsDeleteModalOpen(!isDeleteModalOpen)
-            dispatch(getAllPackages())
+            
         }
 
     const handleOpen = (enquiry) => {
@@ -47,8 +60,8 @@ const AllPackage = () => {
     };
     console.log("-------the selected package is", selectedPacakge)
     useEffect(() => {
-        dispatch(getAllPackages());
-    }, [dispatch]);
+        dispatch(getAllPackages({page:currentPage}));
+    }, [dispatch, currentPage]);
 
     // will use for the view details page
     const handleClose = () => setOpen(false);
@@ -75,90 +88,6 @@ const AllPackage = () => {
     );
 
     return (
-        // <main className="flex-1 p-8 mt-16 ml-64">
-        //     <Typography variant="h4" className="mb-6 font-bold">
-        //         Our Packages
-        //     </Typography>
-
-        //     <Grid2
-        //         container
-        //         spacing={4}
-        //         sx={{
-        //             width: "100%", // Ensure the grid takes up full width
-        //         }}
-        //         className="w-full"
-        //     >
-        //         {Array.isArray(packageInfo) && packageInfo?.map((pkg) => (
-        //             <Grid2
-        //                 item
-        //                 xs={12}
-        //                 key={pkg._id}
-        //                 className="w-full"
-        //             >
-        //                 <Card className="h-full flex flex-col">
-        //                     <CardMedia
-        //                         component="img"
-        //                         height="240"
-        //                         image={pkg.banner.secure_url}
-        //                         alt={pkg.name}
-        //                         className="h-64 object-cover"
-        //                     />
-
-        //                     <CardContent className="flex-grow">
-        //                         <Typography variant="h5" className="font-bold mb-2">
-        //                             {pkg.name}
-        //                         </Typography>
-
-        //                         <div className="flex items-center justify-between mb-4">
-        //                             <Chip
-        //                                 label={`${pkg.duration.days} Days / ${pkg.duration.nights} Nights`}
-        //                                 color="primary"
-        //                                 variant="outlined"
-        //                             />
-        //                             <Typography variant="h6" color="primary" className="font-bold">
-        //                                 ₹{pkg.startingPrice}
-        //                             </Typography>
-        //                         </div>
-
-        //                         <div className="mb-4">
-        //                             <Typography variant="subtitle1" className="font-semibold mb-2">
-        //                                 Pickup & Drop
-        //                             </Typography>
-        //                             <Typography>
-        //                                 {pkg.pickDropPoint.pickup} to {pkg.pickDropPoint.drop}
-        //                             </Typography>
-        //                         </div>
-
-        //                         <div className="mb-4">
-        //                             <Typography variant="subtitle1" className="font-semibold mb-2">
-        //                                 Inclusions
-        //                             </Typography>
-        //                             <ul className="list-disc list-inside text-sm">
-        //                                 {pkg.inclusions.map((inclusion, index) => (
-        //                                     <li key={index} className="mb-1">{inclusion}</li>
-        //                                 ))}
-        //                             </ul>
-        //                         </div>
-
-        //                         <Accordion>
-        //                             <AccordionSummary
-        //                                 expandIcon={<ExpandMoreIcon />}
-        //                                 className="bg-gray-100 rounded"
-        //                             >
-        //                                 <Typography className="font-semibold">
-        //                                     Detailed Itinerary
-        //                                 </Typography>
-        //                             </AccordionSummary>
-        //                             <AccordionDetails>
-        //                                 {renderItinerary(pkg.itinerary)}
-        //                             </AccordionDetails>
-        //                         </Accordion>
-        //                     </CardContent>
-        //                 </Card>
-        //             </Grid2>
-        //         ))}
-        //     </Grid2>
-        // </main>
         <main className="flex-1 p-8 mt-16 ml-64">
             <div>All Packages</div>
             <div>
@@ -205,8 +134,8 @@ const AllPackage = () => {
                     </tbody>
                     <tfoot>
                         <tr class="font-semibold text-gray-900 dark:text-white">
-                            <th scope="row" class="px-6 py-3 text-base">Total Users</th>
-                            {/* <td class="px-6 py-3">{fullyCustomizedEnquiries.length}</td> */}
+                            <th scope="row" class="px-6 py-3 text-base">Total Packages</th>
+                            <td class="px-6 py-3">{paginate?.total}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -308,7 +237,8 @@ const AllPackage = () => {
                     )}
                 </Box>
                 </Modal>
-            {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={deleteHandle} /> }                
+            {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={deleteHandle} /> }   
+            <Pagination paginate={paginate} currentPage={currentPage} totalPages={TotalPage} handlePageClick={handlePageChange} />             
         </main>
     );
 }

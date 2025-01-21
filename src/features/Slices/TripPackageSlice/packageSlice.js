@@ -6,7 +6,8 @@ const initialState ={
     isLoading: false,
     isError: false,
     isSuccess: false,
-    packageInfo:{}
+    packageInfo:{},
+    paginate:{}
 }
 
 const packageSlice = createSlice({
@@ -22,13 +23,16 @@ const packageSlice = createSlice({
             state.isError= true;
             state.isSuccess= false;
             state.isLoading= false;
+            state.packageInfo ={}
+            state.paginate={}
             toast.error(action.payload,{position:"top-right"})
         })
         .addCase(getAllPackages.fulfilled,(state,action)=>{
             state.isError= false;
             state.isLoading = false;
             state.isSuccess = true;
-            state.packageInfo = action.payload;
+            state.packageInfo = action.payload.data;
+            state.paginate = action.payload.pagination
             toast.success("All the packages retrieved",{position:"top-right"})
         })
         .addCase(addPackage.pending,(state)=>{
