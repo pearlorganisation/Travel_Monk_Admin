@@ -123,6 +123,7 @@ const activitiesSlice = createSlice({
         state.isError = true
         state.isSuccess= false
         state.isLoading= false
+        state.destinationActivities = {}
         toast.error(action.payload,{position:"top-center"})
       })
       .addCase(getActivitiesByDestinationId.fulfilled,(state,action)=>{
