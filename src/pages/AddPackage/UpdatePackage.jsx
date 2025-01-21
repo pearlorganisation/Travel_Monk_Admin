@@ -127,7 +127,7 @@ const UpdatePackage = () => {
             setOptions2(mappedOptions);
         }
     },[destinationActivities])
-    
+
     console.log("the values of options 2 are these",options2)
     useEffect(() => {
         dispatch(getDestinations({page:1}));
@@ -376,6 +376,11 @@ const UpdatePackage = () => {
                             return (
                                 <div key={field.id} className="mb-4 border p-4 rounded">
                                     <label className="block mb-2 font-semibold">Day {index + 1}</label>
+                                    <input
+                                    {...register(`itinerary.${index}.day`)} 
+                                    className="w-full p-2 border rounded mb-2"
+                                    placeholder="Day"
+                                    />
                                     <input
                                         {...register(`itinerary.${index}.location`)}
                                         className="w-full p-2 border rounded mb-2"
