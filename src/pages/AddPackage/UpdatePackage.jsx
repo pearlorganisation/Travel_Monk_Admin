@@ -28,14 +28,14 @@ const UpdatePackage = () => {
     const { destinationActivities } = useSelector(state=> state.activities)
     const { destinationInfo } = useSelector((state) => state.destinations);
     console.log("The package data", packageData);
-    
-    let options2 = [];
-    if(destinationActivities) {
-        options2 = Array.isArray(destinationActivities) && destinationActivities?.map((activity) => ({
-            value: activity?._id,
-            label: activity?.name
-        }));
-    }
+    const [options2, setOptions2] = useState([])
+    // let options2 = [];
+    // if(destinationActivities) {
+    //     options2 = Array.isArray(destinationActivities) && destinationActivities?.map((activity) => ({
+    //         value: activity?._id,
+    //         label: activity?.name
+    //     }));
+    // }
 
     // console.log("options values are", options2)
     const { control, handleSubmit, register, watch,setValue,formState:{errors} } = useForm({
@@ -118,6 +118,16 @@ const UpdatePackage = () => {
         
     },[dispatch, packageData])
       
+    useEffect(()=>{
+        if (Array.isArray(destinationActivities)) {
+            const mappedOptions = destinationActivities.map((activity) => ({
+                value: activity?._id,
+                label: activity?.name,
+            }));
+            setOptions2(mappedOptions);
+        }
+    },[destinationActivities])
+    
     console.log("the values of options 2 are these",options2)
     useEffect(() => {
         dispatch(getDestinations({page:1}));

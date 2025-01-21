@@ -48,9 +48,9 @@ const AllPackage = () => {
     }
 
     const confirmDelete =()=>{
-            dispatch(deletePackage(packageId))
-            dispatch(getAllPackages({ page: currentPage }))
-            setIsDeleteModalOpen(!isDeleteModalOpen)
+        dispatch(deletePackage(packageId))
+        dispatch(getAllPackages({ page: currentPage }))
+        setIsDeleteModalOpen(!isDeleteModalOpen)
             
         }
 
