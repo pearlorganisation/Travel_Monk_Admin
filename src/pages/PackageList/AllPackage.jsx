@@ -47,11 +47,16 @@ const AllPackage = () => {
         setIsDeleteModalOpen(!isDeleteModalOpen)
     }
 
-    const confirmDelete =()=>{
-        dispatch(deletePackage(packageId))
-        dispatch(getAllPackages({ page: currentPage }))
-        setIsDeleteModalOpen(!isDeleteModalOpen)
-            
+    const confirmDelete =async()=>{
+        try {
+             
+            await dispatch(deletePackage(packageId)).unwrap();  
+            await dispatch(getAllPackages({ page: currentPage })).unwrap();
+ 
+            setIsDeleteModalOpen(false);
+        } catch (error) {
+            console.error("Error during deletion or fetching packages:", error);
+        }
         }
 
     const handleOpen = (enquiry) => {
