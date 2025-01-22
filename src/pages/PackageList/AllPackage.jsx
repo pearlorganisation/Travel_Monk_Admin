@@ -87,7 +87,7 @@ console.log("sort by values are",sortBy)
     useEffect(() => {
          
 
-        dispatch(getAllPackages({search:searchQuery,page:currentPage, sortBy:sortBy}));
+        dispatch(getAllPackages({search:searchQuery??"",page:currentPage, sortBy:sortBy}));
     }, [dispatch, currentPage, searchQuery, sortBy]);
 
     // will use for the view details page
