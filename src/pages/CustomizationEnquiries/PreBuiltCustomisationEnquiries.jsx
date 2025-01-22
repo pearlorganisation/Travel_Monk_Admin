@@ -49,7 +49,7 @@ const PreBuiltCustomisationEnquiries = () => {
     },[dispatch, currentPage])
   return (
       <main className="flex-1 p-8 mt-16 ml-64">
-          <div>PreBuiltCustomisationEnquiries</div>
+          <div className='text-4xl font-bold mb-4'>Prebuilt Package Customisation Enquiries</div>
           <div>
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
@@ -98,8 +98,8 @@ const PreBuiltCustomisationEnquiries = () => {
                   </tbody>
                   <tfoot>
                       <tr class="font-semibold text-gray-900 dark:text-white">
-                          <th scope="row" class="px-6 py-3 text-base">Total Users</th>
-                          <td class="px-6 py-3">{prebuiltPackageEnquiries.length}</td>
+                          <th scope="row" class="px-6 py-3 text-base">Total Enquiries</th>
+                          <td class="px-6 py-3">{prebuiltPackageEnquiries.length ?? "N/A"}</td>
                       </tr>
                   </tfoot>
               </table>

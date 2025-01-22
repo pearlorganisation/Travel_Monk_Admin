@@ -70,7 +70,7 @@ const AddDestination = () => {
 
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
-      <div>Add Destination</div>
+      <div className="text-4xl font-bold mb-4">Add Destination</div>
       <form onSubmit={handleSubmit(submitForm)}>
         {/** Destination name */}
         <div className="mb-4">
@@ -230,7 +230,7 @@ const AddDestination = () => {
 
         <button
           type="submit"
-          className="bg-green-500 px-4 py-2 rounded-md text-white"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3"
         >
           {" "}
           Add Destination{" "}

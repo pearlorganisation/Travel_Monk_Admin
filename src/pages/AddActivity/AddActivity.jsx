@@ -22,7 +22,7 @@ const AddActivity = () => {
   }, [dispatch]);
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
-      <div>Add Activity</div>
+      <div className="text-4xl font-bold mb-4">Add Activity</div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Vehicle Name */}
         <div className="mb-4">

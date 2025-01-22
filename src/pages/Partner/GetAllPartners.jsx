@@ -57,7 +57,7 @@ const GetAllPartners = () => {
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <h1>All Partners</h1>
+        <h1 className="text-4xl font-bold mb-4">All Partners</h1>
         <div className="flex items-center justify-end flex-column flex-wrap md:flex-row gap-3 space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
           <button
             className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"

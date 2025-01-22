@@ -106,7 +106,8 @@ useEffect(()=>{
 
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
-      <div>Search User By Name</div>
+      <h1 className='text-4xl font-bold mb-4'>Create Custom Package For User</h1>
+      <div className='block text-sm font-medium text-gray-700'>Search User By Name or Email</div>
     {/** to search a user using search query */}
       <div>
         <input
@@ -223,7 +224,7 @@ useEffect(()=>{
             htmlFor="price"
             className="block text-sm font-medium text-gray-700"
           >
-            Add price
+            Add Price
           </label>
           <input
             type="number"
@@ -242,7 +243,7 @@ useEffect(()=>{
             htmlFor="startDate"
             className="block text-sm font-medium text-gray-700"
           >
-            Add startDate
+            Add Start Date
           </label>
           <input
             type="date"
@@ -262,7 +263,7 @@ useEffect(()=>{
             htmlFor="endDate"
             className="block text-sm font-medium text-gray-700"
           >
-            Add endDate
+            Add End Date
           </label>
           <input
             type="date"
@@ -494,80 +495,80 @@ useEffect(()=>{
             Add Itinary Data
           </button>
         </div>
+        <div>
+          <button className="mt-4 bg-white px-6 py-1 border border-[#1f1f1f] rounded-sm lg:min-w-72 flex flex-row items-center justify-center gap-2">
+            <svg
+              width="13"
+              height="12"
+              viewBox="0 0 13 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.3334 5.16669H7.33341V0.166687H5.66675V5.16669H0.666748V6.83335H5.66675V11.8334H7.33341V6.83335H12.3334V5.16669Z"
+                fill="#1F1F1F"
+              />
+            </svg>
+            <button
+              onClick={openModal}
+              className="px-4 py-2  text-black font-bold rounded hover:bg-blue-600 hover:text-white"
+            >
+              Add a Vehicle ( Compulsory )
+            </button>
+          </button>
+        </div>
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
+              <h2 className="text-xl font-bold mb-4">Select a Vehicle</h2>
 
-
-        <button type="submit"> Created Package for the user</button>
-
-      </form>
- {/** select vehicle section */}
-      <div>
-      <button className="mt-4 bg-white px-6 py-1 border border-[#1f1f1f] rounded-sm lg:min-w-72 flex flex-row items-center justify-center gap-2">
-        <svg
-          width="13"
-          height="12"
-          viewBox="0 0 13 12"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12.3334 5.16669H7.33341V0.166687H5.66675V5.16669H0.666748V6.83335H5.66675V11.8334H7.33341V6.83335H12.3334V5.16669Z"
-            fill="#1F1F1F"
-          />
-        </svg>
-        <button
-          onClick={openModal}
-          className="px-4 py-2  text-black font-bold rounded hover:bg-blue-600 hover:text-white"
-        >
-          Add a Vehicle ( Compulsory )
-        </button>
-      </button>
-    </div>
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
-            <h2 className="text-xl font-bold mb-4">Select a Vehicle</h2>
-
-            {/* Vehicle List */}
-            <div className=" flex flex-row gap-6">
-              {Array.isArray(destinationVehicles) && destinationVehicles?.map((vehicle) => (
-                <div
-                  key={vehicle?._id}
-                  onClick={() => {
-                    handleSelectVehicle(
-                      vehicle?.vehicleName,
-                      vehicle?.pricePerDay,
-                      vehicle?._id,
-                      vehicle?.image?.path
-                    );
-                    closeModal(); // Close the modal after selection
-                  }}
-                  className="p-4 border rounded-lg shadow-md cursor-pointer bg-purple-300 h-56"
-                >
-                  <p className="text-lg font-semibold">
-                    Vehicle: {vehicle?.vehicleName}
-                  </p>
-                  {/* <p className="text-gray-600">
+              {/* Vehicle List */}
+              <div className=" flex flex-row gap-6">
+                {Array.isArray(destinationVehicles) && destinationVehicles?.map((vehicle) => (
+                  <div
+                    key={vehicle?._id}
+                    onClick={() => {
+                      handleSelectVehicle(
+                        vehicle?.vehicleName,
+                        vehicle?.pricePerDay,
+                        vehicle?._id,
+                        vehicle?.image?.path
+                      );
+                      closeModal(); // Close the modal after selection
+                    }}
+                    className="p-4 border rounded-lg shadow-md cursor-pointer bg-purple-300 h-56"
+                  >
+                    <p className="text-lg font-semibold">
+                      Vehicle: {vehicle?.vehicleName}
+                    </p>
+                    {/* <p className="text-gray-600">
                     Price: {vehicle?.pricePerDay} /- per day
                   </p> */}
 
-                  <img
-                    src={`${baseURL}/${vehicle?.image?.path}`}
-                    className="w-28 h-20 mt-8"
-                  />
-                </div>
-              ))}
-            </div>
+                    <img
+                      src={`${baseURL}/${vehicle?.image?.path}`}
+                      className="w-28 h-20 mt-8"
+                    />
+                  </div>
+                ))}
+              </div>
 
-            {/* Close button */}
-            <button
-              onClick={closeModal}
-              className="mt-4 px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600"
-            >
-              Close
-            </button>
+              {/* Close button */}
+              <button
+                onClick={closeModal}
+                className="mt-4 px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600"
+              >
+                Close
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3' type="submit"> Created Package for the user</button>
+
+      </form>
+ {/** select vehicle section */}
+    
 
       <div className="p-4">
         {selectedVehicleName && (

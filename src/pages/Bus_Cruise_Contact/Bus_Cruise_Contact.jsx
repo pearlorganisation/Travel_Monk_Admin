@@ -107,7 +107,7 @@ const Bus_Cruise_Contact = () => {
   return (
     <main className="flex-1 p-8 mt-16 ml-64 bg-gray-50">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">
+        <h1 className="text-4xl font-bold mb-4">
           Bus & Cruise Bookings
         </h1>
 

@@ -91,7 +91,7 @@ const AddLocation = () => {
 
     return (
         <main className="flex-1 p-8 mt-16 ml-64">
-            <h2 className="text-xl font-bold mb-4">Add Location Data</h2>
+            <h2 className="text-4xl font-bold mb-4">Add Location Data</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Destination Field */}
                 <div className="mb-6">

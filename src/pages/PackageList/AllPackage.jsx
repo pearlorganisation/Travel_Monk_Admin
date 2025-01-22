@@ -94,7 +94,7 @@ const AllPackage = () => {
 
     return (
         <main className="flex-1 p-8 mt-16 ml-64">
-            <div>All Packages</div>
+            <div className='text-4xl font-bold mb-4'>All Packages</div>
             <div>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">

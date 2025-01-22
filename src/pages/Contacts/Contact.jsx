@@ -44,7 +44,7 @@ export default function Contact() {
 
     return (
         <main className="flex-1 p-8 mt-16 ml-64 bg-gray-100 min-h-screen">
-            <h1 className="text-3xl font-bold mb-8 text-gray-800">Contacts</h1>
+            <h1 className="text-4xl font-bold mb-4">Contacts</h1>
 
             {/* Contact Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

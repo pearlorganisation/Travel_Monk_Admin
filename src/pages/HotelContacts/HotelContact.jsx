@@ -46,13 +46,13 @@ const HotelContact = () => {
         }
     }
 
-    console.log("the total page", totalPage)
+   
     useEffect(()=>{
         dispatch(getAllHotelContacts({page:currentPage}))
     },[dispatch, currentPage])
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
-     <div>HotelContact</div>
+          <div className='text-4xl font-bold mb-4'>Hotel Contact</div>
           <div>
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">

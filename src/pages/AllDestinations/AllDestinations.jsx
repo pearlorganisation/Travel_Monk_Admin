@@ -194,14 +194,18 @@ const AllDestinations = () => {
   return (
     <main className="flex-1 p-8 ml-64">
       <div className="container mx-auto px-4">
-        <h1 className="text-2xl font-bold mb-6 text-gray-800">Destinations </h1>
+        
         {destinationInfo?.length === 0 ? (
           <div className="text-center text-gray-500">
             No destinations available
           </div>
         ) : (
+          <> 
+             
           <div className="grid grid-cols-1 gap-6">
+               
             <div className="relative overflow-x-auto">
+                 
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -246,6 +250,7 @@ const AllDestinations = () => {
               </table>
             </div>
           </div>
+            </>
         )}
 
         {destinationInfo?.length > 0 && Array.isArray(destinationInfo) && (

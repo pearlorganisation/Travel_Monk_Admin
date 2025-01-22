@@ -14,7 +14,7 @@ const AddUser = () => {
     }
   return (
       <main className="flex-1 p-8 mt-16 ml-64">
-          <div>Add User</div>
+          <div className='text-4xl font-bold mb-4'>Add User</div>
            
               <form onSubmit={handleSubmit(submitForm)}>
                   <div className="mx-auto max-w-xs">
@@ -83,7 +83,7 @@ const AddUser = () => {
                       )}
                       <button
                           type="submit"
-                           className="mt-5 tracking-wide font-semibold bg-[#007E8F] text-white-500 w-full py-4 rounded-lg hover:bg-[#439ca8] transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                      className="mt-5 tracking-wide font-semibold bg-blue-500 text-white-500 w-full py-4 rounded-lg hover:bg-[#439ca8] transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                       >    Add User
                       </button>
                   </div>

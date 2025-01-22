@@ -130,7 +130,7 @@ const VehicleCard = ({ vehicle }) => {
 const VehicleList = ({ vehicles }) => {
     return (
         <div className="container mx-auto px-4">
-            <h1 className="text-2xl font-bold mb-6 text-gray-800">Our Vehicles</h1>
+        <h1 className="text-4xl font-bold mb-4">All Vehicles</h1>
             {vehicles.length === 0 ? (
                 <div className="text-center text-gray-500">No vehicles available</div>
             ) : (

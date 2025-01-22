@@ -19,14 +19,23 @@ import {
     Modal
 } from '@mui/material';
 import { baseURL } from '../../services/axiosInterceptor'
+import Pagination from '../../components/Pagination/Pagination'
 const AllHotels = () => {
  const dispatch = useDispatch()
- const { hotelsData } = useSelector(state=> state.hotels);
+ const { hotelsData, paginate } = useSelector(state=> state.hotels);
 
   const [open, setOpen] = useState(false);
   const [hotelId , setHotelId] = useState(null)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [selectedHotel,setSelectedHotel] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  const TotalPage = Math.ceil(paginate?.total/paginate?.limit)
+  const handlePageChange =(page)=>{
+    if(page>0 && page <=TotalPage ){
+        setCurrentPage(page)
+    }
+  }
 
   const deleteHandle = (id) => {
         setHotelId(id)
@@ -46,11 +55,11 @@ const AllHotels = () => {
     const handleClose = () => setOpen(false);
 
 useEffect(()=>{
-      dispatch(getAllHotels())
- },[])
+      dispatch(getAllHotels({page:currentPage}))
+ },[dispatch, currentPage])
     return (
     <main className="flex-1 p-8 mt-16 ml-64">
-      <div>AllHotels</div>
+            <div className='text-4xl font-bold mb-4'>All Hotels</div>
             <div>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
@@ -96,7 +105,7 @@ useEffect(()=>{
                     <tfoot>
                         <tr class="font-semibold text-gray-900 dark:text-white">
                             <th scope="row" class="px-6 py-3 text-base">Total Hotels</th>
-                            {/* <td class="px-6 py-3">{fullyCustomizedEnquiries.length}</td> */}
+                            <td class="px-6 py-3">{paginate.total ??"N/A"}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -198,6 +207,8 @@ useEffect(()=>{
                     )}
                 </Box>
             </Modal>
+            {/**Pagination  */}
+            <Pagination totalPages={TotalPage} currentPage={currentPage} paginate={paginate} handlePageClick={handlePageChange} />
             {/** delete modal */}
             {isDeleteModalOpen && <ConfirmDeleteModal confirmDelete={confirmDelete} setShowDeleteModal={deleteHandle} />}                
     </main>

@@ -4,6 +4,7 @@ import { deleteLocationById, getAllLocations } from '../../features/Actions/Loca
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal'
+import Pagination from '../../components/Pagination/Pagination'
 
 const AllLocation = () => {
   const dispatch = useDispatch()
@@ -13,8 +14,15 @@ const AllLocation = () => {
   const [isDeleteModalOpen,setIsDeleteModalOpen] = useState(false)
   const [open,setOpen] = useState(false)
   const [selectedLocation,setSelectedLocation] = useState(null)
-
   
+  const TotalPage = Math.ceil(paginate?.total/paginate?.limit)
+  
+  const handlePageChange =(page)=>{
+    if(page >0 && page <=TotalPage){
+        setCurrentPage(page)
+    }
+  }
+
   /**delete handle*/
   const deleteHandle =(id)=>{
     setLocationId(id)
@@ -46,7 +54,7 @@ const AllLocation = () => {
 
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
-      <div>AllLocation</div>
+          <div className='text-4xl font-bold mb-4'>All Location</div>
           <div>
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
@@ -91,12 +99,15 @@ const AllLocation = () => {
                   </tbody>
                   <tfoot>
                       <tr class="font-semibold text-gray-900 dark:text-white">
-                          <th scope="row" class="px-6 py-3 text-base">Total Users</th>
-                          {/* <td class="px-6 py-3">{fullyCustomizedEnquiries.length}</td> */}
+                          <th scope="row" class="px-6 py-3 text-base">Total Locations</th>
+                          <td class="px-6 py-3">{paginate?.total ??"N/A"}</td>
                       </tr>
                   </tfoot>
               </table>
           </div>
+          {/** pagination component */}
+          <Pagination paginate={paginate} currentPage={currentPage} totalPages={TotalPage} handlePageClick={handlePageChange} />
+          {/** delete modal */}
           {isDeleteModalOpen && <ConfirmDeleteModal setShowDeleteModal={deleteHandle} confirmDelete={confirmDelete} />}
     </main>
   )

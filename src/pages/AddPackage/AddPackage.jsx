@@ -164,7 +164,7 @@ const AddPackage = () => {
   }, [dispatch]);
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
-      <div>AddPackage</div>
+      <div className="text-4xl font-bold mb-4">Add Package</div>
       <form onSubmit={handleSubmit(submitForm)}>
         {/** package destinations */}
         <div className="mb-4">
@@ -204,7 +204,7 @@ const AddPackage = () => {
             htmlFor="isBestSeller"
             className="block text-sm font-medium text-gray-700"
           >
-            Choose BestSeller
+            Choose Best Seller
           </label>
           <select
             id="isBestSeller"
@@ -702,7 +702,7 @@ const AddPackage = () => {
             className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           >
             {" "}
-            Add Inclusion
+            Add Exclusion
           </button>
           {errors.exclusions && (
             <p className="text-red-500 text-sm mt-1">
@@ -760,7 +760,7 @@ const AddPackage = () => {
           />
         </div>
 
-        <button type="submit"> Add Package</button>
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3"> Add Package</button>
       </form>
     </main>
   );

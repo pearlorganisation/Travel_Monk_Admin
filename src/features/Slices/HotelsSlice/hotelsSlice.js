@@ -8,6 +8,7 @@ const initialState = {
     isError: false,
     isSuccess: false,
     hotelsData:{},
+    paginate:{},
     destinationHotels:{}
 }
 
@@ -24,13 +25,16 @@ const hotelSlice = createSlice({
             state.isLoading = false
             state.isError = true
             state.isSuccess = false
+            state.hotelsData = {}
+            state.paginate ={}
             toast.error(action.payload,{position:"top-right"})
         })
         .addCase(getAllHotels.fulfilled,(state,action)=>{
             state.isLoading = false
             state.isSuccess = true
             state.isError= false
-            state.hotelsData = action.payload
+            state.paginate = action.payload.pagination
+            state.hotelsData = action.payload.data
             toast.success("All hotels recieved",{position:"top-right"})
         })
         .addCase(addHotel.pending,(state)=>{
