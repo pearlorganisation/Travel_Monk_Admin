@@ -5,7 +5,28 @@ import { Link } from 'react-router-dom'
 import { Box, Button, Card, CardContent, Grid2, Modal, Typography } from '@mui/material'
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal'
 import Pagination from '../../components/Modal/PaginationComponent'
+import { useForm } from 'react-hook-form'
  
+const priceFilter = [
+  {id:1,
+    value:"price-asc"
+  },
+  {
+    id:2,
+    value:"price-desc"
+  }
+]
+
+const paymentStatusFilter = [
+  {
+    id:1,
+    value:"Advanced_Paid"
+  },
+  {
+    id:2,
+    value:"Unpaid"
+  }
+]
 const Bookings = () => {
   const dispatch = useDispatch()
   const { bookingsData, paginate } = useSelector(state=>state.bookings)
@@ -14,8 +35,21 @@ const Bookings = () => {
   const [bookingId,setBookingId] = useState(null)
   const [isDeleteModalOpen,setIsDeleteModalOpen] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
+  const { register, watch} = useForm()
+  const nameSearchQuery = watch("name")
+  const [sortBy, setSortBy] = useState("")
+  const [paymentStatus, setPaymentStatus] = useState("")
 
+  console.log("all the search option are", nameSearchQuery, sortBy, paymentStatus)
+  const handleSortByPrice =(e)=>{
+    setSortBy(e.target.value)
+  }
   
+  const handleSortByPaymentStatus =(e)=>{
+    setPaymentStatus(e.target.value)
+  }
+
+
   const totalPages = Math.ceil(paginate?.total/paginate?.limit)
   console.log("the total pages", totalPages)
 
@@ -35,13 +69,49 @@ const Bookings = () => {
     setOpen(false)
   }
   useEffect(()=>{
-     dispatch(getAllBookings({page:currentPage}))
-  },[currentPage])
+    dispatch(getAllBookings({ page: currentPage, name: nameSearchQuery ?? "", sortBy: sortBy, paymentStatus:paymentStatus }))
+  },[currentPage, nameSearchQuery, sortBy, paymentStatus])
 
   return (
    <main className="flex-1 p-8 mt-16 ml-64">
       <div className='text-4xl font-bold mb-4'>Bookings</div>
       <div>
+        <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+          <form className="space-y-4">
+            <input
+              id="name"
+              type="text"
+              {...register("name")}
+              placeholder="Search By Name"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+
+            <select
+              onChange={(e) => handleSortByPrice(e)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Filter By Price</option>
+              {priceFilter.map((el) => (
+                <option key={el.id} value={el.value}>
+                  {el.value}
+                </option>
+              ))}
+            </select>
+
+            <select
+              onChange={(e) => handleSortByPaymentStatus(e)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Filter By Payment Status</option>
+              {paymentStatusFilter.map((el) => (
+                <option key={el.id} value={el.value}>
+                  {el.value}
+                </option>
+              ))}
+            </select>
+          </form>
+        </div>
+
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
             <tr>

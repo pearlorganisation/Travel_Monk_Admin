@@ -2,7 +2,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../../services/axiosInterceptor";
 
 export const getAllBookings = createAsyncThunk(
-    "get/all-bookings",async({page=1},{rejectWithValue})=>{
+    "get/all-bookings", async ({
+            page = 1,
+            name,
+            sortBy,
+            paymentStatus
+        }, {
+            rejectWithValue
+        }) => {
         try {
             const config ={
                 headers:{
@@ -11,7 +18,7 @@ export const getAllBookings = createAsyncThunk(
             }
             const {
                 data
-            } = await axiosInstance.get(`/api/v1/bookings?page=${page}`,config); // changes the limit in the future
+            } = await axiosInstance.get(`/api/v1/bookings?page=${page}&name=${name}&sortBy=${sortBy}&paymentStatus=${paymentStatus}`,config); // changes the limit in the future
             return data
         } catch (error) {
             if (error.response && error.response.data.message) {
