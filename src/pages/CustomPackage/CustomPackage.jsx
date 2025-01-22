@@ -113,7 +113,7 @@ useEffect(()=>{
         <input
           type='text'
           onChange={e => handleSearchQuery(e)}
-          placeholder='Search by User Name'
+          placeholder='Search By Name or Email'
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>

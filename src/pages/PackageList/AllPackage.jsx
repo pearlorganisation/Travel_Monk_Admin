@@ -21,7 +21,18 @@ import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
 import { Link } from 'react-router-dom';
 import { baseURL } from '../../services/axiosInterceptor';
 import Pagination from '../../components/Pagination/Pagination';
+import { useForm } from 'react-hook-form';
 
+const sortByPrice = [
+    {
+        id:1,
+        value:"price-asc"
+    },
+    {
+        id:2,
+        value:"price-desc"
+    }
+]
 
 const AllPackage = () => {
     const dispatch = useDispatch();
@@ -31,10 +42,18 @@ const AllPackage = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [selectedPacakge,setSelectedPackage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1)
+    const {register, watch} = useForm()
+    const [sortBy, setSortBy] = useState("")
+    /** handle for filtering by the price ascending or descending */
+    const handleSortBy =(e)=>{
+        setSortBy(e.target.value)
+    }
+console.log("sort by values are",sortBy)
+
+
     /** handles for changing the page */
     const TotalPage = Math.ceil(paginate.total/paginate.limit)
-    console.log("Total pages are", TotalPage)
-    
+     
     const handlePageChange =(page)=>{
         if(page>0 && page <= TotalPage){
             setCurrentPage(page)
@@ -54,6 +73,7 @@ const AllPackage = () => {
             setIsDeleteModalOpen(false);
         } catch (error) {
             console.error("Error during deletion or fetching packages:", error);
+            return error
         }
         }
 
@@ -61,12 +81,14 @@ const AllPackage = () => {
         setSelectedPackage(enquiry);
         setOpen(true);
     };
-    console.log("-------the selected package is", selectedPacakge)
+     
+    const searchQuery = watch("search")
+
     useEffect(() => {
          
 
-        dispatch(getAllPackages({page:currentPage}));
-    }, [dispatch, currentPage]);
+        dispatch(getAllPackages({search:searchQuery,page:currentPage, sortBy:sortBy}));
+    }, [dispatch, currentPage, searchQuery, sortBy]);
 
     // will use for the view details page
     const handleClose = () => setOpen(false);
@@ -95,6 +117,29 @@ const AllPackage = () => {
     return (
         <main className="flex-1 p-8 mt-16 ml-64">
             <div className='text-4xl font-bold mb-4'>All Packages</div>
+            <div className='flex justify-end'>
+                <form>
+                    <input
+                        id="search"
+                        type="text"
+                        {...register("search")}
+                        placeholder="Search Packages By Name"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
+                    />
+                    <select className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    onChange={(e)=> handleSortBy(e)}
+                    >
+                        <option value="">Select By Price</option>
+                        {sortByPrice.map((option) => (
+                            <option key={option.id} value={option.value}>
+                                {option.value}
+                            </option>
+                        ))}
+                    </select>
+                      
+                </form>
+
+            </div>
             <div>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
