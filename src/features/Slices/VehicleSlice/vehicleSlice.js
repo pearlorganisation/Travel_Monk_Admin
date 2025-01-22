@@ -7,6 +7,7 @@ const initialState = {
     isError: false,
     isSuccess:false,
     vehiclesInfo:{},
+    paginate:{},
     isCreated:false,
 }
 
@@ -24,13 +25,16 @@ const vehicleSlice = createSlice({
             state.isLoading = false
             state.isError = true
             state.isSuccess = false
+            state.vehiclesInfo = {}
+            state.paginate={}
             toast.error(action.payload,{position:"top-right"})
         })
         .addCase(getAllVehicles.fulfilled,(state,action)=>{
             state.isLoading = false
             state.isError= false
             state.isSuccess = true
-            state.vehiclesInfo = action.payload
+            state.vehiclesInfo = action.payload.data
+            state.paginate = action.payload.pagination
             toast.success("All Vehicles recieved",{position:"top-right"})
         })
         .addCase(addVehicle.pending,(state)=>{
