@@ -115,22 +115,24 @@ const GetAllPartners = () => {
                     {/* <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                             Edit Partner
                                         </a> */}
-                    <Link
-                      to={`/update-partner/${part?._id}`}
-                      state={{ partnerData: part }}
-                    >
-                      <Button variant="outlined" color="primary">
-                        Edit Partner
-                      </Button>
-                    </Link>
+                    <div className="flex space-x-4">
+                      <Link
+                        to={`/update-partner/${part?._id}`}
+                        state={{ partnerData: part }}
+                      >
+                        <Button variant="outlined" color="primary">
+                          Edit Partner
+                        </Button>
+                      </Link>
 
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => deleteHandle(part._id)}
-                    >
-                      Delete
-                    </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => deleteHandle(part._id)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))}

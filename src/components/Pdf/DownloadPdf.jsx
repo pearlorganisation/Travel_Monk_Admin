@@ -97,7 +97,24 @@ const FullyCustomizedEnquiriesPdf = ({ data }) => (
                     </View>
                 ))}
             </View>
-
+            {/** inclusions */}
+            <View style={styles.section}>
+                <Text style={styles.subHeader}>Inclusions</Text>
+                {data?.inclusions?.map((inclusion,idx)=>(
+                     <Text key={idx} style={styles.activityList}>
+                         - {inclusion}
+                     </Text>
+                 ))}
+            </View>
+            {/** exclusions */}
+            <View style={styles.section}>
+                <Text style={styles.subHeader}>Exclusions</Text>
+                {data?.exclusions?.map((exclusion, idx) => (
+                    <Text key={idx} style={styles.activityList}>
+                        - {exclusion}
+                    </Text>
+                ))}
+            </View>
             {/* Vehicle Details */}
             <View style={styles.section}>
                 <Text style={styles.subHeader}>Vehicle Information</Text>

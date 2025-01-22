@@ -58,7 +58,22 @@ const CustomPackage = () => {
     control,
     name:"itinerary"
   })
-
+const {
+        fields: inclusionsFields,
+        append: appendInclusion,
+        remove: removeInclusion,
+    } = useFieldArray({
+        control,
+        name: "inclusions",
+    });
+const {
+        fields: exclusionsFields,
+        append: appendExclusion,
+        remove: removeExclusion,
+    } = useFieldArray({
+        control,
+        name: "exclusions",
+    });
   /** creating the option for multiselect */
   let options2 = [];
   if (destinationActivities) {
@@ -495,8 +510,66 @@ useEffect(()=>{
             Add Itinary Data
           </button>
         </div>
+        
+        {/** Inclusions field */}
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Inclusions</h2>
+          {inclusionsFields.map((field, index) => (
+            <div key={field.id} className="mb-2 flex items-center">
+              <input
+                {...register(`inclusions.${index}`)}
+                className="w-full p-2 border rounded"
+                placeholder="Inclusion"
+              />
+              <button
+                type="button"
+                onClick={() => removeInclusion(index)}
+                className="text-red-500 ml-2"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => appendInclusion("")}
+            className="text-blue-500"
+          >
+            Add Inclusion
+          </button>
+        </div>
+
+        {/** exclusions field */}
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Exclusions</h2>
+          {exclusionsFields.map((field, index) => (
+            <div key={field.id} className="mb-2 flex items-center">
+              <input
+                {...register(`exclusions.${index}`)}
+                className="w-full p-2 border rounded"
+                placeholder="Exclusion"
+              />
+              <button
+                type="button"
+                onClick={() => removeExclusion(index)}
+                className="text-red-500 ml-2"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => appendExclusion("")}
+            className="text-blue-500"
+          >
+            Add Exclusion
+          </button>
+        </div>
         <div>
-          <button className="mt-4 bg-white px-6 py-1 border border-[#1f1f1f] rounded-sm lg:min-w-72 flex flex-row items-center justify-center gap-2">
+          <button
+          type='button'
+           className="mt-4 bg-white px-6 py-1 border border-[#1f1f1f] rounded-sm lg:min-w-72 flex flex-row items-center justify-center gap-2">
             <svg
               width="13"
               height="12"
@@ -510,6 +583,7 @@ useEffect(()=>{
               />
             </svg>
             <button
+            type='button'
               onClick={openModal}
               className="px-4 py-2  text-black font-bold rounded hover:bg-blue-600 hover:text-white"
             >
@@ -555,6 +629,7 @@ useEffect(()=>{
 
               {/* Close button */}
               <button
+              type='button'
                 onClick={closeModal}
                 className="mt-4 px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600"
               >
@@ -563,7 +638,6 @@ useEffect(()=>{
             </div>
           </div>
         )}
-
         <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3' type="submit"> Created Package for the user</button>
 
       </form>
