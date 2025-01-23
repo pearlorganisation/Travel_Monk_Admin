@@ -49,6 +49,10 @@ const GetAllUsers = () => {
               <th scope="col" className="px-6 py-3">
                 Email
               </th>
+              <th scope="col" className="px-6 py-3">
+                Mobile Number
+              </th>
+           
             </tr>
           </thead>
           <tbody>
@@ -65,6 +69,7 @@ const GetAllUsers = () => {
                     {info?.name}
                   </th>
                   <td className="px-6 py-4">{info?.email}</td>
+                  <td className="px-6 py-4">{info?.mobileNumber ?? "N/A"}</td>
                 </tr>
               ))}
           </tbody>

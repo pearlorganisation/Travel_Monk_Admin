@@ -60,7 +60,7 @@ const Sidebar = () => {
           </div>
           {/**-----------------------------Users Section---------------*/}
           <div className="mb-4">
-            <Link to="get-all-users">
+            <Link to="/">
               <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
                 <span>All Users</span>
               </div>

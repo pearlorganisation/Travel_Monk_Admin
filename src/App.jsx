@@ -48,12 +48,13 @@ const AppRoutes = () => {
       element: isAdminLoggedIn ? <Layout /> : <Login />,
       children: isAdminLoggedIn
         ? [
-            { index: true, element: <Dashboard /> },
+            // { index: true, element: <Dashboard /> },
+            { index: true, element: <GetAllUsers /> },
             { path: "/profile", element:<Profile />},
             { path: "/bookings", element: <Bookings /> },
             { path: "/contact", element: <Contact /> },
             { path: "/bus-cruise", element: <Bus_Cruise_Contact /> },
-            { path: "/get-all-users", element: <GetAllUsers /> },
+            
             { path: "/get-allpartners", element: <GetAllPartners /> },
             { path: "/all-packages", element: <AllPackage /> },
             { path: "/add-vehicle", element: <AddVehicle /> },
