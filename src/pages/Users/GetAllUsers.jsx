@@ -59,7 +59,7 @@ const GetAllUsers = () => {
             {Array.isArray(usersInfo) &&
               usersInfo?.map((info) => (
                 <tr
-                  key={info._id}
+                  key={info?._id}
                   className="bg-white dark:bg-gray-800 hover:bg-gray-50"
                 >
                   <th
@@ -78,7 +78,7 @@ const GetAllUsers = () => {
               <th scope="row" className="px-6 py-3 text-base">
                 Total Users
               </th>
-              <td className="px-6 py-3">{paginate.total}</td>
+              <td className="px-6 py-3">{paginate?.total}</td>
             </tr>
           </tfoot>
         </table>
