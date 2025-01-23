@@ -10,11 +10,13 @@ import { X } from "lucide-react";
 import Pagination from "../../components/Pagination/Pagination";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../services/axiosInterceptor";
-import { Button }  from  '@mui/material'
+import { Button, Modal }  from  '@mui/material'
 const GetAllDestinations = ({
   destination,
   onDeleteClick,
   togglePopularity,
+  handleOpen,
+  handleClose
 }) => {
   const navigate = useNavigate();
 
@@ -90,9 +92,10 @@ const GetAllDestinations = ({
         >
           View
         </button> */}
-        <Button variant="outlined" color="primary" onClick={() => navigate(`/view-destination/${destination?._id}`,{
+        {/* <Button variant="outlined" color="primary" onClick={() => navigate(`/view-destination/${destination?._id}`,{
           state: destination
-        })}>
+        })}> */}
+        <Button variant="outlined" color="primary" onClick={() => handleOpen(destination)}>
             View Details
           </Button>
         {/* <button
@@ -137,6 +140,15 @@ const AllDestinations = () => {
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
+  const [open, setOpen]= useState(false)  
+  const handleOpen = (destination)=>{
+    setSelectedDestination(destination)
+    setOpen(true)
+  } 
+  const handleClose=()=>{
+    setSelectedDestination(null)
+    setOpen(false)
+  }
 
   const togglePops = (id) => {
     dispatch(togglePopularity(id))
@@ -256,6 +268,8 @@ const AllDestinations = () => {
                         destination={destination}
                         onDeleteClick={handleDelete}
                         togglePopularity={togglePops}
+                        handleOpen={handleOpen}
+                        handleClose={handleClose}
                       />
                     ))}
                 </tbody>
@@ -310,6 +324,56 @@ const AllDestinations = () => {
           </div>
         </div>
       )}
+      {/** Modal to open the dialog */}
+      <Modal open={open} onClose={handleClose}>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
+          {/* Banner */}
+          <div className="mb-4">
+            <img
+              src={`${baseURL}/${selectedDestination?.banner?.path}`}
+              alt="Banner"
+              className="w-full h-40 object-cover rounded-lg"
+            />
+          </div>
+
+          {/* Title */}
+          <h2 className="text-2xl font-bold mb-4">{selectedDestination?.name}</h2>
+
+          {/* Image */}
+          <div className="mb-4">
+            <img
+              src={`${baseURL}/${selectedDestination?.image?.path}`}
+              alt="Destination"
+              className="w-full h-40 object-cover rounded-lg"
+            />
+          </div>
+
+          {/* Details */}
+          <div className="mb-2">
+            <span className="font-semibold">Type:</span> {selectedDestination?.type}
+          </div>
+          <div className="mb-2">
+            <span className="font-semibold">Starting Price:</span> ₹{selectedDestination?.startingPrice}
+          </div>
+          <div className="mb-2">
+            <span className="font-semibold">Slug:</span> {selectedDestination?.slug}
+          </div>
+          <div className="mb-2">
+            <span className="font-semibold">Popular:</span>{" "}
+            {selectedDestination?.isPopular ? "Yes" : "No"}
+          </div>
+
+          {/* Close Button */}
+          <div className="mt-6 text-right">
+            <button
+              onClick={handleClose}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </Modal>
     </main>
   );
 };
