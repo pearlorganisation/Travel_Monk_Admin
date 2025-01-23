@@ -12,9 +12,9 @@ const ChangePassword = () => {
     const submitForm=(data)=>{
       dispatch(changePassword(data));
       reset();
-        if (!changePasswordInfo.isSuccess) {
-            alert('try again')
-        } else { navigate('/profile') }
+        // if (!changePasswordInfo.isSuccess) {
+        //     alert('try again')
+        // } else { navigate('/profile') }
     }
     const newPassword = watch("newPassword")
   return (
