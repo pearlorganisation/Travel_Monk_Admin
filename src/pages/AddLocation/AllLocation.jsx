@@ -62,7 +62,7 @@ const AllLocation = () => {
                           <th scope="col" class="px-6 py-3 rounded-s-lg">
                               Location Name
                           </th>
-                          <th scope="col" className="px-6 py-3">
+                          <th scope="col" className="flex justify-center items-center rounded-s-lg">
                               Action
                           </th>
                       </tr>
@@ -79,10 +79,10 @@ const AllLocation = () => {
 
 
                               <td className="px-6 py-4">
-                                  <div className='flex gap-1'>
-                                      <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>
+                                  <div className='flex justify-center items-center gap-1'>
+                                      {/* <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>
                                           View Details
-                                      </Button>
+                                      </Button> */}
                                       <Button variant="outlined" color="error" onClick={() => deleteHandle(info?._id)}>
                                           Delete
                                       </Button>
