@@ -105,3 +105,26 @@ export const changePassword = createAsyncThunk("user/updatePassword", async ({
     }
   }
 })
+
+/** admin logout */
+export const adminLogout = createAsyncThunk(
+  "logout/admin",async(_,{rejectWithValue})=>{
+    try {
+      const config ={
+        headers:{
+          "Content-Type":"application/json"
+        }
+      }
+      const {
+        data
+      } = await axiosInstance.post(`/api/v1/auth/logout`, config)
+      return data;
+    } catch (error) {
+      if(error.response && error.response.data.message){
+        return rejectWithValue(error.response.data.message)
+      }else{
+        return rejectWithValue(error.message)
+      }
+    }
+  }
+)

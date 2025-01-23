@@ -259,7 +259,7 @@ const AddLocation = () => {
 
                 <button
                     type="submit"
-                    className="block mt-6 p-2 bg-blue-500 text-white rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3"
                 >
                     Submit
                 </button>

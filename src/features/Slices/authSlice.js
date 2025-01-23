@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
 import { toast } from "sonner";
-import { adminLogin, changePassword, getProfileData, updateProfile } from "../Actions/authAction";
+import { adminLogin, adminLogout, changePassword, getProfileData, updateProfile } from "../Actions/authAction";
 
 const initialState = {
   isLoading: false,
@@ -94,6 +94,24 @@ const authSlice = createSlice({
         state.changePasswordInfo.isLoading = false;
         state.changePasswordInfo.isSuccess = true;
         toast.success("Password changed successfully", {position:"top-right"})
+      })
+      .addCase(adminLogout.pending,(state)=>{
+        state.isLoading= true
+        state.isSuccess= false
+        state.isError = false
+      })
+      .addCase(adminLogout.rejected,(state,action)=>{
+        state.isLoading= false
+        state.isSuccess = false
+        state.isError = true
+      })
+      .addCase(adminLogout.fulfilled,(state,action)=>{
+        state.isLoading= false
+        state.isSuccess= true
+        state.isError= false
+        state.isAdminLoggedIn= false
+        state.adminInfo = null
+        toast.success("Admin logged out successfully",{position:"top-right"})
       })
 
     builder.addCase(PURGE, () => {

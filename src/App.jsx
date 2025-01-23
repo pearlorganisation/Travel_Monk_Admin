@@ -80,13 +80,13 @@ const AppRoutes = () => {
             { path: "update-vehicle/:id", element: <UpdateVehicles /> },
             { path: "hotels", element: <AllHotels /> },
             { path: "update-hotel/:id", element: <UpdateHotel /> },
-            { path:"all-locations", element:<AllLocation />},
-            {path:"hotel-contact", element:<HotelContact />},
-            { path:"update-location/:id", element:<UpdateLocation />},
-            { path:"custom-package", element:<CustomPackage />},
-            { path:"add-user", element:<AddUser />},
-            {path:"get-all-custom-package", element:<GetAllCustomPackage/>},
-            {path:"change-password", element:<ChangePassword />}
+            { path: "all-locations", element:<AllLocation />},
+            { path: "hotel-contact", element:<HotelContact />},
+            { path: "update-location/:id", element:<UpdateLocation />},
+            { path: "custom-package", element:<CustomPackage />},
+            { path: "add-user", element:<AddUser />},
+            { path: "get-all-custom-package", element:<GetAllCustomPackage/>},
+            { path: "change-password", element:<ChangePassword />}
             ]
         : [],
     },

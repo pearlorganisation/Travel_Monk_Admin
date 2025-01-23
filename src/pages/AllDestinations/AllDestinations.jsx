@@ -10,7 +10,7 @@ import { X } from "lucide-react";
 import Pagination from "../../components/Pagination/Pagination";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../services/axiosInterceptor";
-
+import { Button }  from  '@mui/material'
 const GetAllDestinations = ({
   destination,
   onDeleteClick,
@@ -78,9 +78,9 @@ const GetAllDestinations = ({
 
       <th
         scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap space-x-4"
+        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap space-x-2"
       >
-        <button
+        {/* <button
           className="px-4 py-2 bg-green-400 rounded-md "
           onClick={() =>
             navigate(`/view-destination/${destination?._id}`, {
@@ -89,8 +89,13 @@ const GetAllDestinations = ({
           }
         >
           View
-        </button>
-        <button
+        </button> */}
+        <Button variant="outlined" color="primary" onClick={() => navigate(`/view-destination/${destination?._id}`,{
+          state: destination
+        })}>
+            View Details
+          </Button>
+        {/* <button
           className="px-4 py-2 bg-blue-400 rounded-md "
           onClick={() =>
             navigate(`/edit-destination/${destination?._id}`, {
@@ -99,14 +104,21 @@ const GetAllDestinations = ({
           }
         >
           Edit
-        </button>
-
-        <button
+        </button> */}
+        <Button variant="outlined" color="primary" onClick={() => navigate(`/edit-destination/${destination?._id}`,{
+          state:destination
+        })}>
+          Edit
+        </Button>
+        {/* <button
           className="px-4 py-2 bg-red-400 rounded-md"
           onClick={() => onDeleteClick(destination)} // Trigger delete modal in parent
         >
           Delete
-        </button>
+        </button> */}
+        <Button variant="outlined" color="error" onClick={() =>onDeleteClick(destination)}>
+            Delete
+          </Button>
       </th>
     </tr>
   );
@@ -281,6 +293,7 @@ const AllDestinations = () => {
               {selectedDestination?.name}"?
             </p>
             <div className="flex justify-end">
+              
               <button
                 onClick={cancelDelete}
                 className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded mr-2"

@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { adminLogout } from "../../../features/Actions/authAction";
 
 const Header = () => {
+    const dispatch = useDispatch()
     const [isOpen, setIsOpen] = useState(false)
     const handleOpen =()=>{
         setIsOpen(!isOpen)
+    }
+
+    const handleLogout =()=>{
+     dispatch(adminLogout()) 
     }
     return (
         <header className="bg-blue-500 text-white p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-10">
@@ -43,7 +50,10 @@ const Header = () => {
                             </Link>
                        
                         <div>
-                            Logout
+                            <button onClick={()=>handleLogout()}>
+                                Logout
+                            </button>
+                            
                         </div>
                     </div>
                 }
