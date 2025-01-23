@@ -24,6 +24,15 @@ const Sidebar = () => {
           <h2 className="text-2xl font-bold">Travel Monk</h2>
         </div>
         <nav>
+          {/**-----------------------------Users Section---------------*/}
+          <div className="mb-4">
+            <Link to="/">
+              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+                <span>All Users</span>
+              </div>
+            </Link>
+          </div>
+
           {/*-------------------Custom Package------------------*/}
 
           <div className="mb-4">
@@ -58,15 +67,7 @@ const Sidebar = () => {
               </Link>
             </div>
           </div>
-          {/**-----------------------------Users Section---------------*/}
-          <div className="mb-4">
-            <Link to="/">
-              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-                <span>All Users</span>
-              </div>
-            </Link>
-          </div>
-
+        
           {/*---------------------------Activites Section------------------------------------*/}
           <div className="mb-4">
             <div
