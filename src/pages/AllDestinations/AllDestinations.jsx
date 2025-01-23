@@ -19,18 +19,6 @@ const GetAllDestinations = ({
   handleClose
 }) => {
   const navigate = useNavigate();
-
-  // const togglePops = (id) => {
-  //   dispatch(togglePopularity(id))
-  //     .then(() => {
-  //       // Reload the destinations after successful toggle
-  //       dispatch(getDestinations({ page: 1 }));
-  //     })
-  //     .catch((error) => {
-  //       console.error("Failed to toggle popularity:", error);
-  //     });
-  // };
-
   return (
     <tr
       key={destination._id}
@@ -82,43 +70,17 @@ const GetAllDestinations = ({
         scope="row"
         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap space-x-2"
       >
-        {/* <button
-          className="px-4 py-2 bg-green-400 rounded-md "
-          onClick={() =>
-            navigate(`/view-destination/${destination?._id}`, {
-              state: destination,
-            })
-          }
-        >
-          View
-        </button> */}
-        {/* <Button variant="outlined" color="primary" onClick={() => navigate(`/view-destination/${destination?._id}`,{
-          state: destination
-        })}> */}
+        
         <Button variant="outlined" color="primary" onClick={() => handleOpen(destination)}>
             View Details
           </Button>
-        {/* <button
-          className="px-4 py-2 bg-blue-400 rounded-md "
-          onClick={() =>
-            navigate(`/edit-destination/${destination?._id}`, {
-              state: destination,
-            })
-          }
-        >
-          Edit
-        </button> */}
+        
         <Button variant="outlined" color="primary" onClick={() => navigate(`/edit-destination/${destination?._id}`,{
           state:destination
         })}>
           Edit
         </Button>
-        {/* <button
-          className="px-4 py-2 bg-red-400 rounded-md"
-          onClick={() => onDeleteClick(destination)} // Trigger delete modal in parent
-        >
-          Delete
-        </button> */}
+        
         <Button variant="outlined" color="error" onClick={() =>onDeleteClick(destination)}>
             Delete
           </Button>
@@ -196,16 +158,6 @@ const AllDestinations = () => {
     setDeleteModal(false); // Close the modal without deleting
     setSelectedDestination(null); // Reset selected activity
   };
-
-  // if (isLoading) {
-  //   return (
-  //     <main className="flex-1 p-8 mt-16 ml-64">
-  //       <div className="text-center text-gray-500">
-  //         Loading destinations ...
-  //       </div>
-  //     </main>
-  //   );
-  // }
 
   if (isError) {
     return (
