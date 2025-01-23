@@ -118,8 +118,11 @@ const Bookings = () => {
               <th scope="col" class="px-6 py-3 rounded-s-lg">
                 Booking Id
               </th>
-              <th>
+              <th scope="col" class="px-6 py-3 rounded-s-lg">
                 Person Name
+              </th>
+              <th scope="col" class="px-6 py-3 rounded-s-lg">
+                Price
               </th>
               <th scope="col" className="px-6 py-3">
                 Action
@@ -141,7 +144,12 @@ const Bookings = () => {
                 >
                   {info?.user?.name}
                 </th>
-
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {info?.totalPrice}
+                </th>
 
                 <td className="px-6 py-4">
                   <div className='flex gap-1'>
