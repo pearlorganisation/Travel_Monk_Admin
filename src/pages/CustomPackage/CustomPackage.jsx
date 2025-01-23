@@ -133,211 +133,134 @@ useEffect(()=>{
         />
       </div>
       <form onSubmit={handleSubmit(submitForm)}>
-        {/** for selecting the user */}
-        <div className="mb-4">
-          <label
-            htmlFor="user"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add User
+        {/* User Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Select User
           </label>
           <select
-            id="user"
-            {...register("user", {
-              required: "Package Destination is required",
-            })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.destination ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+            {...register("user", { required: "User is required" })}
+            className={`w-full px-4 py-2 border rounded-md ${errors.user ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
           >
-            <option value="">Select the user</option>
-            {Array.isArray(usersInfo) &&
-              usersInfo.map((user) => (
-                <option key={user._id} value={user._id}>
-                  {user.name}
-                </option>
-              ))}
+            <option value="">Select User</option>
+            {Array.isArray(usersInfo) && usersInfo.map((user) => (
+              <option key={user._id} value={user._id}>
+                {user.name}
+              </option>
+            ))}
           </select>
           {errors.user && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.user.message}
-            </p>
+            <p className="text-red-500 text-xs mt-1">{errors.user.message}</p>
           )}
         </div>
 
-        {/**  selecting the destination */}
-        <div className="mb-4">
-          <label
-            htmlFor="destination"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add Package Destination
+        {/* Destination Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Package Destination
           </label>
           <select
-            id="destination"
-            {...register("destination", {
-              required: "Package Destination is required",
-            })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.destination ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+            {...register("destination", { required: "Destination is required" })}
+            className={`w-full px-4 py-2 border rounded-md ${errors.destination ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
           >
-            <option value="">Select a Package Destination</option>
-            {Array.isArray(destinationInfo) &&
-              destinationInfo.map((destination) => (
-                <option key={destination._id} value={destination._id}>
-                  {destination.name}
-                </option>
-              ))}
+            <option value="">Select Destination</option>
+            {Array.isArray(destinationInfo) && destinationInfo.map((destination) => (
+              <option key={destination._id} value={destination._id}>
+                {destination.name}
+              </option>
+            ))}
           </select>
           {errors.destination && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.destination.message}
-            </p>
+            <p className="text-red-500 text-xs mt-1">{errors.destination.message}</p>
           )}
         </div>
 
-        {/** package name */}
-        <div className="mb-4">
-          <label
-            htmlFor="packageName"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Enter Package Name
-          </label>
-          <input
-            type="text"
-            id="packageName"
-            {...register("packageName", { required: "numberOfTravellers is required" })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.packageName ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-          />
-          {errors.packageName && (
-            <p className="text-red-500 text-sm mt-1">{errors.packageName.message}</p>
-          )}
-        </div>
-        {/** numberOfTravellers */}
-        <div className="mb-4">
-          <label
-            htmlFor="numberOfTravellers"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add Traveller Number
-          </label>
-          <input
-            type="number"
-            id="numberOfTravellers"
-            {...register("numberOfTravellers", { required: "numberOfTravellers is required" })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.numberOfTravellers ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-          />
-          {errors.numberOfTravellers && (
-            <p className="text-red-500 text-sm mt-1">{errors.numberOfTravellers.message}</p>
-          )}
-        </div>
-        {/** price */}
-        <div className="mb-4">
-          <label
-            htmlFor="price"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add Price
-          </label>
-          <input
-            type="number"
-            id="price"
-            {...register("price", { required: "price is required" })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.price ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-          />
-          {errors.price && (
-            <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
-          )}
-        </div>
-        {/** start date */}
-        <div className="mb-4">
-          <label
-            htmlFor="startDate"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add Start Date
-          </label>
-          <input
-            type="date"
-            id="startDate"
-            {...register("startDate", { required: "startDate is required" })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.startDate ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-          />
-          {errors.startDate && (
-            <p className="text-red-500 text-sm mt-1">{errors.startDate.message}</p>
-          )}
+        {/* Package Details Section */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Package Name
+            </label>
+            <input
+              type="text"
+              {...register("packageName", { required: "Package Name is required" })}
+              className={`w-full px-4 py-2 border rounded-md ${errors.packageName ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            />
+            {errors.packageName && (
+              <p className="text-red-500 text-xs mt-1">{errors.packageName.message}</p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Number of Travellers
+            </label>
+            <input
+              type="number"
+              {...register("numberOfTravellers", { required: "Travellers count is required" })}
+              className={`w-full px-4 py-2 border rounded-md ${errors.numberOfTravellers ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            />
+            {errors.numberOfTravellers && (
+              <p className="text-red-500 text-xs mt-1">{errors.numberOfTravellers.message}</p>
+            )}
+          </div>
         </div>
 
-        {/**end date */}
-        <div className="mb-4">
-          <label
-            htmlFor="endDate"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add End Date
-          </label>
-          <input
-            type="date"
-            id="endDate"
-            {...register("endDate", { required: "endDate is required" })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.endDate ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-          />
-          {errors.endDate && (
-            <p className="text-red-500 text-sm mt-1">{errors.endDate.message}</p>
-          )}
+        {/* Pricing and Dates Section */}
+        <div className="grid md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Price
+            </label>
+            <input
+              type="number"
+              {...register("price", { required: "Price is required" })}
+              className={`w-full px-4 py-2 border rounded-md ${errors.price ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Start Date
+            </label>
+            <input
+              type="date"
+              {...register("startDate", { required: "Start Date is required" })}
+              className={`w-full px-4 py-2 border rounded-md ${errors.startDate ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              End Date
+            </label>
+            <input
+              type="date"
+              {...register("endDate", { required: "End Date is required" })}
+              className={`w-full px-4 py-2 border rounded-md ${errors.endDate ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            />
+          </div>
         </div>
 
-        {/* duration days*/}
-        <div className="mb-4">
-          <label
-            htmlFor="duration.days"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add Duration Days
-          </label>
-          <input
-            type="number"
-            id="duration.days"
-            {...register("duration.days", {
-              required: "Package Duration Days is required",
-            })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.duration ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-          />
-          {errors.duration && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.duration.message}
-            </p>
-          )}
-        </div>
-
-        {/* duration nights*/}
-        <div className="mb-4">
-          <label
-            htmlFor="duration.nights"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add Duration Nights
-          </label>
-          <input
-            type="number"
-            id="duration.nights"
-            {...register("duration.nights", {
-              required: "Package Duration Nights is required",
-            })}
-            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.duration ? "border-red-500" : "border-gray-300"
-              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-          />
-          {errors.duration && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.duration.message}
-            </p>
-          )}
+        {/* Duration Section */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Duration (Days)
+            </label>
+            <input
+              type="number"
+              {...register("duration.days", { required: "Days are required" })}
+              className={`w-full px-4 py-2 border rounded-md ${errors.duration ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Duration (Nights)
+            </label>
+            <input
+              type="number"
+              {...register("duration.nights", { required: "Nights are required" })}
+              className={`w-full px-4 py-2 border rounded-md ${errors.duration ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            />
+          </div>
         </div>
 
         {/** itinary field */}
