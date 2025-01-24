@@ -41,7 +41,6 @@ export default function Contact() {
             day: 'numeric'
         });
     };
-
     return (
         <main className="flex-1 p-8 mt-16 ml-64 bg-gray-100 min-h-screen">
             <h1 className="text-4xl font-bold mb-4">Contacts</h1>

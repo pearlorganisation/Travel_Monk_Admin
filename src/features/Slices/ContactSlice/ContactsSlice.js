@@ -22,6 +22,7 @@ const contactSlice =createSlice({
             state.isError = true;
             state.isLoading = false;
             state.isSuccess = false;
+            state.contacts={}
             toast.error(action.payload,{position:"top-right"})
         })
         .addCase(getAllContacts.fulfilled,(state,action)=>{

@@ -79,9 +79,9 @@ const Bus_Cruise_Contact = () => {
     (state) => state.buscruise
   );
 
-  useEffect(() => {
-    dispatch(getBusCruise());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getBusCruise());
+  // }, []);
 
   if (isError) {
     return (
