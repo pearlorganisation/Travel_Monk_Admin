@@ -36,7 +36,7 @@ import AddUser from "./pages/AddUser/AddUser";
 import GetAllCustomPackage from "./pages/CustomPackage/GetAllCustomPackage";
 import Profile from "./pages/Profile/Profile";
 import ChangePassword from "./pages/Password/ChangePassword";
-import GetAllPartners from "./pages/Partner/getAllPartners";
+//import GetAllPartners from "./pages/Partner/getAllPartners";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -54,7 +54,7 @@ const AppRoutes = () => {
         { path: "/contact", element: <Contact /> },
         { path: "/bus-cruise", element: <Bus_Cruise_Contact /> },
 
-        { path: "/get-allpartners", element: <GetAllPartners /> },
+        //{ path: "/get-allpartners", element: <GetAllPartners /> },
         { path: "/all-packages", element: <AllPackage /> },
         { path: "/add-vehicle", element: <AddVehicle /> },
         { path: "/get-all-vehicles", element: <AllVehicleList /> },
