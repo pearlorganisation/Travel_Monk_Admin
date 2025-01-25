@@ -77,18 +77,18 @@ const Bookings = () => {
       <div className='text-4xl font-bold mb-4'>Bookings</div>
       <div>
         <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-          <form className="space-y-4">
+          <form className="space-y-4 lg:space-y-0 lg:space-x-4 flex flex-col lg:flex-row">
             <input
               id="name"
               type="text"
               {...register("name")}
               placeholder="Search By Name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="flex-1 h-12 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
 
             <select
               onChange={(e) => handleSortByPrice(e)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="flex-1 h-12 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Filter By Price</option>
               {priceFilter.map((el) => (
@@ -100,7 +100,7 @@ const Bookings = () => {
 
             <select
               onChange={(e) => handleSortByPaymentStatus(e)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="flex-1 h-12 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Filter By Payment Status</option>
               {paymentStatusFilter.map((el) => (
@@ -110,6 +110,7 @@ const Bookings = () => {
               ))}
             </select>
           </form>
+
         </div>
 
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

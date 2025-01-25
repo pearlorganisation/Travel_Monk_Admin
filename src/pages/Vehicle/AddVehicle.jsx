@@ -118,7 +118,7 @@ const AddVehicle = () => {
             htmlFor="destinations"
             className="block text-sm font-medium text-gray-700"
           >
-            Add Destination where this vehicle will be Available for
+            Add Destination Where This Vehicle Will Be Available For
           </label>
           <select
             id="destinations"
@@ -150,7 +150,7 @@ const AddVehicle = () => {
             htmlFor="image"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            Upload vehicle images
+            Upload Vehicle Image
           </label>
           <input
             type="file"

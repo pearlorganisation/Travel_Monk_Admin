@@ -117,16 +117,16 @@ console.log("sort by values are",sortBy)
     return (
         <main className="flex-1 p-8 mt-16 ml-64">
             <div className='text-4xl font-bold mb-4'>All Packages</div>
-            <div className='flex justify-end'>
-                <form>
+            <div className='flex justify-start'>
+                <form className='flex flex-row gap-3'>
                     <input
                         id="search"
                         type="text"
                         {...register("search")}
                         placeholder="Search Packages By Name"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
+                        className="w-72 h-12 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
                     />
-                    <select className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    <select className="px-4 h-12 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     onChange={(e)=> handleSortBy(e)}
                     >
                         <option value="">Select By Price</option>

@@ -680,7 +680,7 @@ const AddPackage = () => {
             htmlFor="exclusions"
             className="block text-sm font-medium text-gray-700"
           >
-            Add exclusions
+            Add Exclusions
           </label>
           <input
             type="text"
