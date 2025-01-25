@@ -6,13 +6,15 @@ import { Provider } from "react-redux";
 import store, { persistor } from "./features/store.js";
 import { Toaster } from "sonner";
 import { PersistGate } from "redux-persist/es/integration/react";
+import { injectStore } from "./services/axiosInterceptor.js";
 
+injectStore(store);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}> 
-       <App />
-       <Toaster richColors />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+        <Toaster richColors />
       </PersistGate>
     </Provider>
   </StrictMode>
