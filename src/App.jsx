@@ -8,7 +8,7 @@ import Contact from "./pages/Contacts/Contact";
 import Bus_Cruise_Contact from "./pages/Bus_Cruise_Contact/Bus_Cruise_Contact";
 import { useSelector } from "react-redux";
 import GetAllUsers from "./pages/Users/GetAllUsers";
-import GetAllPartners from "./pages/Partner/getAllPartners";
+import GetAllPartners from "./pages/Partner/GetAllPartners";
 import AllPackage from "./pages/PackageList/AllPackage";
 import AddVehicle from "./pages/Vehicle/AddVehicle";
 import AllVehicleList from "./pages/Vehicle/AllVehicleList";
