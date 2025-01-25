@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../services/axiosInterceptor";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export const adminLogin = createAsyncThunk(
   "user/admin",
@@ -27,104 +29,106 @@ export const adminLogin = createAsyncThunk(
 );
 
 /** to get the data of the logged in user */
-export const getProfileData =createAsyncThunk(
-  "get/profile-data", async(_,{rejectWithValue})=>{
+export const getProfileData = createAsyncThunk(
+  "get/profile-data",
+  async (_, { rejectWithValue }) => {
     try {
-      const config ={
-        headers:{
-          "Content-Type":"application/json"
-        }
-      }
-      const {
-        data
-      } = await axiosInstance.get(`/api/v1/users/me`, config)
-      return data
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axiosInstance.get(`/api/v1/users/me`, config);
+      return data;
     } catch (error) {
-      if(error.response && error.response.data.message){
-        return rejectWithValue(error.response.data.message)
-      }else{
-        return rejectWithValue(error.message)
-      }      
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
     }
   }
-)
+);
 
 /** to update the profile */
 export const updateProfile = createAsyncThunk(
-  "update/profile", async(userData, {rejectWithValue})=>{
+  "update/profile",
+  async (userData, { rejectWithValue }) => {
     try {
-      const config ={
-        headers:{
-          "Content-Type":"application/json"
-        }
-      }
-      const { data } = await axiosInstance.patch(`/api/v1/users/me`, userData,config)
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axiosInstance.patch(
+        `/api/v1/users/me`,
+        userData,
+        config
+      );
       return data;
     } catch (error) {
-      if(error.response && error.response.data.message){
-        return rejectWithValue(error.response.data.message)
-      }
-      else{
-        return rejectWithValue(error.message)
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
       }
     }
   }
-)
-
+);
 
 /** for changing the password */
-export const changePassword = createAsyncThunk("user/updatePassword", async ({
-  currentPassword,
-  newPassword,
-  confirmNewPassword
-}, {
-  rejectWithValue
-}) => {
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
+export const changePassword = createAsyncThunk(
+  "user/updatePassword",
+  async (
+    { currentPassword, newPassword, confirmNewPassword },
+    { rejectWithValue }
+  ) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axiosInstance.post(
+        "/api/v1/users/change-password",
+        {
+          currentPassword,
+          newPassword,
+          confirmNewPassword,
+        },
+        config
+      );
+      console.log(data, " Updated password data");
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
       }
     }
-    const {
-      data
-    } = await axiosInstance.post("/api/v1/users/change-password", {
-        currentPassword,
-        newPassword,
-        confirmNewPassword
-      },
-      config
-    )
-    console.log(data, " Updated password data");
-    return data;
-  } catch (error) {
-    if (error.response && error.response.data.message) {
-      return rejectWithValue(error.response.data.message);
-    } else {
-      return rejectWithValue(error.message);
-    }
   }
-})
+);
 
 /** admin logout */
 export const adminLogout = createAsyncThunk(
-  "logout/admin",async(_,{rejectWithValue})=>{
+  "logout/admin",
+  async (_, { rejectWithValue }) => {
     try {
-      const config ={
-        headers:{
-          "Content-Type":"application/json"
-        }
-      }
-      const {
-        data
-      } = await axiosInstance.post(`/api/v1/auth/logout`, config)
+      console.log("-----------in logout");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axiosInstance.post(`/api/v1/auth/logout`, config);
       return data;
     } catch (error) {
-      if(error.response && error.response.data.message){
-        return rejectWithValue(error.response.data.message)
-      }else{
-        return rejectWithValue(error.message)
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
       }
     }
   }
-)
+);
