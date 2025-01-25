@@ -2,13 +2,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login/Login";
 import Layout from "./components/Layout/Layout";
-import Dashboard from "./pages/Dashboard/Dashboard";
 import Bookings from "./pages/Bookings/Bookings";
 import Contact from "./pages/Contacts/Contact";
 import Bus_Cruise_Contact from "./pages/Bus_Cruise_Contact/Bus_Cruise_Contact";
 import { useSelector } from "react-redux";
 import GetAllUsers from "./pages/Users/GetAllUsers";
-import GetAllPartners from "./pages/Partner/getAllPartners";
 import AllPackage from "./pages/PackageList/AllPackage";
 import AddVehicle from "./pages/Vehicle/AddVehicle";
 import AllVehicleList from "./pages/Vehicle/AllVehicleList";
@@ -38,6 +36,7 @@ import AddUser from "./pages/AddUser/AddUser";
 import GetAllCustomPackage from "./pages/CustomPackage/GetAllCustomPackage";
 import Profile from "./pages/Profile/Profile";
 import ChangePassword from "./pages/Password/ChangePassword";
+import GetAllPartners from "./pages/Partner/getAllPartners";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
