@@ -9,10 +9,11 @@ const Sidebar = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isVehicleOpen, setIsVehicleOpen] = useState(false);
   const [isHotelOpen, setIsHotelOpen] = useState(false);
-  const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] = useState(false);
+  const [isCustomizationEnquiriesOpen, setIsCustomizationEnquiriesOpen] =
+    useState(false);
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
-  const [isCustomPackageOpen, setIsCustomPackageOpen]= useState(false);
+  const [isCustomPackageOpen, setIsCustomPackageOpen] = useState(false);
 
   return (
     <div>
@@ -32,7 +33,15 @@ const Sidebar = () => {
               </div>
             </Link>
           </div>
+          {/**--------------Add User By Admin------------------ */}
 
+          <div className="mb-4">
+            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+              <Link to="add-user">
+                <span>Add User</span>
+              </Link>
+            </div>
+          </div>
           {/*-------------------Custom Package------------------*/}
 
           <div className="mb-4">
@@ -58,16 +67,7 @@ const Sidebar = () => {
               </ul>
             )}
           </div>
-          {/**--------------Add User By Admin------------------ */}
 
-          <div className="mb-4">
-            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-              <Link to="add-user">
-                <span>Add User</span>
-              </Link>
-            </div>
-          </div>
-        
           {/*---------------------------Activites Section------------------------------------*/}
           <div className="mb-4">
             <div
@@ -117,52 +117,6 @@ const Sidebar = () => {
               </ul>
             )}
           </div>
-          {/*------------------------------Patner Section------------------------------*/}
-          <div className="mb-4">
-            <Link to="get-allpartners">
-              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-                <span>Partners</span>
-              </div>
-            </Link>
-          </div>
-
-          {/*------------------------------Bookings------------------------------------*/}
-           
-          <div className="mb-4">
-            <Link to="bookings">
-              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-                <span>Bookings</span>
-              </div>
-            </Link>
-          </div> 
-          {/*------------------------------Contact-------------------------------------*/}
-          <div className="mb-4">
-            <div
-              onClick={() => setIsContactOpen(!isContactOpen)}
-              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
-            >
-              <span>Contacts</span>
-              {isContactOpen ? <FaChevronUp /> : <FaChevronDown />}
-            </div>
-            {isContactOpen && (
-              <ul className="mt-2 ml-4 space-y-2">
-                <Link to="contact">
-                  <li className="hover:text-gray-300  cursor-pointer">
-                    Contact List
-                  </li>
-                </Link>
-              </ul>
-            )}
-          </div>
-
-          {/*---------------------------Bus Cruise Contact-----------------------------*/}
-          <div className="mb-4">
-            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
-              <Link to="bus-cruise">
-                <span>Bus & Cruise Contacts</span>
-              </Link>
-            </div>
-          </div>
 
           {/*---------------------------Vehicle Section------------------------------------*/}
           <div className="mb-4">
@@ -207,37 +161,6 @@ const Sidebar = () => {
                 <Link to="hotels">
                   <li className="hover:text-gray-300 cursor-pointer">
                     All Hotels
-                  </li>
-                </Link>
-              </ul>
-            )}
-          </div>
-
-          {/**---------------------------Customization Queries------------------------------------*/}
-          <div className="mb-4">
-            <div
-              onClick={() =>
-                setIsCustomizationEnquiriesOpen(!isCustomizationEnquiriesOpen)
-              }
-              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
-            >
-              <span>Customization Enquiries</span>
-              {isCustomizationEnquiriesOpen ? (
-                <FaChevronUp />
-              ) : (
-                <FaChevronDown />
-              )}
-            </div>
-            {isCustomizationEnquiriesOpen && (
-              <ul className="mt-2 ml-4 space-y-2">
-                <Link to="customized-enquiries">
-                  <li className="hover:text-gray-300 cursor-pointer">
-                    Customization enquiries
-                  </li>
-                </Link>
-                <Link to="full-customized-enquiries">
-                  <li className="hover:text-gray-300 cursor-pointer">
-                    Fully Customized Enquiries
                   </li>
                 </Link>
               </ul>
@@ -294,6 +217,64 @@ const Sidebar = () => {
             )}
           </div>
 
+          {/*------------------------------Patner Section------------------------------*/}
+          <div className="mb-4">
+            <Link to="get-allpartners">
+              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+                <span>Partners</span>
+              </div>
+            </Link>
+          </div>
+
+          {/*------------------------------Bookings------------------------------------*/}
+          <div className="mb-4">
+            <Link to="bookings">
+              <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+                <span>Bookings</span>
+              </div>
+            </Link>
+          </div>
+
+          {/**---------------------------Customization Queries------------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() =>
+                setIsCustomizationEnquiriesOpen(!isCustomizationEnquiriesOpen)
+              }
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Customization Enquiries</span>
+              {isCustomizationEnquiriesOpen ? (
+                <FaChevronUp />
+              ) : (
+                <FaChevronDown />
+              )}
+            </div>
+            {isCustomizationEnquiriesOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="customized-enquiries">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Customization enquiries
+                  </li>
+                </Link>
+                <Link to="full-customized-enquiries">
+                  <li className="hover:text-gray-300 cursor-pointer">
+                    Fully Customized Enquiries
+                  </li>
+                </Link>
+              </ul>
+            )}
+          </div>
+
+          {/*---------------------------Bus Cruise Contact-----------------------------*/}
+          <div className="mb-4">
+            <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
+              <Link to="bus-cruise">
+                <span>Bus & Cruise Contacts</span>
+              </Link>
+            </div>
+          </div>
+
           {/*---------------------------Hotel Contacts-----------------------------*/}
           <div className="mb-4">
             <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
@@ -301,6 +282,26 @@ const Sidebar = () => {
                 <span>Hotel Contacts</span>
               </Link>
             </div>
+          </div>
+
+          {/*------------------------------Contact-------------------------------------*/}
+          <div className="mb-4">
+            <div
+              onClick={() => setIsContactOpen(!isContactOpen)}
+              className="flex justify-between items-center cursor-pointer hover:text-gray-300"
+            >
+              <span>Contacts</span>
+              {isContactOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
+            {isContactOpen && (
+              <ul className="mt-2 ml-4 space-y-2">
+                <Link to="contact">
+                  <li className="hover:text-gray-300  cursor-pointer">
+                    Contact List
+                  </li>
+                </Link>
+              </ul>
+            )}
           </div>
         </nav>
       </aside>
