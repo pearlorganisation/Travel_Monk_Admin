@@ -36,7 +36,7 @@ import AddUser from "./pages/AddUser/AddUser";
 import GetAllCustomPackage from "./pages/CustomPackage/GetAllCustomPackage";
 import Profile from "./pages/Profile/Profile";
 import ChangePassword from "./pages/Password/ChangePassword";
-import GetAllPartners from "./pages/Partner/getAllPartners";
+import GetAllPartners from "./pages/Partner/GetAllPartners";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
