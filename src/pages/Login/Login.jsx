@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const { isAdminLoggedIn, isSuccess, isLoading } = useSelector(
     (state) => state.auth
   );
@@ -16,10 +16,9 @@ const Login = () => {
   };
   useEffect(() => {
     if (isSuccess) {
-      reset(); // Reset the form when login is successful
       navigate("/"); // Navigate to home page
     }
-  }, [isSuccess, reset, navigate]); // Dependencies to avoid unnecessary renders
+  }, [isSuccess, navigate]); // Dependencies to avoid unnecessary renders
   return (
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
