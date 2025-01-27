@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogin } from "../../features/Actions/authAction";
@@ -15,10 +15,12 @@ const Login = () => {
     dispatch(adminLogin(data));
     reset();
   };
-  if (isSuccess) {
-    navigate("/");
-  }
-
+  useEffect(() => {
+    if (isSuccess) {
+      reset(); // Reset the form when login is successful
+      navigate("/"); // Navigate to home page
+    }
+  }, [isSuccess, reset, navigate]); // Dependencies to avoid unnecessary renders
   return (
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
