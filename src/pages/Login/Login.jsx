@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogin } from "../../features/Actions/authAction";
@@ -8,15 +8,18 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
-  const { isAdminLoggedIn, isSuccess } = useSelector((state) => state.auth);
+  const { isAdminLoggedIn, isSuccess, isLoading } = useSelector(
+    (state) => state.auth
+  );
   const submitForm = (data) => {
     dispatch(adminLogin(data));
-    reset();
   };
-  if (isSuccess) {
-    navigate("/");
-  }
-
+  useEffect(() => {
+    if (isSuccess) {
+      reset(); // Reset the form when login is successful
+      navigate("/"); // Navigate to home page
+    }
+  }, [isSuccess, reset, navigate]); // Dependencies to avoid unnecessary renders
   return (
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -99,12 +102,21 @@ const Login = () => {
                   Forgot password?
                 </Link>
               </div>
-              <button
-                type="submit"
-                class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                Sign in
-              </button>
+              {isLoading ? (
+                <button
+                  type="button"
+                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Loading...
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Sign in
+                </button>
+              )}
             </form>
           </div>
         </div>
