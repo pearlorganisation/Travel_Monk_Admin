@@ -97,7 +97,7 @@ const AppRoutes = () => {
       element: <ForgotPassword />,
     },
     {
-      path: "reset-password/:token",
+      path: "/reset-password/:token",
       element: <ResetPassword />,
     },
   ]);
