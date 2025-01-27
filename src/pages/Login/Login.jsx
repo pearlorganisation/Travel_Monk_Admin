@@ -13,7 +13,6 @@ const Login = () => {
   );
   const submitForm = (data) => {
     dispatch(adminLogin(data));
-    reset();
   };
   useEffect(() => {
     if (isSuccess) {
