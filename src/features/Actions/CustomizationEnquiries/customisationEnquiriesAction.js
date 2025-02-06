@@ -94,3 +94,48 @@ export const deleteFullyCustomizedEnquiry = createAsyncThunk(
         }
     }
 )
+
+
+/** get prebuilt enquiries by id */
+export const getPrebuiltEnquiryByID = createAsyncThunk(
+    "get/prebuilt-enquiry-by-id", async(id,{rejectWithValue})=>{
+        try {
+            const config = {
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            }
+            const { data } = await axiosInstance.get(`/api/v1/customization-enquiries/pre-built/${id}`, config)
+            return data
+        } catch (error) {
+               if (error.response && error.response.data.message) {
+                   return rejectWithValue(error.response.data.message);
+               } else {
+                   return rejectWithValue(error.message);
+               }
+        }
+    }
+)
+
+export const updatePrebuiltPackageEnquiry= createAsyncThunk(
+    "update/prebuilt-enquiry", async(enquiryData,{rejectWithValue})=>{
+        try {
+            const { id } = enquiryData;
+            console.log("the enquiry data in the action is",enquiryData)
+            const config = {
+                headers:{
+                    "Content-Type": "application/json"
+                }
+            }
+            const {
+                data
+            } = await axiosInstance.patch(`/api/v1/customization-enquiries/pre-built/${id}`,enquiryData,config)
+            return data;
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
+    })

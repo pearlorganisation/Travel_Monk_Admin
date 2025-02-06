@@ -7,6 +7,7 @@ import Contact from "./pages/Contacts/Contact";
 import Bus_Cruise_Contact from "./pages/Bus_Cruise_Contact/Bus_Cruise_Contact";
 import { useSelector } from "react-redux";
 import GetAllUsers from "./pages/Users/GetAllUsers";
+import GetAllPartners from "./pages/Partner/GetAllPartners";
 import AllPackage from "./pages/PackageList/AllPackage";
 import AddVehicle from "./pages/Vehicle/AddVehicle";
 import AllVehicleList from "./pages/Vehicle/AllVehicleList";
@@ -36,7 +37,7 @@ import AddUser from "./pages/AddUser/AddUser";
 import GetAllCustomPackage from "./pages/CustomPackage/GetAllCustomPackage";
 import Profile from "./pages/Profile/Profile";
 import ChangePassword from "./pages/Password/ChangePassword";
-import GetAllPartners from "./pages/Partner/GetAllPartners";
+import UpdatePrebuiltPackageEnquiries from "./pages/CustomizationEnquiries/UpdatePrebuiltPackageEnquiries";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -90,6 +91,7 @@ const AppRoutes = () => {
           element: <GetAllCustomPackage />,
         },
         { path: "/change-password", element: <ChangePassword /> },
+        { path:"//update-enquiries/:id", element:<UpdatePrebuiltPackageEnquiries />}
       ],
     },
     {
