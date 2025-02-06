@@ -5,6 +5,7 @@ import { deletePrebuiltEnquiry, getPreBuiltPackageCustomisationEnquiries } from 
 import { Button, Stack, Modal, Typography, Box } from '@mui/material';
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
 import Pagination from '../../components/Modal/PaginationComponent';
+import { Link } from 'react-router-dom';
 const PreBuiltCustomisationEnquiries = () => {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
@@ -91,6 +92,12 @@ const PreBuiltCustomisationEnquiries = () => {
                                     <Button variant="outlined" color="error" onClick={() => deleteHandle(info?._id)}>
                                         Delete
                                     </Button>
+                                    <Link to={`/update-enquiries/${info._id}`}>
+                                          <Button variant='outlined' color='error'>
+                                              Edit
+                                          </Button>
+                                    </Link>
+                                     
                                 </div>
                               </td>
                           </tr>
