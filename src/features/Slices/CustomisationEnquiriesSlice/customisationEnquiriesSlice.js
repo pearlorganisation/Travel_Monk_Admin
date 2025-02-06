@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { deleteFullyCustomizedEnquiry, deletePrebuiltEnquiry, getFullyCustomizedEnquiries, getPreBuiltPackageCustomisationEnquiries } from "../../Actions/CustomizationEnquiries/customisationEnquiriesAction"
+import { deleteFullyCustomizedEnquiry, deletePrebuiltEnquiry, getFullyCustomizedEnquiries, getPrebuiltEnquiryByID, getPreBuiltPackageCustomisationEnquiries, updatePrebuiltPackageEnquiry } from "../../Actions/CustomizationEnquiries/customisationEnquiriesAction"
 import { toast } from "sonner"
 
 const initialState ={
@@ -7,6 +7,7 @@ const initialState ={
     isSuccess: false,
     isError: false,
     prebuiltPackageEnquiries:{},
+    singlePrebuiltPackageEnquiry:{},
     fullyCustomizedEnquiries:{},
     prebuiltPagination:{},
     fullyPagination:{}
@@ -95,6 +96,42 @@ const EnquiriesSlice = createSlice({
             toast.success("Enquiry is deleted", {
                 position: "top-right"
             })
+        })
+        .addCase(getPrebuiltEnquiryByID.pending,state=>{
+            state.isLoading= true
+            state.isSuccess= false
+            state.isError = false
+        })
+        .addCase(getPrebuiltEnquiryByID.rejected,(state,action)=>{
+            state.isLoading= false
+            state.isSuccess= false
+            state.isError = true
+            state.singlePrebuiltPackageEnquiry = {}
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(getPrebuiltEnquiryByID.fulfilled,(state,action)=>{
+            state.isLoading= false
+            state.isSuccess= true
+            state.isError= false
+            state.singlePrebuiltPackageEnquiry = action.payload.data
+            toast.success("Successfully retrived the prebuilt enquiry",{position:"top-right"})
+        })
+        .addCase(updatePrebuiltPackageEnquiry.pending,state=>{
+            state.isLoading= true
+            state.isSuccess= false
+            state.isError= false
+        })
+        .addCase(updatePrebuiltPackageEnquiry.rejected,(state,action)=>{
+            state.isLoading= false
+            state.isSuccess= false
+            state.isError= true
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(updatePrebuiltPackageEnquiry.fulfilled, (state,action)=>{
+            state.isError= false
+            state.isSuccess= true
+            state.isLoading= false
+            toast.success("Enquiry Updated Successfully", {position:"top-right"})
         })
     }
 })
