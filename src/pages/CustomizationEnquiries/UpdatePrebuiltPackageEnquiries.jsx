@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getPrebuiltEnquiryByID, updatePrebuiltPackageEnquiry } from '../../features/Actions/CustomizationEnquiries/customisationEnquiriesAction'
+import { getPrebuiltEnquiryByID, getPreBuiltPackageCustomisationEnquiries, updatePrebuiltPackageEnquiry } from '../../features/Actions/CustomizationEnquiries/customisationEnquiriesAction'
 import { getDestinationVehicle } from '../../features/Actions/DestinationVehicle/destinationVehicleAction'
 import { getHotelsByDestination } from '../../features/Actions/Hotels/hotelsAction'
 import { getActivitiesByDestinationId } from '../../features/Actions/Activities/activitiesAction'
@@ -15,8 +15,8 @@ const UpdatePrebuiltPackageEnquiries = () => {
     const dispatch = useDispatch()
     const { singlePrebuiltPackageEnquiry } = useSelector(state => state.enquiries)
     const { destinationVehicles } = useSelector(state=> state.destination_vehicle)
-  const { destinationActivities } = useSelector(state=> state.activities)
-  const { destinationHotels } = useSelector(state=> state.hotels)
+    const { destinationActivities } = useSelector(state=> state.activities)
+    const { destinationHotels } = useSelector(state=> state.hotels)
 
 /** states for the vehicle */
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,12 +68,14 @@ const UpdatePrebuiltPackageEnquiries = () => {
     
     useEffect(()=>{
      dispatch(getPrebuiltEnquiryByID(id))
-    },[])
+    },[dispatch,id])
     
     useEffect(()=>{
-      dispatch(getDestinationVehicle(singlePrebuiltPackageEnquiry?.selectedVehicle?.vehicle?.destinations[0]));
-      dispatch(getHotelsByDestination({id: singlePrebuiltPackageEnquiry?.selectedVehicle?.vehicle?.destinations[0] }))
-      dispatch(getActivitiesByDestinationId(singlePrebuiltPackageEnquiry?.selectedVehicle?.vehicle?.destinations[0] ))
+    
+      dispatch(getDestinationVehicle(singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination));
+      dispatch(getHotelsByDestination({ id: singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination }))
+      dispatch(getActivitiesByDestinationId(singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination ))
+  
     },[])
 
 
@@ -129,6 +131,7 @@ const onSubmitForm=async(data)=>{
 const formData ={...data, id:id, selectedVehicle:{name: selectedVehicleName, vehicle:selectedVehicleId}};
 console.log("the formdata is", formData)
 dispatch(updatePrebuiltPackageEnquiry(formData))
+dispatch(getPrebuiltEnquiryByID(id))
 }
     return (
 

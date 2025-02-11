@@ -80,11 +80,11 @@ const GetAllCustomPackage = () => {
                                             Delete
                                         </Button>
 
-                                        {/* <Link to={`/update-hotel/${info?._id}`} state={{ hotelData: info }}>
+                                        <Link to={`/update-custom-package/${info?._id}`} state={{ hotelData: info }}>
                                             <Button variant="outlined" color="error">
                                                 Edit
                                             </Button>
-                                        </Link> */}
+                                        </Link>
 
                                     </div>
                                 </td>

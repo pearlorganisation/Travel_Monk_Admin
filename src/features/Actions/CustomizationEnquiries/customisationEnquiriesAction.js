@@ -139,3 +139,49 @@ export const updatePrebuiltPackageEnquiry= createAsyncThunk(
             }
         }
     })
+
+
+    export const getFullyCustomisedEnquiryFormById = createAsyncThunk(
+        "get/fullcustomise-enquirybyid",async(id,{rejectWithValue})=>{
+            try {
+                const config ={
+                    headers:{
+                        "Content-Type":"application/json"
+                    }
+                }
+                const {
+                    data
+                } = await axiosInstance.get(`/api/v1/customization-enquiries/fully-customize/${id}`,config)
+                return data
+            } catch (error) {
+                if(error.response && error.response.data.message){
+                    return rejectWithValue(error.response.data.message)
+                }else{
+                    return rejectWithValue(error.response)
+                }
+            }
+        })
+
+
+        export const updateFullyCustomizedEnquiry = createAsyncThunk(
+            "update/fully-customized-enquiry",async(userData, {rejectWithValue})=>{
+                try {
+                    const { id } = userData
+                    const config = {
+                        headers:{
+                            "Content-Type":"application/json"
+                        }
+                    }
+                    const {
+                        data
+                    } = await axiosInstance.patch(`/api/v1/customization-enquiries/fully-customize/${id}`, userData, config)
+                    return data
+                } catch (error) {
+                  if(error.response && error.response.data.message){
+                    return rejectWithValue(error.response.data.message)
+                  }else{
+                    return rejectWithValue(error.response)
+                  }                                     
+                }
+            }
+        )
