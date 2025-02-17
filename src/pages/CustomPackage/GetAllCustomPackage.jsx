@@ -80,7 +80,7 @@ const GetAllCustomPackage = () => {
                                             Delete
                                         </Button>
 
-                                        <Link to={`/update-custom-package/${info?._id}`} state={{ hotelData: info }}>
+                                        <Link to={`/update-custom-package/${info?._id}`} state={{ customPackage: info }}>
                                             <Button variant="outlined" color="error">
                                                 Edit
                                             </Button>

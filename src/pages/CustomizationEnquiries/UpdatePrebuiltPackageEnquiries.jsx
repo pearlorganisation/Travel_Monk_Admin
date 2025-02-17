@@ -428,7 +428,7 @@ dispatch(getPrebuiltEnquiryByID(id))
                         </div>
                       </div>
                     )}
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3' type="submit"> Created Package for the user</button>
+                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3' type="submit"> Update Package for the user</button>
         </form>
            <div className="p-4">
                 {selectedVehicleName && (
