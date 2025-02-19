@@ -4,6 +4,19 @@ import { getDestinations } from "../../features/Actions/Destination/destinationA
 import { useFieldArray, useForm } from "react-hook-form";
 import { addHotel } from "../../features/Actions/Hotels/hotelsAction";
 import slugify from "slugify";
+/** hotels validator */
+const bestSeller = [
+  {
+    id: 1,
+    value: true,
+    name: "True"
+  },
+  {
+    id: 2,
+    value: false,
+    name: "False"
+  }
+]
 const AddHotel=()=> {
   const dispatch = useDispatch()
   const { destinationInfo } = useSelector((state)=> state.destinations);
@@ -75,6 +88,38 @@ const slugName = watch("name");
           />
           {errors.slug && <p className="text-red-500 text-sm mt-1">{errors.slug.message}</p>}
         </div>
+        {/** is best seller */}
+        <div className="mb-4">
+          <label
+            htmlFor="isBest"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Choose Best Seller
+          </label>
+          <select
+            id="isBest"
+            {...register("isBest", {
+              required: "required",
+            })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.isBest ? "border-red-500" : "border-gray-300"
+              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          >
+            <option value="">Select if Best Seller</option>
+            {Array.isArray(bestSeller) &&
+              bestSeller.map((seller) => (
+                <option key={seller.id} value={seller.value}>
+                  {seller.name}
+                </option>
+              ))}
+          </select>
+          {errors.isBestSeller && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.isBestSeller.message}
+            </p>
+          )}
+        </div>
+
+
         {/**------------------Select Destination------------------*/}
         <div className="mb-4">
           <label htmlFor="destination" className="block text-sm font-medium text-gray-700">
