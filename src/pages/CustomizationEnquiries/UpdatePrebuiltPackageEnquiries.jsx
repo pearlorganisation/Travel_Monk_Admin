@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getPrebuiltEnquiryByID, updatePrebuiltPackageEnquiry } from '../../features/Actions/CustomizationEnquiries/customisationEnquiriesAction'
+import { getPrebuiltEnquiryByID, getPreBuiltPackageCustomisationEnquiries, updatePrebuiltPackageEnquiry } from '../../features/Actions/CustomizationEnquiries/customisationEnquiriesAction'
 import { getDestinationVehicle } from '../../features/Actions/DestinationVehicle/destinationVehicleAction'
 import { getHotelsByDestination } from '../../features/Actions/Hotels/hotelsAction'
 import { getActivitiesByDestinationId } from '../../features/Actions/Activities/activitiesAction'
@@ -15,8 +15,8 @@ const UpdatePrebuiltPackageEnquiries = () => {
     const dispatch = useDispatch()
     const { singlePrebuiltPackageEnquiry } = useSelector(state => state.enquiries)
     const { destinationVehicles } = useSelector(state=> state.destination_vehicle)
-  const { destinationActivities } = useSelector(state=> state.activities)
-  const { destinationHotels } = useSelector(state=> state.hotels)
+    const { destinationActivities } = useSelector(state=> state.activities)
+    const { destinationHotels } = useSelector(state=> state.hotels)
 
 /** states for the vehicle */
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,12 +68,14 @@ const UpdatePrebuiltPackageEnquiries = () => {
     
     useEffect(()=>{
      dispatch(getPrebuiltEnquiryByID(id))
-    },[])
+    },[dispatch,id])
     
     useEffect(()=>{
-      dispatch(getDestinationVehicle(singlePrebuiltPackageEnquiry?.selectedVehicle?.vehicle?.destinations[0]));
-      dispatch(getHotelsByDestination({id: singlePrebuiltPackageEnquiry?.selectedVehicle?.vehicle?.destinations[0] }))
-      dispatch(getActivitiesByDestinationId(singlePrebuiltPackageEnquiry?.selectedVehicle?.vehicle?.destinations[0] ))
+    
+      dispatch(getDestinationVehicle(singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination));
+      dispatch(getHotelsByDestination({ id: singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination }))
+      dispatch(getActivitiesByDestinationId(singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination ))
+  
     },[])
 
 
@@ -129,14 +131,15 @@ const onSubmitForm=async(data)=>{
 const formData ={...data, id:id, selectedVehicle:{name: selectedVehicleName, vehicle:selectedVehicleId}};
 console.log("the formdata is", formData)
 dispatch(updatePrebuiltPackageEnquiry(formData))
+dispatch(getPrebuiltEnquiryByID(id))
 }
     return (
 
     <main className="flex-1 p-8 mt-16 ml-64">
       <div>UpdatePrebuiltPackageEnquiries</div>
-      <div>
-        <form onSubmit={handleSubmit(onSubmitForm)}>
-          {/** for name */}
+        {singlePrebuiltPackageEnquiry && <div>
+          <form onSubmit={handleSubmit(onSubmitForm)}>
+            {/** for name */}
             <div className='mb-4'>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 User Name
@@ -192,7 +195,7 @@ dispatch(updatePrebuiltPackageEnquiry(formData))
                 <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>
               )}
             </div>
-             {/** number of travellers */}
+            {/** number of travellers */}
             <div className='mb-4'>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 No. of Travellers
@@ -274,9 +277,9 @@ dispatch(updatePrebuiltPackageEnquiry(formData))
                           </span>
                         )}
                     </div>
-              {/**Hotels Section */}
-               
- 
+                    {/**Hotels Section */}
+
+
                     <div className="mb-2">
                       <label
                         htmlFor={`day-hotel-${index}`}
@@ -288,7 +291,7 @@ dispatch(updatePrebuiltPackageEnquiry(formData))
                         name={`itinerary.${index}.selectedHotel`}
                         control={control}
                         render={({ field }) => {
-                      
+
 
                           return (
                             <select
@@ -296,7 +299,7 @@ dispatch(updatePrebuiltPackageEnquiry(formData))
                               value={stringifyHotelValue(field.value)}
                               onChange={(e) => {
                                 const parsedValue = parseHotelValue(e.target.value);
-                           
+
                                 field.onChange(parsedValue);
                               }}
                               className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm 
@@ -331,7 +334,7 @@ dispatch(updatePrebuiltPackageEnquiry(formData))
                         </span>
                       )}
                     </div>
-                  
+
                     <button
                       type="button"
                       onClick={() => removeItinerary(index)}
@@ -345,7 +348,7 @@ dispatch(updatePrebuiltPackageEnquiry(formData))
               <button
                 type="button"
                 onClick={() =>
-                  appendItinerary({ day: "", location: "",selectedHotel:"", selectedActivities: "" })
+                  appendItinerary({ day: "", location: "", selectedHotel: "", selectedActivities: "" })
                 }
                 className="text-blue-500"
               >
@@ -378,73 +381,74 @@ dispatch(updatePrebuiltPackageEnquiry(formData))
                 </button>
               </button>
             </div>
-               {isModalOpen && (
-                      <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
-                          <h2 className="text-xl font-bold mb-4">Select a Vehicle</h2>
-            
-                          {/* Vehicle List */}
-                          <div className=" flex flex-row gap-6">
-                            {Array.isArray(destinationVehicles) && destinationVehicles?.map((vehicle) => (
-                              <div
-                                key={vehicle?._id}
-                                onClick={() => {
-                                  handleSelectVehicle(
-                                    vehicle?.vehicleName,
-                                    vehicle?.pricePerDay,
-                                    vehicle?._id,
-                                    vehicle?.image?.path
-                                  );
-                                  closeModal(); // Close the modal after selection
-                                }}
-                                className="p-4 border rounded-lg shadow-md cursor-pointer bg-purple-300 h-56"
-                              >
-                                <p className="text-lg font-semibold">
-                                  Vehicle: {vehicle?.vehicleName}
-                                </p>
-                                {/* <p className="text-gray-600">
+            {isModalOpen && (
+              <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                  <h2 className="text-xl font-bold mb-4">Select a Vehicle</h2>
+
+                  {/* Vehicle List */}
+                  <div className=" flex flex-row gap-6">
+                    {Array.isArray(destinationVehicles) && destinationVehicles?.map((vehicle) => (
+                      <div
+                        key={vehicle?._id}
+                        onClick={() => {
+                          handleSelectVehicle(
+                            vehicle?.vehicleName,
+                            vehicle?.pricePerDay,
+                            vehicle?._id,
+                            vehicle?.image?.path
+                          );
+                          closeModal(); // Close the modal after selection
+                        }}
+                        className="p-4 border rounded-lg shadow-md cursor-pointer bg-purple-300 h-56"
+                      >
+                        <p className="text-lg font-semibold">
+                          Vehicle: {vehicle?.vehicleName}
+                        </p>
+                        {/* <p className="text-gray-600">
                                 Price: {vehicle?.pricePerDay} /- per day
                               </p> */}
-            
-                                <img
-                                  src={`${baseURL}/${vehicle?.image?.path}`}
-                                  className="w-28 h-20 mt-8"
-                                />
-                              </div>
-                            ))}
-                          </div>
-            
-                          {/* Close button */}
-                          <button
-                          type='button'
-                            onClick={closeModal}
-                            className="mt-4 px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600"
-                          >
-                            Close
-                          </button>
-                        </div>
+
+                        <img
+                          src={`${baseURL}/${vehicle?.image?.path}`}
+                          className="w-28 h-20 mt-8"
+                        />
                       </div>
-                    )}
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3' type="submit"> Created Package for the user</button>
-        </form>
-           <div className="p-4">
-                {selectedVehicleName && (
-                  <div className="mt-6 p-4 bg-orange-300 rounded-lg shadow-md">
-                    <div className="flex flex-row gap-6">
-                      <div className="flex flex-col gap-3">
-                        <h3 className="text-xl font-semibold text-blue-700">
-                          Your Selected Vehicle
-                        </h3>
-                        <p className="text-lg">Name: {selectedVehicleName}</p>
-                        <p className="text-lg">Price: {selectedVehiclePrice}</p>
-                      </div>
-        
-                      <img src={`${baseURL}/${selectedVehicleImage}`} className="w-20 h-20" />
-                    </div>
+                    ))}
                   </div>
-                )}
+
+                  {/* Close button */}
+                  <button
+                    type='button'
+                    onClick={closeModal}
+                    className="mt-4 px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
-      </div>
+            )}
+            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3' type="submit"> Update Package for the user</button>
+          </form>
+          <div className="p-4">
+            {selectedVehicleName && (
+              <div className="mt-6 p-4 bg-orange-300 rounded-lg shadow-md">
+                <div className="flex flex-row gap-6">
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-xl font-semibold text-blue-700">
+                      Your Selected Vehicle
+                    </h3>
+                    <p className="text-lg">Name: {selectedVehicleName}</p>
+                    <p className="text-lg">Price: {selectedVehiclePrice}</p>
+                  </div>
+
+                  <img src={`${baseURL}/${selectedVehicleImage}`} className="w-20 h-20" />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>}
+     
     </main>
   )
 }

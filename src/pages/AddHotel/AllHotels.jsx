@@ -45,7 +45,7 @@ const AllHotels = () => {
     const confirmDelete =()=>{
                 dispatch(deleteHotel(hotelId))
                 setIsDeleteModalOpen(!isDeleteModalOpen)
-            }
+    }
           
     // handle for opening modal to show the details of 
     const handleOpen = (data) => {

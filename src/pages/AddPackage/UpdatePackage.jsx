@@ -20,6 +20,36 @@ const bestSeller = [
         name: "False"
     }
 ]
+
+
+const isGroupPackage = [
+    {
+        id: 1,
+        value: true,
+        name: "True"
+    },
+    {
+        id: 2,
+        value: false,
+        name: "False"
+    }
+]
+
+const selectMonth = [
+    { id: 1, value: "January", name: "January" },
+    { id: 2, value: "February", name: "February" },
+    { id: 3, value: "March", name: "March" },
+    { id: 4, value: "April", name: "April" },
+    { id: 5, value: "May", name: "May" },
+    { id: 6, value: "June", name: "June" },
+    { id: 7, value: "July", name: "July" },
+    { id: 8, value: "August", name: "August" },
+    { id: 9, value: "September", name: "September" },
+    { id: 10, value: "October", name: "October" },
+    { id: 11, value: "November", name: "November" },
+    { id: 12, value: "December", name: "December" },
+];
+
 const UpdatePackage = () => {
     const { id } = useParams();
     const dispatch = useDispatch()
@@ -27,15 +57,9 @@ const UpdatePackage = () => {
     const { packageData } = location.state || {} ;
     const { destinationActivities } = useSelector(state=> state.activities)
     const { destinationInfo } = useSelector((state) => state.destinations);
-    console.log("The package data", packageData);
+    // console.log("The package data", packageData);
     const [options2, setOptions2] = useState([])
-    // let options2 = [];
-    // if(destinationActivities) {
-    //     options2 = Array.isArray(destinationActivities) && destinationActivities?.map((activity) => ({
-    //         value: activity?._id,
-    //         label: activity?.name
-    //     }));
-    // }
+    
 
     // console.log("options values are", options2)
     const { control, handleSubmit, register, watch,setValue,formState:{errors} } = useForm({
@@ -55,7 +79,11 @@ const UpdatePackage = () => {
             exclusions: packageData.exclusions || [],
         },
     });
-
+    /** is group package */
+    const groupPackage = watch("isGroupPackage")
+    console.log("the typeof grouppackage is", typeof groupPackage)
+    console.log("the typeof val of grouppackage is",typeof packageData?.isGroupPackage )
+    // console.log("the type of and value of group package is", groupPackage, typeof groupPackage)
     const {
         fields: itineraryFields,
         append: appendItinerary,
@@ -128,20 +156,20 @@ const UpdatePackage = () => {
         }
     },[destinationActivities])
 
-    console.log("the values of options 2 are these",options2)
+    // console.log("the values of options 2 are these",options2)
     useEffect(() => {
         dispatch(getDestinations({page:1}));
     }, [dispatch]);
 
 
     const onSubmit = (data) => {
-        console.log("Updated Package Data:", data);
+        // console.log("Updated Package Data:", data);
         const formData = new FormData();
         formData.append("banner",bannerImage);
         formData.append("image", packageImage);
 
         dispatch(updatePackage({...data, id:packageData._id})).then((res)=>{
-            console.log("the package daata",res)
+            // console.log("the package daata",res)
         })
      };
 
@@ -210,6 +238,68 @@ const UpdatePackage = () => {
                             </p>
                         )}
                     </div>
+                    {/** is Group Package */}
+                    <div className="mb-4">
+                        <label
+                            htmlFor="isGroupPackage"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Choose if Group Package
+                        </label>
+                        <select
+                            id="isGroupPackage"
+                            {...register("isGroupPackage", {
+                                required: "required",
+                            })}
+                            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.isGroupPackage ? "border-red-500" : "border-gray-300"
+                                } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                        >
+                            <option value="">Select if Group Package</option>
+                            {Array.isArray(isGroupPackage) &&
+                                isGroupPackage.map((seller) => (
+                                    <option key={seller.id} value={seller.value}>
+                                        {seller.name}
+                                    </option>
+                                ))}
+                        </select>
+                        {errors.isGroupPackage && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {errors.isGroupPackage.message}
+                            </p>
+                        )}
+                    </div>
+                      
+                      {/** select month */}
+                    {groupPackage == true || groupPackage== "true" ?
+                        <div className="mb-4">
+                            <label
+                                htmlFor="isGroupPackage"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Choose month
+                            </label>
+                            <select
+                                id="month"
+                                {...register("month", {
+                                    required: "required",
+                                })}
+                                className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.month ? "border-red-500" : "border-gray-300"
+                                    } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+                            >
+                                <option value="">Select the month </option>
+                                {Array.isArray(selectMonth) &&
+                                    selectMonth.map((seller) => (
+                                        <option key={seller.id} value={seller.value}>
+                                            {seller.name}
+                                        </option>
+                                    ))}
+                            </select>
+                            {errors.month && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.month.message}
+                                </p>
+                            )}
+                        </div> : <></> }
                     <div className="mb-4">
                         <label className="block mb-2 font-semibold">Package Name</label>
                         <input

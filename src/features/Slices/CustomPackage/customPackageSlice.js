@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createCustomPackage, deletePackageById, getAllCustomPacakges } from "../../Actions/CustomPackage/customPackage"
+import { createCustomPackage, deletePackageById, getAllCustomPacakges, updateCustomPackageById } from "../../Actions/CustomPackage/customPackage"
 import { toast } from "sonner"
 
 const initialState ={
@@ -67,6 +67,23 @@ const customPackageSlice = createSlice({
             state.isSuccess=true
             state.isError= false
             toast.success("Successfully Deleted the package",{position:"top-right"})
+        })
+        .addCase(updateCustomPackageById.pending,state=>{
+            state.isLoading= true
+            state.isSuccess= false
+            state.isError= false
+        })
+        .addCase(updateCustomPackageById.rejected,(state,action)=>{
+            state.isLoading= false
+            state.isSuccess = false
+            state.isError = true
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(updateCustomPackageById.fulfilled,(state,action)=>{
+            state.isLoading= false
+            state.isSuccess= true
+            state.isError= false
+            toast.success("Package Updated successfully")
         })
     }
 })
