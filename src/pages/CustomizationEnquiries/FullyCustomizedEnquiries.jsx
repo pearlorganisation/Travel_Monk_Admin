@@ -4,6 +4,7 @@ import { deleteFullyCustomizedEnquiry, getFullyCustomizedEnquiries } from '../..
 import { Button, Stack, Modal, Typography, Box } from '@mui/material';
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
 import Pagination from '../../components/Modal/PaginationComponent';
+import { Link } from 'react-router-dom';
 
 const FullyCustomizedEnquiries = () => {
     const dispatch = useDispatch()
@@ -90,6 +91,11 @@ const FullyCustomizedEnquiries = () => {
                                       <Button variant="outlined" color="error" onClick={() => deleteHandle(info?._id)}>
                                           Delete
                                       </Button>
+                                      <Link to={`/update-fullcustomise-enquiry/${info?._id}`}>
+                                          <Button variant="outlined" color="error">
+                                              Edit
+                                          </Button>
+                                        </Link>
                                   </div>
                               </td>
                           </tr>

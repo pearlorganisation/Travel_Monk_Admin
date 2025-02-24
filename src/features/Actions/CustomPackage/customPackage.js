@@ -68,3 +68,25 @@ export const deletePackageById =createAsyncThunk(
         }
     }
 )
+export const updateCustomPackageById = createAsyncThunk(
+    "update/custom-package",async(formData, {rejectWithValue})=>{
+        try {
+            const { id } = formData
+            const config ={
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            }
+            const {
+                data
+            } = await axiosInstance.patch(`/api/v1/custom-packages/${id}`, formData)
+            return data
+        } catch (error) {
+           if(error.response && error.response.data.message){
+            return rejectWithValue(error.response.data.message)
+           }else{
+            return rejectWithValue(error.response)
+           }            
+        }
+    }
+)

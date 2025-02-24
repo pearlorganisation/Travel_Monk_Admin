@@ -25,6 +25,34 @@ const bestSeller = [
   }
 ]
 
+const isGroupPackage = [
+  {
+    id: 1,
+    value: true,
+    name: "True"
+  },
+  {
+    id: 2,
+    value: false,
+    name: "False"
+  }
+]
+
+const selectMonth = [
+  { id: 1, value: "January", name: "January" },
+  { id: 2, value: "February", name: "February" },
+  { id: 3, value: "March", name: "March" },
+  { id: 4, value: "April", name: "April" },
+  { id: 5, value: "May", name: "May" },
+  { id: 6, value: "June", name: "June" },
+  { id: 7, value: "July", name: "July" },
+  { id: 8, value: "August", name: "August" },
+  { id: 9, value: "September", name: "September" },
+  { id: 10, value: "October", name: "October" },
+  { id: 11, value: "November", name: "November" },
+  { id: 12, value: "December", name: "December" },
+];
+
 
 const AddPackage = () => {
   const dispatch = useDispatch();
@@ -71,7 +99,7 @@ const AddPackage = () => {
       }));
   }
 
-  console.log("---------options", options2);
+  // console.log("---------options", options2);
 
   /** to handle multiple inclusion data */
   const [mainInclusionArray, setMainInclusionArray] = useState([]); // To store inclusion array
@@ -81,7 +109,7 @@ const AddPackage = () => {
     if (inclusionData !== "") {
       // Update the array with the new inclusion
       mainInclusionArray.push(inclusionData);
-      console.log("-------mainInclusionArray data", mainInclusionArray);
+      // console.log("-------mainInclusionArray data", mainInclusionArray);
     }
   };
 
@@ -91,7 +119,7 @@ const AddPackage = () => {
   const handleExclusionData = (exclusionData) => {
     if (exclusionData !== "") {
       mainExclusionArray.push(exclusionData);
-      console.log("--------------main exclusion array", mainExclusionArray);
+      // console.log("--------------main exclusion array", mainExclusionArray);
     }
   };
 
@@ -132,6 +160,10 @@ const AddPackage = () => {
     }
   };
 
+/** for group package */
+const groupPackage = watch("isGroupPackage")
+console.log("the group package value is",typeof groupPackage)
+
   const submitForm = (data) => {
     // const formData = new FormData();
     // formData.append("banner", bannerImage);
@@ -144,11 +176,11 @@ const AddPackage = () => {
       })
     ).then((res) => {
       // passing whole array of inclusion and exclusion    dont know if necessary
-      console.log("Package data", res);
+      // console.log("Package data", res);
     });
   };
 
-  console.log("the destination id", destinationId);
+  // console.log("the destination id", destinationId);
   useEffect(() => {
     if (destinationId) {
       dispatch(getActivitiesByDestinationId(destinationId));
@@ -228,6 +260,68 @@ const AddPackage = () => {
             </p>
           )}
         </div>
+
+        {/** is Group Package */}
+        <div className="mb-4">
+          <label
+            htmlFor="isGroupPackage"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Choose if Group Package
+          </label>
+          <select
+            id="isGroupPackage"
+            {...register("isGroupPackage", {
+              required: "required",
+            })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.isGroupPackage ? "border-red-500" : "border-gray-300"
+              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          >
+            <option value="">Select if Group Package</option>
+            {Array.isArray(isGroupPackage) &&
+              isGroupPackage.map((seller) => (
+                <option key={seller.id} value={seller.value}>
+                  {seller.name}
+                </option>
+              ))}
+          </select>
+          {errors.isGroupPackage && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.isGroupPackage.message}
+            </p>
+          )}
+        </div>
+
+        {groupPackage === "true" ?
+        <div className="mb-4">
+          <label
+            htmlFor="isGroupPackage"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Choose month
+          </label>
+          <select
+            id="month"
+            {...register("month", {
+              required: "required",
+            })}
+            className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.month ? "border-red-500" : "border-gray-300"
+              } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          >
+            <option value="">Select the month </option>
+            {Array.isArray(selectMonth) &&
+              selectMonth.map((seller) => (
+                <option key={seller.id} value={seller.value}>
+                  {seller.name}
+                </option>
+              ))}
+          </select>
+          {errors.month && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.month.message}
+            </p>
+          )}
+        </div>:<></> }
         {/** itinerary */}
         <div className="mb-6">
           <h2 className="text-xl font-bold mb-4">Add Itinarary Data</h2>

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { deleteFullyCustomizedEnquiry, deletePrebuiltEnquiry, getFullyCustomizedEnquiries, getPrebuiltEnquiryByID, getPreBuiltPackageCustomisationEnquiries, updatePrebuiltPackageEnquiry } from "../../Actions/CustomizationEnquiries/customisationEnquiriesAction"
+import { deleteFullyCustomizedEnquiry, deletePrebuiltEnquiry, getFullyCustomisedEnquiryFormById, getFullyCustomizedEnquiries, getPrebuiltEnquiryByID, getPreBuiltPackageCustomisationEnquiries, updateFullyCustomizedEnquiry, updatePrebuiltPackageEnquiry } from "../../Actions/CustomizationEnquiries/customisationEnquiriesAction"
 import { toast } from "sonner"
 
 const initialState ={
@@ -8,6 +8,7 @@ const initialState ={
     isError: false,
     prebuiltPackageEnquiries:{},
     singlePrebuiltPackageEnquiry:{},
+    singleFullyCustomisedPackageEnquiry:{},
     fullyCustomizedEnquiries:{},
     prebuiltPagination:{},
     fullyPagination:{}
@@ -133,6 +134,45 @@ const EnquiriesSlice = createSlice({
             state.isLoading= false
             toast.success("Enquiry Updated Successfully", {position:"top-right"})
         })
+        .addCase(getFullyCustomisedEnquiryFormById.pending,state=>{
+            state.isLoading= true
+            state.isSuccess= false
+            state.isError= false
+        })
+        .addCase(getFullyCustomisedEnquiryFormById.rejected,(state,action)=>{
+            state.isLoading= false
+            state.isSuccess= false
+            state.isError = true
+            state.singleFullyCustomisedPackageEnquiry= {}
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(getFullyCustomisedEnquiryFormById.fulfilled,(state,action)=>{
+            state.isError= false
+            state.isSuccess=true
+            state.isLoading= false
+            state.singleFullyCustomisedPackageEnquiry = action.payload.data
+            toast.success("Enquiry Found Successfully", {
+            position: "top-left"
+            })
+        })
+        .addCase(updateFullyCustomizedEnquiry.pending,state=>{
+            state.isLoading= true
+            state.isSuccess= false
+            state.isError= false
+        })
+        .addCase(updateFullyCustomizedEnquiry.rejected,(state,action)=>{
+            state.isLoading= false
+            state.isError= true
+            state.isSuccess= false
+            toast.error(action.payload,{position:"top-center"})
+        })
+        .addCase(updateFullyCustomizedEnquiry.fulfilled,(state,action)=>{
+            state.isLoading= false
+            state.isError= false
+            state.isSuccess= true
+            toast.success("Fully Customised Enquiry Updated",{position:"top-right"})
+        })
+
     }
 })
 

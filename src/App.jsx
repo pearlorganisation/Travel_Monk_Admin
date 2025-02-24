@@ -38,6 +38,8 @@ import GetAllCustomPackage from "./pages/CustomPackage/GetAllCustomPackage";
 import Profile from "./pages/Profile/Profile";
 import ChangePassword from "./pages/Password/ChangePassword";
 import UpdatePrebuiltPackageEnquiries from "./pages/CustomizationEnquiries/UpdatePrebuiltPackageEnquiries";
+import UpdateFullyCustomisationEnquiry from "./pages/CustomizationEnquiries/UpdateFullyCustomisationEnquiry";
+import UpdateCustomPackage from "./pages/CustomPackage/UpdateCustomPackage";
 
 const AppRoutes = () => {
   const { isAdminLoggedIn } = useSelector((state) => state.auth);
@@ -91,7 +93,9 @@ const AppRoutes = () => {
           element: <GetAllCustomPackage />,
         },
         { path: "/change-password", element: <ChangePassword /> },
-        { path:"//update-enquiries/:id", element:<UpdatePrebuiltPackageEnquiries />}
+        { path:"/update-enquiries/:id", element:<UpdatePrebuiltPackageEnquiries />},
+        { path: "/update-fullcustomise-enquiry/:id", element:<UpdateFullyCustomisationEnquiry /> },
+        {path:"/update-custom-package/:id", element:<UpdateCustomPackage /> }
       ],
     },
     {
