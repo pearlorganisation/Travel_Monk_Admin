@@ -249,23 +249,10 @@ const slugName = watch("name");
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2">Amenity Name</label>
               <input
-                {...register(`amenities.${index}.name`, { required: "Name is required" })}
-                className="border rounded p-2 w-full"
+                {...register(`amenities.${index}`, { required: "Name is required" })}                className="border rounded p-2 w-full"
                 placeholder="Amenity Name"
               />
             </div>
-
-            {/* Amenity Icon */}
-            {/* <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">Amenity Icon</label>
-              <input
-                type="file"
-                accept="image/*"
-                {...register(`amenities.${index}.icon`)}
-                className="border rounded p-2 w-full"
-              />
-            </div> */}
-
             <button
               type="button"
               className="mt-6 md:mt-0 text-red-500 hover:underline"
@@ -279,7 +266,7 @@ const slugName = watch("name");
           <button
             type="button"
             className="text-blue-500 hover:underline"
-            onClick={() => append({ name: "", icon: null })}
+            onClick={() => append("")}
           >
             + Add Amenity
           </button>

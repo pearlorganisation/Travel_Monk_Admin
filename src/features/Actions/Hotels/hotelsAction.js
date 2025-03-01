@@ -51,8 +51,8 @@ export const addHotel = createAsyncThunk(
             });
 
             // Add amenities names
-            const amenityNames = amenities.map((amenity) => amenity.name);
-            formData.append("amenitiesNames", JSON.stringify(amenityNames));
+            const amenityNames = amenities.map((amenity) => amenity);
+            formData.append("amenities", JSON.stringify(amenityNames));
 
             // Add amenities icons
             // amenities.forEach((amenity) => {
