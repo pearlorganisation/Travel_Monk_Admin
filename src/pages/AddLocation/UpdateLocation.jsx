@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { updateLocation } from '../../features/Actions/Location/locationAction';
+import { updateLocationCoordinates } from '../../features/Actions/Location/locationAction';
 
 const UpdateLocation = () => {
     // const { id } = useParams();
@@ -21,7 +21,6 @@ const UpdateLocation = () => {
     } = useForm({
         defaultValues: {
             day: locationData?.day || '',
-            
             location: locationData?.location?.map((item) => ({
                 name:item.name,
                 latitude: item.coordinates.coordinates[0],
@@ -32,7 +31,7 @@ const UpdateLocation = () => {
     const submitForm = (data) => {
         console.log('Form Submitted:', data);
         const formData = {...data, id:locationData?._id}
-        dispatch(updateLocation(formData))
+        dispatch(updateLocationCoordinates(formData))
     };
 
     return (
@@ -58,7 +57,30 @@ const UpdateLocation = () => {
                         {locationData?.location?.map((item, index) => (
                             <div key={index} className="space-y-2 mb-4">
                                 <h1>Location name</h1>
-                                <h1>{item?.name}</h1>
+                                <div>
+                                    <label className="block font-medium mb-1">Location Name</label>
+                                    <Controller
+                                        name={`location[${index}].name`}
+                                        control={control}
+                                        render={({ field }) => (
+                                            <>
+                                                <input
+                                                    {...field}
+                                                    type="text"
+                                                    className="border rounded p-2 w-full"
+                                                />
+                                                {errors.location?.[index]?.name && (
+                                                    <p className="text-red-500 text-sm">
+                                                        {errors.location[index].name.message}
+                                                    </p>
+                                                )}
+                                            </>
+                                        )}
+                                    />
+                                </div>
+
+
+                                {/** for name*/}
                                 <div>
                                     <label className="block text-sm">Latitude</label>
                                     <Controller

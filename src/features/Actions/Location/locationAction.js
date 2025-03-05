@@ -51,7 +51,7 @@ export const getAllLocations = createAsyncThunk(
 
 /** to update all the location */
 
-export const updateLocation = createAsyncThunk(
+export const updateLocationCoordinates = createAsyncThunk(
     "update/location",async(formData,{rejectWithValue})=>{
         try {
             const { id } = formData

@@ -207,11 +207,11 @@ const AddLocation = () => {
                                                         className="block w-full p-2 border rounded"
                                                     />
                                                 </div>
-                                                {errors.locations?.[index]?.location?.[locIndex].latitude && (
+                                                {/* {errors.locations?.[index]?.location?.[locIndex]?.latitude && (
                                                         <span className="text-red-500 text-xs italic">
                                                             Coordinates are required
                                                         </span>
-                                                    )}
+                                                    )} */}
                                             </div>
                                         ))}
 
