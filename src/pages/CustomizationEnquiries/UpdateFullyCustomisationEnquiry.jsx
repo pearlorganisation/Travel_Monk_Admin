@@ -56,7 +56,9 @@ const UpdateFullyCustomisationEnquiry = () => {
             const temp = item?.selectedActivities?.map(act=> act) || []
             let newDate = item?.date ? new Date(item.date).toISOString().split("T")[0] : "";
             return { ...item, date: newDate, selectedActivities: temp };
-        })
+        }),
+        inclusions: singleFullyCustomisedPackageEnquiry?.inclusions ,
+        exclusions: singleFullyCustomisedPackageEnquiry?.exclusions  
 
     }})
 
@@ -80,14 +82,34 @@ const UpdateFullyCustomisationEnquiry = () => {
                name: "itinerary",
            });
 
+           {/** inclusion and exclusion */}
+           const {
+                   fields: inclusionsFields,
+                   append: appendInclusion,
+                   remove: removeInclusion,
+               } = useFieldArray({
+                   control,
+                   name: "inclusions",
+               });
+           const {
+                   fields: exclusionsFields,
+                   append: appendExclusion,
+                   remove: removeExclusion,
+               } = useFieldArray({
+                   control,
+                   name: "exclusions",
+               });
     useEffect(()=>{
        dispatch(getFullyCustomisedEnquiryFormById(id))
     },[])
     useEffect(()=>{
-      dispatch(getActivitiesByDestinationId(singleFullyCustomisedPackageEnquiry?.destination?._id));
-      dispatch(getHotelsByDestination({ id: singleFullyCustomisedPackageEnquiry?.destination?._id }));
-      dispatch(getDestinationVehicle(singleFullyCustomisedPackageEnquiry?.destination?._id));
-    },[])
+        const destinationId = singleFullyCustomisedPackageEnquiry?.destination?._id;
+        if(destinationId){
+      dispatch(getActivitiesByDestinationId(destinationId));
+      dispatch(getHotelsByDestination({ id: destinationId }));
+      dispatch(getDestinationVehicle(destinationId));
+    }
+    }, [singleFullyCustomisedPackageEnquiry?.destination?._id])
     const navigate = useNavigate()
 
 
@@ -370,8 +392,62 @@ const UpdateFullyCustomisationEnquiry = () => {
                   </button>
               </div>
 
-              <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3' type="submit"> Update Package for the user</button>      </form>
-              {/** vehicle section */}
+              {/** Inclusions field */}
+              <div className="mb-4">
+                  <h2 className="text-xl font-semibold mb-2">Inclusions</h2>
+                  {inclusionsFields.map((field, index) => (
+                      <div key={field.id} className="mb-2 flex items-center">
+                          <input
+                              {...register(`inclusions.${index}`)}
+                              className="w-full p-2 border rounded"
+                              placeholder="Inclusion"
+                          />
+                          <button
+                              type="button"
+                              onClick={() => removeInclusion(index)}
+                              className="text-red-500 ml-2"
+                          >
+                              Remove
+                          </button>
+                      </div>
+                  ))}
+                  <button
+                      type="button"
+                      onClick={() => appendInclusion("")}
+                      className="text-blue-500"
+                  >
+                      Add Inclusion
+                  </button>
+              </div>
+
+              {/** exclusions field */}
+              <div className="mb-4">
+                  <h2 className="text-xl font-semibold mb-2">Exclusions</h2>
+                  {exclusionsFields.map((field, index) => (
+                      <div key={field.id} className="mb-2 flex items-center">
+                          <input
+                              {...register(`exclusions.${index}`)}
+                              className="w-full p-2 border rounded"
+                              placeholder="Exclusion"
+                          />
+                          <button
+                              type="button"
+                              onClick={() => removeExclusion(index)}
+                              className="text-red-500 ml-2"
+                          >
+                              Remove
+                          </button>
+                      </div>
+                  ))}
+                  <button
+                      type="button"
+                      onClick={() => appendExclusion("")}
+                      className="text-blue-500"
+                  >
+                      Add Exclusion
+                  </button>
+              </div>
+
               <div>
                   <button
                       type='button'
@@ -397,6 +473,9 @@ const UpdateFullyCustomisationEnquiry = () => {
                       </button>
                   </button>
               </div>
+              <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-3' type="submit"> Update Package for the user</button>      </form>
+              {/** vehicle section */}
+             
               {isModalOpen && (
                   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                       <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
