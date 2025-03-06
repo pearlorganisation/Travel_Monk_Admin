@@ -13,10 +13,10 @@ const UpdatePrebuiltPackageEnquiries = () => {
     const { id } = useParams()
     console.log("the id ius", id)
     const dispatch = useDispatch()
-    const { singlePrebuiltPackageEnquiry } = useSelector(state => state.enquiries)
-    const { destinationVehicles } = useSelector(state=> state.destination_vehicle)
-    const { destinationActivities } = useSelector(state=> state.activities)
-    const { destinationHotels } = useSelector(state=> state.hotels)
+    const { singlePrebuiltPackageEnquiry } = useSelector(state => state?.enquiries)
+    const { destinationVehicles } = useSelector(state=> state?.destination_vehicle)
+    const { destinationActivities } = useSelector(state=> state?.activities)
+    const { destinationHotels } = useSelector(state=> state?.hotels)
 
 /** states for the vehicle */
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,22 +67,26 @@ const UpdatePrebuiltPackageEnquiries = () => {
         });
     
     useEffect(()=>{
+
      dispatch(getPrebuiltEnquiryByID(id))
     },[dispatch,id])
     
-    useEffect(()=>{
-    
-      dispatch(getDestinationVehicle(singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination));
-      dispatch(getHotelsByDestination({ id: singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination }))
-      dispatch(getActivitiesByDestinationId(singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination ))
-  
-    },[])
+  useEffect(() => {
+    const destinationId = singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination;
+
+    if (destinationId) {
+      dispatch(getDestinationVehicle(destinationId));
+      dispatch(getHotelsByDestination({ id: destinationId }));
+      dispatch(getActivitiesByDestinationId(destinationId));
+    }
+  }, [singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination]); 
+
 
 
     {/** adding destination activities */}
     useEffect(()=>{
             if (Array.isArray(destinationActivities)) {
-                const mappedOptions = destinationActivities.map((activity) => ({
+                const mappedOptions = destinationActivities?.map((activity) => ({
                     value: activity?._id,
                     label: activity?.name,
                 }));
