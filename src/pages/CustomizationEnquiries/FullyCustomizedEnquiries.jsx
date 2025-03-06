@@ -47,6 +47,9 @@ const FullyCustomizedEnquiries = () => {
     useEffect(()=>{
      dispatch(getFullyCustomizedEnquiries({page:currentPage}))
     },[dispatch, currentPage])
+
+    const endDate = selectedEnquiry != null ? selectedEnquiry?.itinerary?.length :0
+    console.log("the end date is", endDate)
   return (
       <main className="flex-1 p-8 mt-16 ml-64">
           <div className='text-4xl font-bold mb-4'>Fully Customized Package Enquiries</div>
@@ -121,17 +124,17 @@ const FullyCustomizedEnquiries = () => {
                             {selectedEnquiry && (
                                 <div className="p-4">
                                     <Typography variant="h6" component="h2" id="modal-modal-title">
-                                        Enquiry Details
+                                        Fully Customized Enquiry Details
                                     </Typography>
                                     <div className="max-h-[60vh] overflow-y-auto pr-4"> {/* Scrollable content container */}
                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                             <strong>User Name:</strong> {selectedEnquiry?.name}<br />
                                             <strong>Email:</strong> {selectedEnquiry?.email}<br />
                                             <strong>Mobile Number:</strong> {selectedEnquiry?.mobileNumber}<br />
-                                            <strong>Package Name:</strong> {selectedEnquiry?.package?.name}<br />
+                                            {/* <strong>Package Name:</strong> {selectedEnquiry?.package?.name}<br /> */}
                                             <strong>Number of Travellers:</strong> {selectedEnquiry?.numberOfTravellers}<br />
                                             <strong>Estimated Price:</strong> {selectedEnquiry?.estimatedPrice}<br />
-                                            <strong>Vehicle Name:</strong> {selectedEnquiry?.selectedVehicle?.name}<br />
+                                            <strong>Vehicle Name:</strong> {selectedEnquiry?.selectedVehicle?.vehicleName}<br />
                                             <strong>Message:</strong> {selectedEnquiry?.message}<br />
           
                                         </Typography>
@@ -149,6 +152,8 @@ const FullyCustomizedEnquiries = () => {
                                                 ))}
                                             </div>
                                         ))}
+                                   <Typography variant="h6" component="h3" sx={{ mt: 2 }}>Day {endDate+1}: Airport Drop</Typography>
+
                                     </div>
           
                                     <Button
