@@ -116,7 +116,7 @@ const UpdateFullyCustomisationEnquiry = () => {
     const submitForm =(data)=>{
         const formData = { ...data, id: id, selectedVehicle:selectedVehicleId }
         dispatch(updateFullyCustomizedEnquiry(formData));
-        navigate("/full-customized-enquiries")
+        // navigate("/full-customized-enquiries")
     }
   return (
     <main className="flex-1 p-8 mt-16 ml-64">

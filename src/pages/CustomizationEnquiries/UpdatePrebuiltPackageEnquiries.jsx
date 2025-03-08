@@ -49,12 +49,16 @@ const UpdatePrebuiltPackageEnquiries = () => {
         mobileNumber:singlePrebuiltPackageEnquiry?.mobileNumber,
         message:singlePrebuiltPackageEnquiry?.message,
         itinerary: singlePrebuiltPackageEnquiry?.itinerary?.map(item=>{
+          const date = item?.date || "";
           const temp = item?.selectedActivities?.map(act=>act) || [];
           // add in future
           const temp2 ={name: item?.selectedHotel?.name, hotel: item?.selectedHotel?.hotel?._id } 
           // console.log("the default selected hotel are",temp2)
-          return { ...item, selectedActivities: temp, selectedHotel: temp2 } // , selectedHotel:temp2   // will add this when the hotel are populated correctly
-        })
+          return { ...item, date,selectedActivities: temp, selectedHotel: temp2 } // , selectedHotel:temp2   // will add this when the hotel are populated correctly
+        }),
+
+        inclusions: singlePrebuiltPackageEnquiry?.inclusions,
+        exclusions: singlePrebuiltPackageEnquiry?.exclusions
     }})
 
     const {
@@ -65,7 +69,23 @@ const UpdatePrebuiltPackageEnquiries = () => {
             control,
             name: "itinerary",
         });
-    
+       {/** inclusion and exclusion */}
+               const {
+                       fields: inclusionsFields,
+                       append: appendInclusion,
+                       remove: removeInclusion,
+                   } = useFieldArray({
+                       control,
+                       name: "inclusions",
+                   });
+               const {
+                       fields: exclusionsFields,
+                       append: appendExclusion,
+                       remove: removeExclusion,
+                   } = useFieldArray({
+                       control,
+                       name: "exclusions",
+             });
     useEffect(()=>{
 
      dispatch(getPrebuiltEnquiryByID(id))
@@ -241,6 +261,13 @@ dispatch(getPrebuiltEnquiryByID(id))
                       className="w-full p-2 border rounded mb-2"
                       placeholder="Day"
                     />
+
+                    <input
+                    type='date'
+                      {...register(`itinerary.${index}.date`)}
+                      className="w-full p-2 border rounded mb-2"
+                      placeholder="Day"
+                    />
                     <input
                       {...register(`itinerary.${index}.location`)}
                       className="w-full p-2 border rounded mb-2"
@@ -357,6 +384,63 @@ dispatch(getPrebuiltEnquiryByID(id))
                 className="text-blue-500"
               >
                 Add Day
+              </button>
+            </div>
+
+
+            {/** Inclusions field */}
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold mb-2">Inclusions</h2>
+              {inclusionsFields.map((field, index) => (
+                <div key={field.id} className="mb-2 flex items-center">
+                  <input
+                    {...register(`inclusions.${index}`)}
+                    className="w-full p-2 border rounded"
+                    placeholder="Inclusion"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeInclusion(index)}
+                    className="text-red-500 ml-2"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => appendInclusion("")}
+                className="text-blue-500"
+              >
+                Add Inclusion
+              </button>
+            </div>
+
+            {/** exclusions field */}
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold mb-2">Exclusions</h2>
+              {exclusionsFields.map((field, index) => (
+                <div key={field.id} className="mb-2 flex items-center">
+                  <input
+                    {...register(`exclusions.${index}`)}
+                    className="w-full p-2 border rounded"
+                    placeholder="Exclusion"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeExclusion(index)}
+                    className="text-red-500 ml-2"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => appendExclusion("")}
+                className="text-blue-500"
+              >
+                Add Exclusion
               </button>
             </div>
             {/** for selecting the vehicle */}
