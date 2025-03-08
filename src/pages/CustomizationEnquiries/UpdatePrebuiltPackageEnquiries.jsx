@@ -40,26 +40,47 @@ const UpdatePrebuiltPackageEnquiries = () => {
   };
   /** options for the selecting activities */
   const [options2, setOptions2] = useState([])
-    const { control, handleSubmit, register, watch, setValue, formState:{errors} } = useForm({
-      defaultValues:{
-        numberOfTravellers: singlePrebuiltPackageEnquiry?.numberOfTravellers,
-        estimatedPrice:singlePrebuiltPackageEnquiry?.estimatedPrice,
-        name: singlePrebuiltPackageEnquiry?.name,
-        email:singlePrebuiltPackageEnquiry?.email,
-        mobileNumber:singlePrebuiltPackageEnquiry?.mobileNumber,
-        message:singlePrebuiltPackageEnquiry?.message,
-        itinerary: singlePrebuiltPackageEnquiry?.itinerary?.map(item=>{
-          const date = item?.date || "";
-          const temp = item?.selectedActivities?.map(act=>act) || [];
-          // add in future
-          const temp2 ={name: item?.selectedHotel?.name, hotel: item?.selectedHotel?.hotel?._id } 
-          // console.log("the default selected hotel are",temp2)
-          return { ...item, date,selectedActivities: temp, selectedHotel: temp2 } // , selectedHotel:temp2   // will add this when the hotel are populated correctly
-        }),
+ 
+  const { control, handleSubmit, register, watch, setValue, formState: { errors } } = useForm({
+    defaultValues: {
+      numberOfTravellers: "",
+      estimatedPrice: "",
+      name: "",
+      email: "",
+      mobileNumber: "",
+      message: "",
+      inclusions: [],
+      exclusions: [],
+      itinerary: []
+    }
+  });
 
-        inclusions: singlePrebuiltPackageEnquiry?.inclusions,
-        exclusions: singlePrebuiltPackageEnquiry?.exclusions
-    }})
+  useEffect(() => {
+    if (singlePrebuiltPackageEnquiry) {
+      setValue("numberOfTravellers", singlePrebuiltPackageEnquiry?.numberOfTravellers || "");
+      setValue("estimatedPrice", singlePrebuiltPackageEnquiry?.estimatedPrice || "");
+      setValue("name", singlePrebuiltPackageEnquiry?.name || "");
+      setValue("email", singlePrebuiltPackageEnquiry?.email || "");
+      setValue("mobileNumber", singlePrebuiltPackageEnquiry?.mobileNumber || "");
+      setValue("message", singlePrebuiltPackageEnquiry?.message || "");
+      setValue("inclusions", singlePrebuiltPackageEnquiry?.inclusions || []);
+      setValue("exclusions", singlePrebuiltPackageEnquiry?.exclusions || []);
+      setValue(
+        "itinerary",
+        singlePrebuiltPackageEnquiry?.itinerary?.map(item => ({
+          ...item,
+          date: item?.date || "",
+          selectedActivities: item?.selectedActivities || [],
+          selectedHotel: {
+            name: item?.selectedHotel?.name || "",
+            hotel: item?.selectedHotel?.hotel?._id || ""
+          }
+        })) || []
+      );
+    }
+  }, [singlePrebuiltPackageEnquiry, setValue]); // Depend on `singlePrebuiltPackageEnquiry` changes
+
+
 
     const {
             fields: itineraryFields,
