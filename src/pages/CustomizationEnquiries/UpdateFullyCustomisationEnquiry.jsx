@@ -292,11 +292,27 @@ const UpdateFullyCustomisationEnquiry = () => {
                                       <p className="text-red-500 text-xs mt-1">{errors.date.message}</p>
                                   )}
                               </div>
-                              <input
-                                  {...register(`itinerary.${index}.selectedLocation`)}
-                                  className="w-full p-2 border rounded mb-2"
-                                  placeholder="Location"
-                              />
+                              <div className='mt-1'> 
+                                <label htmlFor='Location' className="block text-sm font-medium text-gray-700 mb-2">
+                                  Location
+                              </label>
+                                  <input
+                                  id='Location'
+                                      {...register(`itinerary.${index}.selectedLocation`)}
+                                      className="w-full p-2 border rounded mb-2 "
+                                      placeholder="Location"
+                                  /></div>
+                             <div>
+                                  <label htmlFor='description' className="block text-sm font-medium text-gray-700 mb-2">
+                                      Description
+                                  </label>
+                                  <input
+                                      {...register(`itinerary.${index}.description`)}
+                                      className="w-full p-2 border rounded mb-2"
+                                      placeholder="Description"
+                                  />
+                             </div>
+                              
                               {/** activities section */}
                               <div className="mb-2">
                                   <label
@@ -384,7 +400,7 @@ const UpdateFullyCustomisationEnquiry = () => {
                   <button
                       type="button"
                       onClick={() =>
-                          appendItinerary({ day: "", date: "", selectedLocation: "", selectedHotel: "", selectedActivities: "" })
+                          appendItinerary({ day: "", date: "", selectedLocation: "", description:"", selectedHotel: "", selectedActivities: "" })
                       }
                       className="text-blue-500"
                   >
