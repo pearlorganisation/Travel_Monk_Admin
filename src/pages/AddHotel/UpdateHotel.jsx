@@ -36,7 +36,8 @@ const UpdateHotel = () => {
             googleMapsUrl: hotelData?.googleMapsUrl,
             image:`${baseURL}/${hotelData?.image?.path}`,
             amenities: hotelData.amenities || [],
-            isBest:hotelData?.isBest
+            isBest:hotelData?.isBest,
+            inclusion:hotelData.inclusion || []
 
        }
     })
@@ -44,6 +45,16 @@ const UpdateHotel = () => {
         control,
         name: "amenities",
     });
+
+      const {
+           fields: inclusionsFields,
+           append: appendInclusion,
+           remove: removeInclusion,
+       } = useFieldArray({
+           control,
+           name: "inclusion",
+       });
+   
 
     const slugName = watch("name");
       useEffect(() => {
@@ -215,23 +226,6 @@ const UpdateHotel = () => {
                   {errors.estimatedPrice && <p className="text-red-500 text-sm mt-1">{errors.estimatedPrice.message}</p>}
               </div>
              
-              {/**-------------Discount Not in use for now----------*/}
-              {/* <div className="mb-4">
-                  <label htmlFor="discount" className="block text-sm font-medium text-gray-700">
-                      Add Discount
-                  </label>
-                  <input
-                      type="number"
-                      id="discount"
-                      {...register("discount", { required: "discount name is required" })}
-                      className={`mt-1 p-2 block w-full rounded-md border-2 ${errors.discount ? "border-red-500" : "border-gray-300"
-                          } focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-                  />
-                  {errors.discount && <p className="text-red-500 text-sm mt-1">{errors.discount.message}</p>}
-              </div> */}
-             
-             
-             
               {/** google maps url */}
               <div className="mb-4">
                   <label htmlFor="googleMapsUrl" className="block text-sm font-medium text-gray-700">
@@ -291,6 +285,33 @@ const UpdateHotel = () => {
                       onClick={() => append("")}
                   >
                       + Add Amenity
+                  </button>
+              </div>
+
+              <div className="mb-4">
+                  <h2 className="text-xl font-semibold mb-2">Inclusions</h2>
+                  {inclusionsFields.map((field, index) => (
+                      <div key={field.id} className="mb-2 flex items-center">
+                          <input
+                              {...register(`inclusion.${index}`)}
+                              className="w-full p-2 border rounded"
+                              placeholder="Inclusion"
+                          />
+                          <button
+                              type="button"
+                              onClick={() => removeInclusion(index)}
+                              className="text-red-500 ml-2"
+                          >
+                              Remove
+                          </button>
+                      </div>
+                  ))}
+                  <button
+                      type="button"
+                      onClick={() => appendInclusion("")}
+                      className="text-blue-500"
+                  >
+                      Add Inclusion
                   </button>
               </div>
               <button type="submit">Update Hotel</button>

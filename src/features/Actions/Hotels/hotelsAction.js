@@ -121,6 +121,7 @@ export const updateHotel = createAsyncThunk(
                     formData.append(key, userData[key])
                 }
             }
+            console.log("the formdata is", userData)
             const data = await axiosInstance.patch(`/api/v1/hotels/${id}`, formData,{
                 headers:{
                     "Content-Type":"multipart/form-data"
