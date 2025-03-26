@@ -29,9 +29,9 @@ const AllHotels = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [selectedHotel,setSelectedHotel] = useState(null);
   const [currentPage, setCurrentPage] = useState(1)
-    const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
   
-    const handleSearchChange =(el)=>{
+  const handleSearchChange =(el)=>{
       setSearchQuery(el)
     }
   const TotalPage = Math.ceil(paginate?.total/paginate?.limit)
@@ -60,7 +60,7 @@ const AllHotels = () => {
 
 useEffect(()=>{
       dispatch(getAllHotels({page:currentPage, search: searchQuery}))
- },[dispatch, currentPage.toExponential, searchQuery])
+ },[dispatch, currentPage, searchQuery])
     return (
     <main className="flex-1 p-8 mt-16 ml-64">
             <div className='text-4xl font-bold mb-4'>All Hotels</div>
