@@ -2,14 +2,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../../services/axiosInterceptor";
 
 export const getAllHotels = createAsyncThunk(
-    "get/allHotels",async({page=1},{rejectWithValue})=>{
+    "get/allHotels",async({page=1, search},{rejectWithValue})=>{
         try {
             const config ={
                 headers:{
                     "Content-Type":"application/json"
                 }
             }
-            const { data }= await axiosInstance.get(`/api/v1/hotels?page=${page}`,config)
+            const { data }= await axiosInstance.get(`/api/v1/hotels?page=${page}&search=${search}`,config)
             console.log('--------------------data of hotels',data)
             return data
         } catch (error) {

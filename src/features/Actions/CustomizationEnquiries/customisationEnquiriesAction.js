@@ -3,7 +3,7 @@ import { axiosInstance } from "../../../services/axiosInterceptor";
 
 /**------------------------to get all the enquiries--------------------------*/
 export const getPreBuiltPackageCustomisationEnquiries = createAsyncThunk(
-    "get/prebuilt-customisation-enquiries",async({page=1},{rejectWithValue})=>{
+    "get/prebuilt-customisation-enquiries",async({page=1, search},{rejectWithValue})=>{
         try {
             const config = {
                 headers:{
@@ -12,7 +12,7 @@ export const getPreBuiltPackageCustomisationEnquiries = createAsyncThunk(
             }
             const {
                 data
-            } = await axiosInstance.get(`/api/v1/customization-enquiries/pre-built?page=${page}`, config)
+            } = await axiosInstance.get(`/api/v1/customization-enquiries/pre-built?page=${page}&search=${search}`, config)
             console.log("----------data", data)
             return data
         } catch (error) {
@@ -50,7 +50,7 @@ export const deletePrebuiltEnquiry = createAsyncThunk(
 
 /**------------------------to get all the fullycustomized enquiries--------------------------------*/
 export const getFullyCustomizedEnquiries = createAsyncThunk(
-    "get/fully-customized-enquiries", async({page=1},{rejectWithValue})=>{
+    "get/fully-customized-enquiries", async({page=1, search},{rejectWithValue})=>{
         try {
             const config = {
                 headers:{
@@ -59,7 +59,7 @@ export const getFullyCustomizedEnquiries = createAsyncThunk(
             }
             const {
                 data
-            } = await axiosInstance.get(`/api/v1/customization-enquiries/fully-customize?page=${page}`, config)
+            } = await axiosInstance.get(`/api/v1/customization-enquiries/fully-customize?page=${page}&search=${search}`, config)
             console.log('------------------data', data)
             return data
         } catch (error) {

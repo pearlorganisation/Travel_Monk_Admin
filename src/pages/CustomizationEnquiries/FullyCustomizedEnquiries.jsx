@@ -16,7 +16,11 @@ const FullyCustomizedEnquiries = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
  /**-------for managing current page--------------*/
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState("")
 
+    const handleSearchChange = (el) => {
+        setSearchQuery(el)
+    }
     const totalPages = Math.ceil(
         fullyPagination?.total / fullyPagination?.limit
     )
@@ -45,14 +49,23 @@ const FullyCustomizedEnquiries = () => {
     const handleClose = () => setOpen(false);
 
     useEffect(()=>{
-     dispatch(getFullyCustomizedEnquiries({page:currentPage}))
-    },[dispatch, currentPage])
+     dispatch(getFullyCustomizedEnquiries({page:currentPage, search: searchQuery}))
+    },[dispatch, currentPage, searchQuery])
 
     const endDate = selectedEnquiry != null ? selectedEnquiry?.itinerary?.length :0
     console.log("the end date is", endDate)
   return (
       <main className="flex-1 p-8 mt-16 ml-64">
           <div className='text-4xl font-bold mb-4'>Fully Customized Package Enquiries</div>
+          <div>
+              <label>Search By Destination Name</label>
+              <div>
+                  <input
+                      type="text"
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                  />
+              </div>
+          </div>
           <div>
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">

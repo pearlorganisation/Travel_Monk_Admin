@@ -198,13 +198,31 @@ const VehicleList = ({ vehicles , totalVehicles}) => {
 };
 
 const AllVehicleList = () => {
+  const priceSort =[
+    {
+      id:1,
+      sortBy:"price-asc"
+    },
+    {
+      id: 2,
+      sortBy: "price-desc"
+    }
+  ]
+
+
   const dispatch = useDispatch();
   const { vehiclesInfo, loading, error, paginate } = useSelector(
     (state) => state.vehicles
   );
 const [currentPage, setCurrentPage] = useState(1)
 const TotalPage = Math.ceil(paginate.total/paginate.limit)
+const [selectedType, setSelectedType] = useState("")
+const [searchQuery, setSearchQuery] = useState("")
 
+const handleSearchChange =(el)=>{
+  setSearchQuery(el)
+}
+ 
 const handlePageChnage=(page)=>{
  if(page>0 && page<= TotalPage){
   setCurrentPage(page)
@@ -212,8 +230,8 @@ const handlePageChnage=(page)=>{
 }
 
   useEffect(() => {
-    dispatch(getAllVehicles({page:currentPage}));
-  }, [dispatch, currentPage]);
+    dispatch(getAllVehicles({page:currentPage, sortBy: selectedType, search: searchQuery}));
+  }, [dispatch, currentPage, selectedType, searchQuery]);
 
   if (loading) {
     return (
@@ -233,7 +251,36 @@ const handlePageChnage=(page)=>{
 
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
-    
+      <div className="mt-16 flex flex-row gap-2">
+        <div>
+          <label htmlFor="typeFilter" className="block text-sm font-medium text-gray-700">
+            Filter by Price
+          </label>
+          <select
+            id="typeFilter"
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+          >
+            <option value="">Select Price</option>
+            {priceSort.map((filter) => (
+              <option key={filter.id} value={filter.sortBy}>
+                {filter.sortBy}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label>Search By Vehicle Name</label>
+          <div>
+            <input
+              type="text"
+              onChange={(e) => handleSearchChange(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
       <VehicleList vehicles={vehiclesInfo} totalVehicles={paginate.total} />
      
       {/** pagination */}

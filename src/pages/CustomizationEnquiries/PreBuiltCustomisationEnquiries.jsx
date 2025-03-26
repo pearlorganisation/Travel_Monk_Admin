@@ -12,7 +12,11 @@ const PreBuiltCustomisationEnquiries = () => {
     const [selectedEnquiry, setSelectedEnquiry] = useState(null);
     const [enquiryId, setEnquiryId] = useState(null)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [searchQuery, setSearchQuery] = useState("")
 
+    const handleSearchChange = (el) => {
+        setSearchQuery(el)
+    }
 
     const { prebuiltPackageEnquiries, prebuiltPagination } = useSelector((state) => state.enquiries)
     /**-------for managing current page--------------*/
@@ -46,11 +50,20 @@ const PreBuiltCustomisationEnquiries = () => {
     const handleClose = () => setOpen(false);
  
     useEffect(()=>{
-        dispatch(getPreBuiltPackageCustomisationEnquiries({ page: currentPage }))
-    },[dispatch, currentPage])
+        dispatch(getPreBuiltPackageCustomisationEnquiries({ page: currentPage, search: searchQuery }))
+    },[dispatch, currentPage, searchQuery])
   return (
       <main className="flex-1 p-8 mt-16 ml-64">
           <div className='text-4xl font-bold mb-4'>Prebuilt Package Customisation Enquiries</div>
+          <div>
+              <label>Search By Destination Name</label>
+              <div>
+                  <input
+                      type="text"
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                  />
+              </div>
+          </div>
           <div>
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
