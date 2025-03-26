@@ -89,6 +89,16 @@ const GetAllDestinations = ({
   );
 };
 
+let selectingFilter = [
+  {
+  id:1,
+  name:"Indian"
+  },
+  {
+  id:2,
+  name:"International" 
+  }
+]
 const AllDestinations = () => {
   const dispatch = useDispatch();
 
@@ -103,6 +113,16 @@ const AllDestinations = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [open, setOpen]= useState(false)  
+  
+  const [selectedType, setSelectedType] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const handleSearchChange =(el)=>{
+    setSearchQuery(el)
+  }
+ 
+  console.log("the search query is", searchQuery)
+  console.log("the selected types are", selectedType)
   const handleOpen = (destination)=>{
     setSelectedDestination(destination)
     setOpen(true)
@@ -130,8 +150,8 @@ const AllDestinations = () => {
   };
 
   useEffect(() => {
-    dispatch(getDestinations({ page: currentPage }));
-  }, [dispatch, currentPage]);
+    dispatch(getDestinations({ page: currentPage, type: selectedType, search: searchQuery}));
+  }, [dispatch, currentPage, selectedType, searchQuery]);
 
   const handleDelete = (activity) => {
     setSelectedDestination(activity); // Set selected activity to delete
@@ -169,7 +189,37 @@ const AllDestinations = () => {
 
   return (
     <main className="flex-1 p-8 ml-64">
-      <div className="container mx-auto px-4">
+      {/**filter dicvs */}
+      <div className="mt-16 flex flex-row gap-2">
+        <div>
+          <label htmlFor="typeFilter" className="block text-sm font-medium text-gray-700">
+            Filter by Type
+          </label>
+          <select
+            id="typeFilter"
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+          >
+            <option value="">Select Type</option>
+            {selectingFilter.map((filter) => (
+              <option key={filter.id} value={filter.name}>
+                {filter.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>Search By Destination Name</label>
+          <div>
+            <input
+            type="text"
+            onChange={(e)=> handleSearchChange(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+       <div className="container mx-auto px-4">
         
         {destinationInfo?.length === 0 ? (
           <div className="text-center text-gray-500">
