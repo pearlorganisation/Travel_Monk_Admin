@@ -4,7 +4,7 @@ import { axiosInstance } from "../../../services/axiosInterceptor";
 /**----------------this is used on adding vehicles page-----------------------------------*/
 export const getDestinations = createAsyncThunk(
   "get/destinations",
-  async ({ page = 1 , type, search}, { rejectWithValue }) => {
+  async ({ page = 1 , type='', search=''}, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
