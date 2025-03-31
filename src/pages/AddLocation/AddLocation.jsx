@@ -3,66 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getDestinations } from '../../features/Actions/Destination/destinationAction'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { addLocation } from '../../features/Actions/Location/locationAction';
-
-// const AddLocation = () => {
-//     const dispatch = useDispatch()
-//     const { destinationInfo } = useSelector((state) => state.destinations)
-//     const { register, handleSubmit , control, formState:{errors}} = useForm()
-//     const { fields, append, remove } = useFieldArray({
-//         control,
-//         name:"location"
-//     })
-//     useEffect(()=>{
-//         dispatch(getDestinations())
-//     },[])
-
-//   return (
-//       <main className="flex-1 p-8 mt-16 ml-64">
-//           <div>AddLocation</div>
-//           <form>
-//             {/**location*/}
-//             <div className='mb-6'>
-//              <h2 className="text-xl font-bold mb-4">Add Location Data</h2>
-//              {fields.map((location,index)=>(
-//                 <div key={location.id}
-//                  className='mb-4 bg-gray-100 p-4 rounded-lg shadow-md'>
-//                    <h3 className='text-lg font-bold mb-2'> Day {index + 1}</h3>   
-//                      <div className="mb-2">
-//                          <label
-//                              htmlFor={`location-${index}`}
-//                              className="block text-gray-700 font-bold mb-1"
-//                          >
-//                              Day
-//                          </label>
-//                          <Controller
-//                              name={`location.${index}.day`}
-//                              control={control}
-//                              render={({ field }) => (
-//                                  <input
-//                                      type="number"
-//                                      {...field}
-//                                      id={`location-${index}`}
-//                                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-//                                      required
-//                                  />
-//                              )}
-//                          />
-//                          {errors.location &&
-//                              errors.location[index] &&
-//                              errors.location[index].day && (
-//                                  <span className="text-red-500 text-xs italic">
-//                                      Day is required
-//                                  </span>
-//                              )}
-//                      </div>
-//                 </div>
-//              ))}
-//             </div>
-//           </form>
-//       </main>
-//    )
-// }
-
 const AddLocation = () => {
     const dispatch = useDispatch();
     const { destinationInfo } = useSelector((state) => state.destinations);

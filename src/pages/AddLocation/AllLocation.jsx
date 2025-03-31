@@ -60,7 +60,13 @@ const AllLocation = () => {
                   <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
                           <th scope="col" class="px-6 py-3 rounded-s-lg">
-                              Location Name
+                            Day
+                          </th>
+                          <th scope="col" class="px-6 py-3 rounded-s-lg">
+                              Destination Name
+                          </th>
+                          <th scope="col" class="px-6 py-3 rounded-s-lg">
+                             Available Locations
                           </th>
                           <th scope="col" className="flex justify-center items-center rounded-s-lg">
                               Action
@@ -70,6 +76,13 @@ const AllLocation = () => {
                   <tbody>
                       {Array.isArray(allLocations) && allLocations?.map((info) => (
                           <tr key={info._id} className="bg-white dark:bg-gray-800 hover:bg-gray-50">
+
+                              <th
+                                  scope="row"
+                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                  {info?.day}
+                              </th>
                               <th
                                   scope="row"
                                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -77,7 +90,16 @@ const AllLocation = () => {
                                   {info?.destination?.name}
                               </th>
 
-
+                              <th
+                                  scope="row"
+                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                  <ul>
+                                      {info?.location?.map((item) => (
+                                          <li key={item._id}>{item?.name},</li>
+                                      ))}
+                                  </ul>
+                              </th>
                               <td className="px-6 py-4">
                                   <div className='flex justify-center items-center gap-1'>
                                       {/* <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>

@@ -1,13 +1,11 @@
- 
-import React from 'react';
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { updateLocationCoordinates } from '../../features/Actions/Location/locationAction';
 
 const UpdateLocation = () => {
-    // const { id } = useParams();
-    const  dispatch  = useDispatch()
+    const dispatch = useDispatch();
     const location = useLocation();
     const { locationData } = location.state ?? {};
     console.log("The location data:", locationData);
@@ -22,16 +20,23 @@ const UpdateLocation = () => {
         defaultValues: {
             day: locationData?.day || '',
             location: locationData?.location?.map((item) => ({
-                name:item.name,
+                name: item.name,
                 latitude: item.coordinates.coordinates[0],
                 longitude: item.coordinates.coordinates[1],
             })) || [],
         },
     });
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "location",
+    });
+
+    // Submit form handler
     const submitForm = (data) => {
         console.log('Form Submitted:', data);
-        const formData = {...data, id:locationData?._id}
-        dispatch(updateLocationCoordinates(formData))
+        const formData = { ...data, id: locationData?._id };
+        dispatch(updateLocationCoordinates(formData));
     };
 
     return (
@@ -54,8 +59,8 @@ const UpdateLocation = () => {
                     {/* Location Coordinates */}
                     <div>
                         <label className="block font-medium mb-1">Locations</label>
-                        {locationData?.location?.map((item, index) => (
-                            <div key={index} className="space-y-2 mb-4">
+                        {fields.map((field, index) => (
+                            <div key={field.id} className="space-y-2 mb-4">
                                 <h1>Location name</h1>
                                 <div>
                                     <label className="block font-medium mb-1">Location Name</label>
@@ -79,8 +84,7 @@ const UpdateLocation = () => {
                                     />
                                 </div>
 
-
-                                {/** for name*/}
+                                {/* Latitude Input */}
                                 <div>
                                     <label className="block text-sm">Latitude</label>
                                     <Controller
@@ -96,6 +100,8 @@ const UpdateLocation = () => {
                                         )}
                                     />
                                 </div>
+
+                                {/* Longitude Input */}
                                 <div>
                                     <label className="block text-sm">Longitude</label>
                                     <Controller
@@ -111,10 +117,46 @@ const UpdateLocation = () => {
                                         )}
                                     />
                                 </div>
+
+                                {/* Remove Location Button */}
+                                <button
+                                    type="button"
+                                    onClick={() => remove(index)}
+                                    className="p-2 bg-red-500 text-white rounded"
+                                >
+                                    Remove Location
+                                </button>
                             </div>
                         ))}
-                        
+
+                        {/* Add Location Button */}
+                        <button
+                            type="button"
+                            onClick={() =>
+                                append({
+                                    name: "",
+                                    coordinates: [0, 0],
+                                })
+                            }
+                            className="p-2 bg-green-500 text-white rounded"
+                        >
+                            Add Location
+                        </button>
                     </div>
+
+                    {/* Add New Day Button */}
+                    {/* <button
+                        type="button"
+                        onClick={() =>
+                            append({
+                                day: '',
+                                location: [{ name: '', coordinates: [0, 0] }],
+                            })
+                        }
+                        className="p-2 bg-green-500 text-white rounded"
+                    >
+                        Add New Day
+                    </button> */}
 
                     <button
                         type="submit"

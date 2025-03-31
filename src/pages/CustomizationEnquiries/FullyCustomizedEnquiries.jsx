@@ -155,7 +155,7 @@ const FullyCustomizedEnquiries = () => {
                                         <Typography variant="h6" component="h3" sx={{ mt: 2 }}>Itinerary:</Typography>
                                         {selectedEnquiry?.itinerary?.map((day) => (
                                             <div key={day._id} className="mb-4">
-                                                <Typography><strong>Day {day?.day}: {day?.location}</strong></Typography>
+                                                <Typography><strong>Day {day?.day}: {day?.selectedLocation}</strong></Typography>
                                                 <Typography>Selected Hotel: {day?.selectedHotel?.name}</Typography>
                                                 {day?.selectedActivities && day?.selectedActivities?.length > 0 && (
                                                     <Typography>Selected Activities: </Typography>
