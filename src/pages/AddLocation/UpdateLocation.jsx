@@ -135,8 +135,7 @@ const UpdateLocation = () => {
                             onClick={() =>
                                 append({
                                     name: "",
-                                    coordinates: [0, 0],
-                                })
+                                 })
                             }
                             className="p-2 bg-green-500 text-white rounded"
                         >
