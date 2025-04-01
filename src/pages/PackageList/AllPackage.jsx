@@ -69,7 +69,7 @@ console.log("sort by values are",sortBy)
     const confirmDelete =async()=>{
         try {
             await dispatch(deletePackage(packageId)).unwrap();  
-            await dispatch(getAllPackages({ page: currentPage })).unwrap();
+            await dispatch(getAllPackages({ search: searchQuery ?? "", page: currentPage, sortBy: sortBy })).unwrap();
             setIsDeleteModalOpen(false);
         } catch (error) {
             console.error("Error during deletion or fetching packages:", error);

@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { baseURL } from "../../services/axiosInterceptor";
 import Pagination from "../../components/Pagination/Pagination";
 
-const VehicleCard = ({ vehicle }) => {
+const VehicleCard = ({ vehicle,currentPage, sortBy, search }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ const VehicleCard = ({ vehicle }) => {
 
   const confirmDelete = () => {
     dispatch(deleteVehicle(vehicle._id));
-    dispatch(getAllVehicles());
+    dispatch(getAllVehicles({ page: currentPage, sortBy: sortBy, search: search }));
     setDeleteModal(false);
   };
 
@@ -31,65 +31,6 @@ const VehicleCard = ({ vehicle }) => {
 
   return (
     <div>
-      {/* <div className="bg-white border rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex flex-row">
-            <Car className="w-10 h-10 text-blue-600 mr-3" />
-            <h2 className="text-xl font-semibold text-gray-800 pt-2">
-              {vehicle?.vehicleName}
-            </h2>
-          </div>
-          <button onClick={handleDelete}>
-            <Trash2 />
-          </button>
-          <Link to={`/update-vehicle/${vehicle?._id}`} state={{vehicleInfo:vehicle}}>
-            <button>
-              Edit
-            </button>
-          </Link>
-        
-        </div>
-        <div className="grid grid-cols-2 gap-2 mb-4">
-          {vehicle.image &&
-               <img
-                  src={`${baseURL}/${vehicle.image.path}`} // Adjust path if needed
-                  alt="Current Logo"
-                  className="h-40 w-auto mb-4 rounded-md shadow-md"
-              />
-            }
-        </div>
-
-        <div className="grid grid-cols-3 gap-2 text-center">
-          <div>
-            <p className="text-sm text-gray-600">Passengers</p>
-            <p className="font-bold text-blue-700">
-              {vehicle?.passengerCapacity}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Luggage</p>
-            <p className="font-bold text-blue-700">
-              {vehicle?.luggageCapacity}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Price</p>
-            <p className="font-bold text-green-700">${vehicle?.pricePerDay}</p>
-          </div>
-        </div>
-
-        <div className="mt-4 flex justify-between items-center">
-          <span
-            className={`px-3 py-1 rounded-full text-xs ${
-              vehicle?.isAvailable
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
-            }`}
-          >
-            {vehicle?.isAvailable ? "Available" : "Not Available"}
-          </span>
-        </div>
-      </div> */}
       <div className="bg-white border rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300 flex items-center space-x-4">
         {vehicle.image && (
           <img
@@ -179,7 +120,7 @@ const VehicleCard = ({ vehicle }) => {
   );
 };
 
-const VehicleList = ({ vehicles , totalVehicles}) => {
+const VehicleList = ({ vehicles, totalVehicles, currentPage, sortBy, search }) => {
     return (
         <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold mb-4">All Vehicles</h1>
@@ -189,7 +130,7 @@ const VehicleList = ({ vehicles , totalVehicles}) => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                     {Array.isArray(vehicles) && vehicles?.map(vehicle => (
-                        <VehicleCard key={vehicle?._id} vehicle={vehicle} />
+                        <VehicleCard key={vehicle?._id} vehicle={vehicle} currentPage={currentPage} sortBy={sortBy} search={search} />
                     ))}
                 </div>
             )}
@@ -281,7 +222,7 @@ const handlePageChnage=(page)=>{
           </div>
         </div>
       </div>
-      <VehicleList vehicles={vehiclesInfo} totalVehicles={paginate.total} />
+      <VehicleList vehicles={vehiclesInfo} totalVehicles={paginate.total} currentPage={currentPage} sortBy={selectedType} search={searchQuery} />
      
       {/** pagination */}
        <Pagination currentPage={currentPage} totalPages={TotalPage} handlePageClick={handlePageChnage} paginate={paginate} />
