@@ -53,28 +53,28 @@ const FullyCustomizedEnquiriesPdf = ({ data }) => (
             {/* Package and Basic Details */}
             <View style={styles.section}>
                 <Text style={styles.header}>Package Details</Text>
-                <Text style={styles.text}>Package: {data.packageName}</Text>
-                <Text style={styles.text}>Number of Travellers: {data.numberOfTravellers}</Text>
+                <Text style={styles.text}>Package: {data?.packageName}</Text>
+                <Text style={styles.text}>Number of Travellers: {data?.numberOfTravellers}</Text>
                 <Text style={styles.text}>
-                    Duration: {data.duration.days} days, {data.duration.nights} nights
+                    Duration: {data?.duration?.days} days, {data?.duration?.nights} nights
                 </Text>
                 <Text style={styles.text}>
-                    Travel Dates: {new Date(data.startDate).toLocaleDateString()} -{' '}
-                    {new Date(data.endDate).toLocaleDateString()}
+                    Travel Dates: {data?.startDate ? new Date(data.startDate).toLocaleDateString() : ''} -{' '}
+                    {data?.endDate ? new Date(data.endDate).toLocaleDateString() : ''}
                 </Text>
                 <Text style={styles.text}>
-                    Estimated Price: ₹{data.price.toLocaleString()}
+                    Estimated Price: ₹{data?.price?.toLocaleString()}
                 </Text>
             </View>
 
             {/* User Details */}
             <View style={styles.section}>
                 <Text style={styles.subHeader}>User Details</Text>
-                <Text style={styles.text}>Name: {data.user.name}</Text>
-                <Text style={styles.text}>Email: {data.user.email}</Text>
-                <Text style={styles.text}>Mobile Number: {data.user.mobileNumber}</Text>
+                <Text style={styles.text}>Name: {data?.user?.name}</Text>
+                <Text style={styles.text}>Email: {data?.user?.email}</Text>
+                <Text style={styles.text}>Mobile Number: {data?.user?.mobileNumber}</Text>
                 <Text style={styles.text}>
-                    User Created At: {new Date(data.user.createdAt).toLocaleString()}
+                    User Created At: {data?.user?.createdAt ? new Date(data.user.createdAt).toLocaleString() : ''}
                 </Text>
             </View>
 
@@ -84,29 +84,30 @@ const FullyCustomizedEnquiriesPdf = ({ data }) => (
                 {data?.itinerary?.map((day, index) => (
                     <View key={index} style={{ marginBottom: 10 }}>
                         <Text style={styles.text}>
-                            Day {day.day}-
-                            {day.selectedLocation}
+                            Day {day?.day} - {day?.selectedLocation}
                         </Text>
                         <Text style={styles.text}>Hotel: {day?.selectedHotel?.name}</Text>
                         <Text style={styles.text}>Activities:</Text>
-                        {day.selectedActivities.map((activity, idx) => (
+                        {day?.selectedActivities?.map((activity, idx) => (
                             <Text key={idx} style={styles.activityList}>
-                                - {activity.label}
+                                - {activity?.label}
                             </Text>
                         ))}
                     </View>
                 ))}
             </View>
-            {/** inclusions */}
+
+            {/* Inclusions */}
             <View style={styles.section}>
                 <Text style={styles.subHeader}>Inclusions</Text>
-                {data?.inclusions?.map((inclusion,idx)=>(
-                     <Text key={idx} style={styles.activityList}>
-                         - {inclusion}
-                     </Text>
-                 ))}
+                {data?.inclusions?.map((inclusion, idx) => (
+                    <Text key={idx} style={styles.activityList}>
+                        - {inclusion}
+                    </Text>
+                ))}
             </View>
-            {/** exclusions */}
+
+            {/* Exclusions */}
             <View style={styles.section}>
                 <Text style={styles.subHeader}>Exclusions</Text>
                 {data?.exclusions?.map((exclusion, idx) => (
@@ -115,36 +116,36 @@ const FullyCustomizedEnquiriesPdf = ({ data }) => (
                     </Text>
                 ))}
             </View>
+
             {/* Vehicle Details */}
             <View style={styles.section}>
                 <Text style={styles.subHeader}>Vehicle Information</Text>
                 <Text style={styles.text}>Selected Vehicle ID: {data?.selectedVehicle?.vehicleName}</Text>
                 <Text style={styles.text}>Selected Vehicle Passenger Capacity: {data?.selectedVehicle?.passengerCapacity}</Text>
                 <Text style={styles.text}>Selected Vehicle Luggage Capacity: {data?.selectedVehicle?.luggageCapacity}</Text>
-
             </View>
 
             {/* Metadata */}
             <View style={styles.section}>
                 <Text style={styles.smallText}>
-                    Enquiry Created At: {new Date(data.createdAt).toLocaleString()}
+                    Enquiry Created At: {data?.createdAt ? new Date(data.createdAt).toLocaleString() : ''}
                 </Text>
             </View>
         </Page>
     </Document>
 );
 
-const DownloadPdfButton = ({ data }) => 
-{
-    const { user } = data
-    console.log("the user is", user)
+const DownloadPdfButton = ({ data }) => {
+    const user = data?.user;
+    console.log("the data is", data);
     return (
-    <PDFDownloadLink
-        document={<FullyCustomizedEnquiriesPdf data={data} />}
-        fileName={`${user.name}.pdf`}
-    >
-        {({ loading }) => (loading ? 'Generating PDF...' : 'Download PDF')}
-    </PDFDownloadLink>
-)};
+        <PDFDownloadLink
+            document={<FullyCustomizedEnquiriesPdf data={data} />}
+            fileName={`${user?.name || 'document'}.pdf`}
+        >
+            {({ loading }) => (loading ? 'Generating PDF...' : 'Download PDF')}
+        </PDFDownloadLink>
+    );
+};
 
 export default DownloadPdfButton;

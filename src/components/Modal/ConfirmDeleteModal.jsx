@@ -14,7 +14,6 @@ const ConfirmDeleteModal = ({ confirmDelete, setShowDeleteModal }) => {
                 </div>
             </div>
         </main>
-
     )
 }
 

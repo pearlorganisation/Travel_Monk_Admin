@@ -6,6 +6,7 @@ import { Button, Stack, Modal, Typography, Box } from '@mui/material';
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
 import Pagination from '../../components/Modal/PaginationComponent';
 import { Link } from 'react-router-dom';
+import DownloadPrebuiltPdfButton from '../../components/Pdf/DownloadPrebuiltPdf';
 const PreBuiltCustomisationEnquiries = () => {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
@@ -99,6 +100,9 @@ const PreBuiltCustomisationEnquiries = () => {
                               <td className="px-6 py-4">{info?.mobileNumber}</td>
                               <td className="px-6 py-4">
                                 <div className='flex gap-1'>
+                                      <Button variant="outlined" color="primary" >
+                                          <DownloadPrebuiltPdfButton data={info} />
+                                      </Button>
                                     <Button variant="outlined" color="primary" onClick={() => handleOpen(info)}>
                                         View Details
                                     </Button>
