@@ -63,8 +63,8 @@ const UpdatePrebuiltPackageEnquiries = () => {
       setValue("email", singlePrebuiltPackageEnquiry?.email || "");
       setValue("mobileNumber", singlePrebuiltPackageEnquiry?.mobileNumber || "");
       setValue("message", singlePrebuiltPackageEnquiry?.message || "");
-      setValue("inclusions", singlePrebuiltPackageEnquiry?.package?.packageId?.inclusions || []);
-      setValue("exclusions", singlePrebuiltPackageEnquiry?.package?.packageId?.exclusions || []);
+      setValue("inclusions", singlePrebuiltPackageEnquiry?.inclusions || []);
+      setValue("exclusions", singlePrebuiltPackageEnquiry?.exclusions || []);
       setValue(
         "itinerary",
         singlePrebuiltPackageEnquiry?.itinerary?.map(item => ({
