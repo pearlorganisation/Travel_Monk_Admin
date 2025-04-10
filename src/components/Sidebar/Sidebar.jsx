@@ -270,7 +270,7 @@ const Sidebar = () => {
           <div className="mb-4">
             <div className="flex justify-between items-center cursor-pointer hover:text-gray-300">
               <Link to="bus-cruise">
-                <span>Bus & Cruise Contacts</span>
+                <span>Bus & Cruise Enquiries</span>
               </Link>
             </div>
           </div>

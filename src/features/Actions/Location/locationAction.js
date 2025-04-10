@@ -28,7 +28,7 @@ export const addLocation = createAsyncThunk(
 /** to get all the destinations */
 
 export const getAllLocations = createAsyncThunk(
-    "get/alldestinations",async({page=1},{rejectWithValue})=>{
+    "get/alldestinations",async({page=1, search},{rejectWithValue})=>{
         try {
             const config ={
                 headers:{
@@ -37,7 +37,7 @@ export const getAllLocations = createAsyncThunk(
             }
             const {
                 data
-            } = await axiosInstance.get(`/api/v1/destinations/locations?page=${page}`,config)
+            } = await axiosInstance.get(`/api/v1/destinations/locations?page=${page}&search=${search}`,config)
            return data
         } catch (error) {
            if (error.response && error.response.data.message) {

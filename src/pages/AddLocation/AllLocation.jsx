@@ -5,6 +5,7 @@ import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal'
 import Pagination from '../../components/Pagination/Pagination'
+import { useDebounce } from '../../components/DebounceHook/debounceHook'
 
 const AllLocation = () => {
   const dispatch = useDispatch()
@@ -14,7 +15,17 @@ const AllLocation = () => {
   const [isDeleteModalOpen,setIsDeleteModalOpen] = useState(false)
   const [open,setOpen] = useState(false)
   const [selectedLocation,setSelectedLocation] = useState(null)
-  
+
+  /** for searching */
+  const [searchQuery, setSearchQuery] = useState("")
+  const handleChangeQuery=(e)=>{
+    setSearchQuery(e.target.value)
+  }
+  console.log("the searching query is", searchQuery)
+
+  const debouncedSearchQuery = useDebounce(searchQuery,500)
+  console.log("the returned search query after the debouncing", debouncedSearchQuery);
+
   const TotalPage = Math.ceil(paginate?.total/paginate?.limit)
   
   const handlePageChange =(page)=>{
@@ -49,12 +60,22 @@ const AllLocation = () => {
 
 
   useEffect(()=>{
-   dispatch(getAllLocations({page:currentPage}))
-  },[currentPage])
+   dispatch(getAllLocations({page:currentPage, search:debouncedSearchQuery}))
+  },[currentPage, debouncedSearchQuery])
 
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
           <div className='text-4xl font-bold mb-4'>All Location</div>
+          <div className='mb-2 flex flex-col items-start rounded-sm'>
+              <label htmlFor='search' className='mb-1'>Search the location</label>
+              <input
+                  type='text'
+                  id='search'
+                  className='w-64 px-3 py-2 border border-gray-300 rounded-sm'
+                  onChange={(e) => handleChangeQuery(e)}
+              />
+          </div>
+
           <div>
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
@@ -122,7 +143,7 @@ const AllLocation = () => {
                   <tfoot>
                       <tr class="font-semibold text-gray-900 dark:text-white">
                           <th scope="row" class="px-6 py-3 text-base">Total Locations</th>
-                          <td class="px-6 py-3">{paginate?.total ??"N/A"}</td>
+                          <td class="px</div>-6 py-3">{paginate?.total ??"N/A"}</td>
                       </tr>
                   </tfoot>
               </table>
