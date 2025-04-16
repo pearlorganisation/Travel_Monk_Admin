@@ -58,8 +58,8 @@ const UpdateFullyCustomisationEnquiry = () => {
             return { ...item, date: newDate, selectedActivities: temp };
         }),
         inclusions: singleFullyCustomisedPackageEnquiry?.inclusions ,
-        exclusions: singleFullyCustomisedPackageEnquiry?.exclusions  
-
+        exclusions: singleFullyCustomisedPackageEnquiry?.exclusions,  
+        selectedVehicle: singleFullyCustomisedPackageEnquiry?.selectedVehicle
     }})
 
      const [options2, setOptions2] = useState([])
