@@ -37,30 +37,46 @@ const UpdateFullyCustomisationEnquiry = () => {
         setSelectedVehiclePrice(vehiclePrice);
         setSelectedVehicleImage(vehicleImage);
     };
+    const {
+        handleSubmit,
+        formState: { errors },
+        register,
+        control,
+        setValue,
+        watch,
+        reset
+    } = useForm();
 
-    const { handleSubmit, formState:{errors}, register, control, watch} = useForm({defaultValues:{
-        name: singleFullyCustomisedPackageEnquiry?.name,
-        email: singleFullyCustomisedPackageEnquiry?.email,
-        mobileNumber:singleFullyCustomisedPackageEnquiry?.mobileNumber,
-        message:singleFullyCustomisedPackageEnquiry?.message,
-        numberOfTravellers: singleFullyCustomisedPackageEnquiry?.numberOfTravellers,
-        estimatedPrice: singleFullyCustomisedPackageEnquiry?.estimatedPrice,
-        startDate: singleFullyCustomisedPackageEnquiry?.startDate
-            ? new Date(singleFullyCustomisedPackageEnquiry.startDate).toISOString().split("T")[0]
-            : "",
-        endDate: singleFullyCustomisedPackageEnquiry?.endDate ? new Date(singleFullyCustomisedPackageEnquiry.endDate).toISOString().split("T")[0]
-            : "",
-        "duration.days": singleFullyCustomisedPackageEnquiry?.duration?.days,
-        "duration.nights": singleFullyCustomisedPackageEnquiry?.duration?.nights,
-        itinerary: singleFullyCustomisedPackageEnquiry?.itinerary?.map(item=>{
-            const temp = item?.selectedActivities?.map(act=> act) || []
-            let newDate = item?.date ? new Date(item.date).toISOString().split("T")[0] : "";
-            return { ...item, date: newDate, selectedActivities: temp };
-        }),
-        inclusions: singleFullyCustomisedPackageEnquiry?.inclusions ,
-        exclusions: singleFullyCustomisedPackageEnquiry?.exclusions,  
-        selectedVehicle: singleFullyCustomisedPackageEnquiry?.selectedVehicle
-    }})
+    // When data is loaded, update form values
+    useEffect(() => {
+        if (singleFullyCustomisedPackageEnquiry) {
+            reset({
+                name: singleFullyCustomisedPackageEnquiry?.name || "",
+                email: singleFullyCustomisedPackageEnquiry?.email || "",
+                mobileNumber: singleFullyCustomisedPackageEnquiry?.mobileNumber || "",
+                message: singleFullyCustomisedPackageEnquiry?.message || "",
+                numberOfTravellers: singleFullyCustomisedPackageEnquiry?.numberOfTravellers || "",
+                estimatedPrice: singleFullyCustomisedPackageEnquiry?.estimatedPrice || "",
+                startDate: singleFullyCustomisedPackageEnquiry?.startDate
+                    ? new Date(singleFullyCustomisedPackageEnquiry?.startDate)?.toISOString()?.split("T")[0]
+                    : "",
+                endDate: singleFullyCustomisedPackageEnquiry?.endDate
+                    ? new Date(singleFullyCustomisedPackageEnquiry?.endDate)?.toISOString()?.split("T")[0]
+                    : "",
+                "duration.days": singleFullyCustomisedPackageEnquiry?.duration?.days || "",
+                "duration.nights": singleFullyCustomisedPackageEnquiry?.duration?.nights || "",
+                itinerary: singleFullyCustomisedPackageEnquiry?.itinerary?.map(item => ({
+                    ...item,
+                    date: item?.date ? new Date(item?.date)?.toISOString()?.split("T")[0] : "",
+                    selectedActivities: item?.selectedActivities || []
+                })) || [],
+                inclusions: singleFullyCustomisedPackageEnquiry?.inclusions || [],
+                exclusions: singleFullyCustomisedPackageEnquiry?.exclusions || [],
+                selectedVehicle: singleFullyCustomisedPackageEnquiry?.selectedVehicle || ""
+            });
+        }
+    }, [singleFullyCustomisedPackageEnquiry, reset]);
+
 
      const [options2, setOptions2] = useState([])
          {/** adding destination activities */}
