@@ -74,10 +74,12 @@ const UpdateFullyCustomisationEnquiry = () => {
                 exclusions: singleFullyCustomisedPackageEnquiry?.exclusions || [],
                 selectedVehicle: singleFullyCustomisedPackageEnquiry?.selectedVehicle || ""
             });
+            setSelectedVehicleId(singleFullyCustomisedPackageEnquiry?.selectedVehicle?._id)
         }
     }, [singleFullyCustomisedPackageEnquiry, reset]);
 
 
+    console.log("the selected vehicle by default will be", selectedVehicleId)
      const [options2, setOptions2] = useState([])
          {/** adding destination activities */}
          useEffect(()=>{
