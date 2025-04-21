@@ -143,6 +143,7 @@ export const getHotelsByDestination = createAsyncThunk(
     "hotels/by-destination",
     async ({
         id,
+        limit,
         priceRange,
         search,
         page
@@ -160,7 +161,8 @@ export const getHotelsByDestination = createAsyncThunk(
                     params: {
                         priceRange,
                         search,
-                        page
+                        page,
+                        limit
                     },
                     config
                 }

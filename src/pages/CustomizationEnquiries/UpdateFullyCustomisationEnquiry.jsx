@@ -106,7 +106,7 @@ const UpdateFullyCustomisationEnquiry = () => {
         const destinationId = singleFullyCustomisedPackageEnquiry?.destination?._id;
         if(destinationId){
       dispatch(getActivitiesByDestinationId(destinationId));
-      dispatch(getHotelsByDestination({ id: destinationId }));
+      dispatch(getHotelsByDestination({ id: destinationId ,limit:40}));
       dispatch(getDestinationVehicle(destinationId));
     }
     }, [singleFullyCustomisedPackageEnquiry?.destination?._id])
