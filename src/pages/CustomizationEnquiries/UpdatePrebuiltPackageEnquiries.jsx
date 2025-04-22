@@ -133,9 +133,10 @@ const UpdatePrebuiltPackageEnquiries = () => {
 
   useEffect(()=>{
     const destinationId = singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination;
-
-    dispatch(getHotelsByDestination({ id: destinationId, limit:currentLimit }));   
-  }, [singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination,currentLimit])
+    if (destinationId){
+      dispatch(getHotelsByDestination({ id: destinationId, limit: currentLimit }));
+    }
+   }, [singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination,currentLimit])
 
 
     {/** adding destination activities */}

@@ -25,7 +25,15 @@ const UpdateFullyCustomisationEnquiry = () => {
     const [selectedVehicleId, setSelectedVehicleId] = useState(null);
     const [selectedVehiclePrice, setSelectedVehiclePrice] = useState("");
     const [selectedVehicleImage, setSelectedVehicleImage] = useState("");
-    console.log("the selected vehicle id is", selectedVehicleId)
+    
+    /** states for managing the current limit */
+    const [currentLimit, setCurrentLimit] = useState(10)
+
+    const handleSetCurrentLimit =(e)=>{
+        setCurrentLimit(e.target.value)
+    }
+
+
     const handleSelectVehicle = (
         vehicleName,
         vehiclePrice,
@@ -79,8 +87,7 @@ const UpdateFullyCustomisationEnquiry = () => {
     }, [singleFullyCustomisedPackageEnquiry, reset]);
 
 
-    console.log("the selected vehicle by default will be", selectedVehicleId)
-     const [options2, setOptions2] = useState([])
+  const [options2, setOptions2] = useState([])
          {/** adding destination activities */}
          useEffect(()=>{
                  if (Array.isArray(destinationActivities)) {
@@ -124,12 +131,17 @@ const UpdateFullyCustomisationEnquiry = () => {
         const destinationId = singleFullyCustomisedPackageEnquiry?.destination?._id;
         if(destinationId){
       dispatch(getActivitiesByDestinationId(destinationId));
-      dispatch(getHotelsByDestination({ id: destinationId ,limit:40}));
+    //   dispatch(getHotelsByDestination({ id: destinationId ,limit:40}));
       dispatch(getDestinationVehicle(destinationId));
     }
     }, [singleFullyCustomisedPackageEnquiry?.destination?._id])
-    const navigate = useNavigate()
-
+ 
+    useEffect(()=>{
+        const destinationId = singleFullyCustomisedPackageEnquiry?.destination?._id;
+        if (destinationId) {
+             dispatch(getHotelsByDestination({ id: destinationId, limit:currentLimit }));
+         }
+    }, [singleFullyCustomisedPackageEnquiry?.destination?._id, currentLimit])
 
     const submitForm =(data)=>{
         const formData = { ...data, id: id, selectedVehicle:selectedVehicleId }
@@ -138,7 +150,19 @@ const UpdateFullyCustomisationEnquiry = () => {
     }
   return (
     <main className="flex-1 p-8 mt-16 ml-64">
-      <div>UpdateFullyCustomisationEnquiry</div>
+          <div className='flex justify-between'>
+              <div>
+                  Update Fully Customised Enquiries
+              </div>
+              <div>
+                  <input
+                      id='limit'
+                      type='number'
+                      placeholder='Change the limit from here'
+                      onChange={(e) => handleSetCurrentLimit(e)}
+                  />
+              </div>
+          </div>
           {singleFullyCustomisedPackageEnquiry && <>   <form onSubmit={handleSubmit(submitForm)} >
               {/* User Selection */}
               <div>
