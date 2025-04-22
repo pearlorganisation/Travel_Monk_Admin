@@ -11,7 +11,7 @@ import { baseURL } from '../../services/axiosInterceptor'
 
 const UpdatePrebuiltPackageEnquiries = () => {
     const { id } = useParams()
-    console.log("the id ius", id)
+    // console.log("the id ius", id)
     const dispatch = useDispatch()
     const { singlePrebuiltPackageEnquiry } = useSelector(state => state?.enquiries)
     const { destinationVehicles } = useSelector(state=> state?.destination_vehicle)
@@ -27,6 +27,15 @@ const UpdatePrebuiltPackageEnquiries = () => {
   const [selectedVehiclePrice, setSelectedVehiclePrice] = useState("");
   const [selectedVehicleImage, setSelectedVehicleImage] = useState("");
 
+
+  /** state for managing the limit */
+  const [currentLimit, setCurrentLimit] = useState(10)
+  const handleSetCurrentLimit = (e)=>{
+    // console.log("the value and type is", typeof e.target.value, e.target.value)
+    setCurrentLimit(e.target.value)
+  }
+
+  console.log("the current limit and their type is", currentLimit, typeof currentLimit)
   const handleSelectVehicle = (
     vehicleName,
     vehiclePrice,
@@ -117,11 +126,16 @@ const UpdatePrebuiltPackageEnquiries = () => {
 
     if (destinationId) {
       dispatch(getDestinationVehicle(destinationId));
-      dispatch(getHotelsByDestination({ id: destinationId }));
+      // dispatch(getHotelsByDestination({ id: destinationId }));
       dispatch(getActivitiesByDestinationId(destinationId));
     }
   }, [singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination]); 
 
+  useEffect(()=>{
+    const destinationId = singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination;
+
+    dispatch(getHotelsByDestination({ id: destinationId, limit:currentLimit }));   
+  }, [singlePrebuiltPackageEnquiry?.package?.packageId?.packageDestination,currentLimit])
 
 
     {/** adding destination activities */}
@@ -174,14 +188,26 @@ const UpdatePrebuiltPackageEnquiries = () => {
 
 const onSubmitForm=async(data)=>{
 const formData ={...data, id:id, selectedVehicle:{name: selectedVehicleName, vehicle:selectedVehicleId}};
-console.log("the formdata is", formData)
+// console.log("the formdata is", formData)
 dispatch(updatePrebuiltPackageEnquiry(formData))
 dispatch(getPrebuiltEnquiryByID(id))
 }
     return (
 
     <main className="flex-1 p-8 mt-16 ml-64">
-      <div>UpdatePrebuiltPackageEnquiries</div>
+      <div className='flex justify-between'>
+          <div>
+            UpdatePrebuiltPackageEnquiries
+          </div>
+        <div>
+          <input
+              id='limit'
+              type='number'
+              placeholder='Change the limit from here'
+              onChange={(e)=> handleSetCurrentLimit(e)}
+           />
+        </div>
+       </div>
         {singlePrebuiltPackageEnquiry && <div>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             {/** for name */}
